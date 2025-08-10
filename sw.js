@@ -46,6 +46,10 @@ if (workbox) {
         "revision": "1a98134a086859d517de611e9e0579bc"
     },
     {
+        "url": ".gitattributes",
+        "revision": "05bdb783ee6514c8c072e47680af8ff7"
+    },
+    {
         "url": "build pwa make html app offline and installable yasin best working re-run this for updates.py",
         "revision": "2fc7c1c94e2f15173083ebeda834d953"
     },
@@ -54,12 +58,16 @@ if (workbox) {
         "revision": "77a5cee8997a437ea467d4572d76fec2"
     },
     {
+        "url": "index.html",
+        "revision": "b33c0a03ea1fcacb646b491b3028dad4"
+    },
+    {
         "url": "manifest.json",
-        "revision": "7a0ff8c905cb0c3cf99b2c28dc92358d"
+        "revision": "5b95b0f59540d7bf7e7645a6c163c792"
     },
     {
         "url": "newshop.html",
-        "revision": "2c145724c8777474eb0ecd311ab6037b"
+        "revision": "b33c0a03ea1fcacb646b491b3028dad4"
     },
     {
         "url": "newshopPOS.html",
@@ -67,11 +75,11 @@ if (workbox) {
     },
     {
         "url": "offline.html",
-        "revision": "7656c61e25225c4fcc77cb000be6d527"
+        "revision": "e50e65e3a536b4f1389bb6ce7825bb36"
     },
     {
         "url": "sw.js",
-        "revision": "fcf7e5dc69cd20303cdaa2066ccdaf9b"
+        "revision": "f8ec77db842571ceb3ea958e91887d16"
     },
     {
         "url": "workbox-window.prod.mjs",

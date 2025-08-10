@@ -2,7 +2,7 @@
   "name": "Complete Shop Management System",
   "short_name": "Complete Shop Management System",
   "description": "A description of the web application.",
-  "start_url": "newshop.html",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#007bff",
