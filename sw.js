@@ -75,7 +75,7 @@ if (workbox) {
     },
     {
         "url": "sw.js",
-        "revision": "5e4279ad1a44eb53036e55286ce35077"
+        "revision": "cd50bcbad93a0fb5545c079e4ad63d08"
     },
     {
         "url": "workbox-window.prod.mjs",
