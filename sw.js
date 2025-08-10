@@ -63,7 +63,7 @@ if (workbox) {
     },
     {
         "url": "manifest.json",
-        "revision": "5b95b0f59540d7bf7e7645a6c163c792"
+        "revision": "d65bd5f3b88e985913bab5345f4f9b70"
     },
     {
         "url": "newshop.html",
@@ -75,11 +75,11 @@ if (workbox) {
     },
     {
         "url": "offline.html",
-        "revision": "e50e65e3a536b4f1389bb6ce7825bb36"
+        "revision": "986de93949013e958b0e14acd85491cd"
     },
     {
         "url": "sw.js",
-        "revision": "f8ec77db842571ceb3ea958e91887d16"
+        "revision": "e22b67777168b0622b62094dd25b1752"
     },
     {
         "url": "workbox-window.prod.mjs",
