@@ -46,10 +46,6 @@ if (workbox) {
         "revision": "1a98134a086859d517de611e9e0579bc"
     },
     {
-        "url": ".gitattributes",
-        "revision": "05bdb783ee6514c8c072e47680af8ff7"
-    },
-    {
         "url": "build pwa make html app offline and installable yasin best working re-run this for updates.py",
         "revision": "2fc7c1c94e2f15173083ebeda834d953"
     },
@@ -79,7 +75,7 @@ if (workbox) {
     },
     {
         "url": "sw.js",
-        "revision": "e22b67777168b0622b62094dd25b1752"
+        "revision": "5e4279ad1a44eb53036e55286ce35077"
     },
     {
         "url": "workbox-window.prod.mjs",
