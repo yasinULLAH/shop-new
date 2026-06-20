@@ -490,13 +490,15 @@
     .content {
       flex: 1;
       overflow-y: auto;
+      overflow-x: hidden;
       padding: 24px;
       scrollbar-width: thin
     }
 
     .page {
       display: none;
-      animation: fadeIn .3s ease
+      animation: fadeIn .3s ease;
+      min-width: 0
     }
 
     .page.active {
@@ -1564,6 +1566,9 @@
       margin-bottom: 20px;
       overflow-x: auto;
       scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x;
+      overscroll-behavior-x: contain;
       background: var(--surface2);
       padding: 6px;
       border-radius: 12px;
@@ -1593,7 +1598,29 @@
     }
 
     .tab-content {
-      animation: fadeIn .25s ease-out
+      animation: fadeIn .25s ease-out;
+      min-width: 0
+    }
+
+    .settings-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap
+    }
+
+    .settings-actions .btn {
+      min-width: 0
+    }
+
+    .app-footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 13px;
+      color: var(--text2);
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0
     }
 
     .activity-item {
@@ -2022,6 +2049,28 @@
 
       .stat-value {
         font-size: 20px
+      }
+
+      .tabs {
+        margin-inline: -2px;
+        padding-inline: 6px
+      }
+
+      .tab {
+        flex: 0 0 auto
+      }
+
+      .card-body {
+        padding: 16px
+      }
+
+      .settings-actions {
+        flex-direction: column
+      }
+
+      .settings-actions .btn {
+        width: 100%;
+        justify-content: center
       }
     }
 
@@ -3466,7 +3515,7 @@
 <div class="form-row">
 <div class="form-group"><label class="form-label">Update Password</label><input class="form-input" id="settingPass" placeholder="Enter new password" type="password"/></div>
 </div>
-<div style="display:flex;gap:10px;margin-top:10px;">
+<div class="settings-actions">
 <button class="btn btn-primary" onclick="updatePassword()"><i class="fas fa-key"></i> Update
                         Password</button>
 <button class="btn btn-danger" onclick="clearSampleData()"><i class="fas fa-trash"></i> Clear
@@ -3740,12 +3789,11 @@ Please visit again.</textarea></div>
 </div>
 </div>
 </div>
-</div>
-</div>
-<footer class="app-footer" style="text-align: center; padding: 20px; font-size: 13px; color: var(--text2); border-top: 1px solid var(--border); margin-top: auto; background: var(--surface);">
+<footer class="app-footer">
 <div style="font-weight: 600; margin-bottom: 5px;">Created by: <a href="https://www.linkedin.com/in/yasin-ullah-029229232/" style="color: var(--primary); text-decoration: none;" target="_blank">Yasin Ullah</a></div>
 <div>WhatsApp: 03361593533</div>
 </footer>
+</div>
 </div>
 <nav class="bottom-nav" id="bottomNav">
 <div class="bottom-nav-item active" data-page="dashboard" onclick="navigate('dashboard')"><i class="fas fa-chart-line"></i><span>Home</span></div>
