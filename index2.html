@@ -236,7 +236,7 @@
   .bottom-nav{display:none}
   @media(max-width:1024px){
     .sidebar{display:none}
-    .bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;height:60px;background:var(--bg2);border-top:1px solid var(--border);z-index:60;justify-content:space-around;align-items:center;padding:0 4px;transition:transform .3s ease;box-shadow:0 -4px 20px rgba(0,0,0,.2)}
+    .bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;height:60px;background:var(--bg2);border-top:1px solid var(--border);z-index:60;justify-content:space-around;align-items:center;padding:0 4px;transition:transform .3s ease;box-shadow:0 -4px 20px rgba(0,0,0,.2);overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
     .bottom-nav.hidden{transform:translateY(100%)}
     .bottom-nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 10px;border-radius:10px;cursor:pointer;color:var(--text3);font-size:10px;font-weight:600;min-width:44px;min-height:44px;transition:color .15s;position:relative;flex:1;max-width:80px}
     .bottom-nav-item i{font-size:18px}
@@ -642,6 +642,8 @@
   <div class="bottom-nav-item active" data-page="dashboard" onclick="navigate('dashboard')"><i class="fas fa-chart-line"></i><span>Home</span></div>
   <div class="bottom-nav-item" data-page="pos" onclick="navigate('pos')"><i class="fas fa-cash-register"></i><span>POS</span></div>
   <div class="bottom-nav-item" data-page="products" onclick="navigate('products')"><i class="fas fa-box"></i><span>Products</span></div>
+  <div class="bottom-nav-item" data-page="inventory" onclick="navigate('inventory')"><i class="fas fa-warehouse"></i><span>Inventory</span></div>
+  <div class="bottom-nav-item" data-page="categories" onclick="navigate('categories')"><i class="fas fa-tags"></i><span>Categories</span></div>
   <div class="bottom-nav-item" data-page="orders" onclick="navigate('orders')"><i class="fas fa-shopping-cart"></i><span>Orders</span></div>
   <div class="bottom-nav-item" data-page="customers" onclick="navigate('customers')"><i class="fas fa-users"></i><span>Customers</span></div>
   <div class="bottom-nav-item" data-page="reports" onclick="navigate('reports')"><i class="fas fa-chart-pie"></i><span>Reports</span></div>
