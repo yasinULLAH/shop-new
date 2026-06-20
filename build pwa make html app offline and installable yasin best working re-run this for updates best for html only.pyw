@@ -5,14 +5,14 @@ import hashlib
 from PIL import Image
 from bs4 import BeautifulSoup
 
-SOURCE_LOGO_PATH = r"logo.jpg"
+SOURCE_LOGO_PATH = r"C:\Users\Yasin\Downloads\Yasin Soft\logo.png"
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 APP_NAME = "My Web App"
 SHORT_NAME = "WebApp"
 APP_DESCRIPTION = "A description of the web application."
 BACKGROUND_COLOR = "#ffffff"
 THEME_COLOR = "#007bff"
-VERSION = "1.0.9"  # bumped version
+VERSION = "1.0.9"
 
 def get_file_hash(path):
     hasher = hashlib.md5()
@@ -25,11 +25,26 @@ def get_file_hash(path):
         print(f"   ❌ Could not hash file {os.path.basename(path)}: {e}")
         return None
 
+def generate_favicon(source_path, output_dir):
+    print("--- 1A. Generating favicon.ico ---")
+    favicon_path = os.path.join(output_dir, "favicon.ico")
+    try:
+        with Image.open(source_path) as logo:
+            logo = logo.convert("RGBA")
+            logo.thumbnail((64, 64))  # Standard favicon size
+            logo.save(favicon_path, format="ICO", sizes=[(16, 16), (32, 32), (48, 48), (64, 64)])
+        print(f"✅ Created: favicon.ico")
+        file_hash = get_file_hash(favicon_path)
+        return {"url": "favicon.ico", "revision": file_hash} if file_hash else None
+    except Exception as e:
+        print(f"❌ Error generating favicon.ico: {e}")
+        return None
+
 def generate_pwa_icons(source_path, output_dir):
     print("--- 1. Generating PWA Icons ---")
     if not os.path.exists(source_path):
         print(f"❌ Error: Source logo not found at '{source_path}'.")
-        return []
+        return [], []
     icon_sizes = [72, 96, 128, 144, 152, 192, 384, 512]
     generated_icons = []
     icon_metadata = []
@@ -56,23 +71,6 @@ def generate_pwa_icons(source_path, output_dir):
         print(f"❌ Error generating icons: {e}")
         return [], []
 
-def generate_favicon(source_path, output_dir):
-    print("\n--- Generating favicon.ico ---")
-    try:
-        if not os.path.exists(source_path):
-            print(f"❌ Error: Source logo not found at '{source_path}'.")
-            return None
-        with Image.open(source_path) as logo:
-            logo = logo.convert("RGBA")
-            logo = logo.resize((48, 48))
-            favicon_path = os.path.join(output_dir, "favicon.ico")
-            logo.save(favicon_path, format='ICO')
-            print(f"✅ Created: favicon.ico")
-            return "favicon.ico"
-    except Exception as e:
-        print(f"❌ Error creating favicon.ico: {e}")
-        return None
-
 def discover_assets(project_dir, generated_icons):
     print(f"\n--- 2. Discovering App Files and Generating Hashes ---")
     precache_list = generated_icons[:]
@@ -85,7 +83,7 @@ def discover_assets(project_dir, generated_icons):
         for file in files:
             file_path = os.path.join(root, file)
             relative_path = os.path.relpath(file_path, project_dir).replace("\\", "/")
-            if relative_path in existing_urls:
+            if relative_path in existing_urls or file == "version.json":
                 continue
             if file.endswith(".html"):
                 html_files.append(file_path)
@@ -101,7 +99,7 @@ def discover_assets(project_dir, generated_icons):
 
 def create_manifest(output_dir, icon_metadata, html_files):
     print("\n--- 3. Creating manifest.json ---")
-    start_url, app_title_from_html, app_description_from_html = "index.html", None, None
+    start_url, app_title_from_html = "index.html", None
     potential_mains = [f for f in html_files if "index.html" in f.lower()] or html_files
     if not potential_mains:
         print("❌ Error: No suitable start file (like index.html) found.")
@@ -114,16 +112,12 @@ def create_manifest(output_dir, icon_metadata, html_files):
             if soup.title and soup.title.string:
                 app_title_from_html = soup.title.string.strip()
                 print(f"✅ Detected App Title: '{app_title_from_html}'")
-            meta_desc = soup.find("meta", attrs={"name": "description"})
-            if meta_desc and meta_desc.get("content"):
-                app_description_from_html = meta_desc["content"].strip()
-                print(f"✅ Detected Description: '{app_description_from_html}'")
     except Exception as e:
-        print(f"⚠️ Could not read title/description from HTML: {e}")
+        print(f"⚠️ Could not read title from HTML: {e}")
     manifest = {
         "name": app_title_from_html or APP_NAME,
         "short_name": app_title_from_html or SHORT_NAME,
-        "description": app_description_from_html or APP_DESCRIPTION,
+        "description": APP_DESCRIPTION,
         "start_url": start_url,
         "display": "standalone",
         "background_color": BACKGROUND_COLOR,
@@ -181,45 +175,73 @@ if (workbox) {{
         f.write(sw_template.strip())
     print("✅ Created: sw.js")
 
-def update_html_files(html_files):
-    print("\n--- 5. Updating HTML Files ---")
-    manifest_link_str = '<link rel="manifest" href="manifest.json">'
-    favicon_link_str = '<link rel="icon" type="image/x-icon" href="favicon.ico">'
-    sw_script_str = f"""<script type="module">
-  import {{ Workbox }} from 'https://storage.googleapis.com/workbox-cdn/releases/7.0.0/workbox-window.prod.mjs';
+def create_pwa_register(output_dir):
+    """Create the external pwa-register.js file."""
+    print("\n--- 5A. Creating pwa-register.js ---")
+    register_content = """\
+// PWA Service Worker Registration
+// Auto-generated by PWA builder script — do not edit manually.
+import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/7.0.0/workbox-window.prod.mjs';
 
-  const swUrl = './sw.js';
+function registerSW(swUrl) {
   const wb = new Workbox(swUrl);
-
-  wb.addEventListener('waiting', (event) => {{
+  wb.addEventListener('waiting', () => {
     console.log('A new service worker is waiting to activate.');
-    wb.messageSW({{ type: 'SKIP_WAITING' }});
-  }});
-
-  wb.addEventListener('controlling', (event) => {{
+    wb.messageSW({ type: 'SKIP_WAITING' });
+  });
+  wb.addEventListener('controlling', () => {
     console.log('The new service worker is now in control. Reloading page for updates...');
     window.location.reload();
-  }});
-
+  });
   wb.register();
-</script>"""
+}
+
+fetch('./version.json?t=' + new Date().getTime())
+  .then(r => r.json())
+  .then(data => registerSW('./sw.js?v=' + data.version))
+  .catch(() => registerSW('./sw.js'));
+"""
+    with open(os.path.join(output_dir, "pwa-register.js"), 'w', encoding='utf-8') as f:
+        f.write(register_content)
+    print("✅ Created: pwa-register.js")
+
+def update_html_files(html_files):
+    print("\n--- 5B. Updating HTML Files ---")
+    import time
+    version_data = {"version": int(time.time())}
+    with open(os.path.join(PROJECT_DIR, "version.json"), 'w', encoding='utf-8') as f:
+        json.dump(version_data, f)
+        
+    manifest_link_str = '<link rel="manifest" href="manifest.json">'
+    favicon_link_str = '<link rel="icon" type="image/x-icon" href="favicon.ico">'
+    sw_script_tag = '<script type="module" src="./pwa-register.js"></script>'
     for html_path in html_files:
         try:
             with open(html_path, 'r+', encoding='utf-8', errors='ignore') as f:
                 content = f.read()
                 soup = BeautifulSoup(content, 'html.parser')
+
+                # Remove any old inline workbox/sw registration scripts
                 for s in soup.find_all("script"):
                     if "workbox-window" in s.text or "navigator.serviceWorker" in s.text:
                         s.decompose()
-                soup.body.append(BeautifulSoup(sw_script_str, 'html.parser'))
+                # Also remove any old pwa-register.js script tags to avoid duplicates
+                for s in soup.find_all("script", src=True):
+                    if "pwa-register" in (s.get("src") or ""):
+                        s.decompose()
+
+                # Add external script reference before </body>
+                soup.body.append(BeautifulSoup(sw_script_tag, 'html.parser'))
+
                 if not soup.head.find('link', {'rel': 'manifest'}):
                     soup.head.append(BeautifulSoup(manifest_link_str, 'html.parser'))
                 if not soup.head.find('link', {'rel': 'icon'}):
                     soup.head.append(BeautifulSoup(favicon_link_str, 'html.parser'))
+
                 f.seek(0)
                 f.write(str(soup))
                 f.truncate()
-                print(f"   - Updated {os.path.basename(html_path)}")
+                print(f"   - Injected script references & links into {os.path.basename(html_path)}")
         except Exception as e:
             print(f"   ❌ Could not update {os.path.basename(html_path)}: {e}")
     print("✅ HTML files updated.")
@@ -232,13 +254,15 @@ if __name__ == "__main__":
             f.write("<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><title>Offline</title></head><body><h1>You are offline.</h1></body></html>")
         print("✅ Created 'offline.html'.")
 
+    favicon_entry = generate_favicon(SOURCE_LOGO_PATH, PROJECT_DIR)
     generated_icons, icon_metadata = generate_pwa_icons(SOURCE_LOGO_PATH, PROJECT_DIR)
-    generate_favicon(SOURCE_LOGO_PATH, PROJECT_DIR)
-    precache_list, html_files = discover_assets(PROJECT_DIR, generated_icons)
+
+    precache_list, html_files = discover_assets(PROJECT_DIR, generated_icons + ([favicon_entry] if favicon_entry else []))
     
     if html_files:
         create_manifest(PROJECT_DIR, icon_metadata, html_files)
         create_service_worker(PROJECT_DIR, precache_list)
+        create_pwa_register(PROJECT_DIR)
         update_html_files(html_files)
         print(f"\n🎉 PWA setup is complete!")
     else:
