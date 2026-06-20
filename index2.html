@@ -133,6 +133,14 @@
   @media(max-width:1100px){.grid-2,.grid-2-eq,.grid-3,.grid-4{grid-template-columns:1fr}}
 
   .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:background .2s,border-color .2s}
+.chart-container{height:280px;padding:10px 0;overflow:hidden;position:relative}
+.chart-legend{display:flex;gap:16px;margin-top:10px;justify-content:center;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)}
+.legend-dot{width:10px;height:10px;border-radius:3px}
+@media(max-width:600px){
+  .chart-container{height:200px}
+  .legend-item{font-size:11px}
+}
   .card-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
   .card-title{font-size:16px;font-weight:700}.card-body{padding:20px}
 
@@ -249,10 +257,12 @@
   .bottom-nav{display:none}
   @media(max-width:1024px){
     .sidebar{display:none}
+    .collapse-toggle{display:none}
+    .topbar-btn{display:none}
     .bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;height:60px;background:var(--bg2);border-top:1px solid var(--border);z-index:60;justify-content:space-around;align-items:center;padding:0 4px;transition:transform .3s ease;box-shadow:0 -4px 20px rgba(0,0,0,.2);overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
     .bottom-nav.hidden{transform:translateY(100%)}
-    .bottom-nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px 6px;border-radius:10px;cursor:pointer;color:var(--text3);font-size:10px;font-weight:600;min-width:44px;min-height:44px;transition:color .15s;position:relative;flex:1;max-width:70px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .bottom-nav-item i{font-size:16px}
+    .bottom-nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 4px;border-radius:10px;cursor:pointer;color:var(--text3);font-size:9px;font-weight:600;min-width:44px;min-height:44px;transition:color .15s;position:relative;flex:1;max-width:60px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .bottom-nav-item i{font-size:14px}
     .bottom-nav-item.active{color:var(--primary2)}
     .bottom-nav-item.active::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:30px;height:3px;background:var(--primary2);border-radius:0 0 3px 3px}
     .bottom-nav-item:hover{color:var(--text2)}
@@ -354,7 +364,7 @@
         </div>
         <div class="grid-2">
           <div class="card"><div class="card-header"><div class="card-title">Revenue Overview</div><div style="display:flex;gap:6px"><button class="btn btn-ghost btn-sm" onclick="switchChart('week')">Week</button><button class="btn btn-ghost btn-sm" id="chartMonthActive" onclick="switchChart('month')" style="background:var(--surface2)">Month</button><button class="btn btn-ghost btn-sm" onclick="switchChart('year')">Year</button></div></div>
-            <div class="card-body"><div style="height:280px;padding:10px 0"><canvas id="revenueChart"></canvas></div><div style="display:flex;gap:16px;margin-top:10px"><div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><div style="width:10px;height:10px;border-radius:3px;background:var(--primary)"></div>Revenue</div><div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><div style="width:10px;height:10px;border-radius:3px;background:var(--accent)"></div>Profit</div></div></div></div>
+            <div class="card-body"><div class="chart-container"><canvas id="revenueChart"></canvas></div><div class="chart-legend"><div class="legend-item"><div class="legend-dot" style="background:var(--primary)"></div>Revenue</div><div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>Profit</div></div></div></div>
           <div class="card"><div class="card-header"><div class="card-title">Sales by Category</div></div><div class="card-body"><div style="display:flex;align-items:center;gap:20px">
             <svg viewBox="0 0 100 100" style="width:140px;height:140px;transform:rotate(-90deg);flex-shrink:0"><circle cx="50" cy="50" r="40" fill="none" stroke="var(--surface3)" stroke-width="12"/><circle cx="50" cy="50" r="40" fill="none" stroke="#6366f1" stroke-width="12" stroke-dasharray="75 251" stroke-linecap="round"/><circle cx="50" cy="50" r="40" fill="none" stroke="#06b6d4" stroke-width="12" stroke-dasharray="55 251" stroke-dashoffset="-75" stroke-linecap="round"/><circle cx="50" cy="50" r="40" fill="none" stroke="#10b981" stroke-width="12" stroke-dasharray="40 251" stroke-dashoffset="-130" stroke-linecap="round"/><circle cx="50" cy="50" r="40" fill="none" stroke="#f59e0b" stroke-width="12" stroke-dasharray="30 251" stroke-dashoffset="-170" stroke-linecap="round"/><circle cx="50" cy="50" r="40" fill="none" stroke="#ec4899" stroke-width="12" stroke-dasharray="51 251" stroke-dashoffset="-200" stroke-linecap="round"/></svg>
             <div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><div style="width:10px;height:10px;border-radius:3px;background:#6366f1"></div>Electronics</span><span style="font-weight:700">30%</span></div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><div style="width:10px;height:10px;border-radius:3px;background:#06b6d4"></div>Clothing</span><span style="font-weight:700">22%</span></div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><div style="width:10px;height:10px;border-radius:3px;background:#10b981"></div>Groceries</span><span style="font-weight:700">16%</span></div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><div style="width:10px;height:10px;border-radius:3px;background:#f59e0b"></div>Home</span><span style="font-weight:700">12%</span></div><div style="display:flex;justify-content:space-between"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><div style="width:10px;height:10px;border-radius:3px;background:#ec4899"></div>Others</span><span style="font-weight:700">20%</span></div></div>
@@ -696,6 +706,9 @@ function saveState(){
   };
   try {
     window.name = 'shopflow:' + JSON.stringify(state);
+    // Also save notifications and messages to localStorage
+    localStorage.setItem('shopflow_notifications', JSON.stringify(notifications));
+    localStorage.setItem('shopflow_messages', JSON.stringify(messages));
   } catch(e){}
 }
 function loadState(){
@@ -704,15 +717,25 @@ function loadState(){
       const data = window.name.substring(9);
       const state = JSON.parse(data);
       
-      if(state.notifications){
-        notifications = state.notifications;
-      }
-      if(state.messages){
-        messages = state.messages;
-      }
       if(state.currencySymbol){
         currencySymbol = state.currencySymbol;
         currencyCode = state.currencyCode || 'PKR';
+      }
+      
+      // Load notifications and messages from localStorage
+      const savedNotifications = localStorage.getItem('shopflow_notifications');
+      const savedMessages = localStorage.getItem('shopflow_messages');
+      if(savedNotifications){
+        notifications = JSON.parse(savedNotifications);
+      }
+      if(savedMessages){
+        messages = JSON.parse(savedMessages);
+      }
+      
+      // Set currency select value
+      const currencySelect = document.getElementById('currencySelect');
+      if(currencySelect && state.currencySelectValue){
+        currencySelect.value = state.currencySelectValue;
       }
       
       return state;
@@ -1006,6 +1029,7 @@ function renderCart(){
 function updateQty(id,d){const i=cart.find(x=>x.id===id);if(!i)return;i.qty+=d;if(i.qty<=0)cart=cart.filter(x=>x.id!==id);if(i.qty>i.stock){i.qty=i.stock;toast('Max stock reached','warning')}renderCart()}
 function removeFromCart(id){cart=cart.filter(x=>x.id!==id);renderCart()}
 function clearCart(){cart=[];renderCart();toast('Cart cleared','info')}
+let scannerInterval=null;
 
 function quickSellFromContextMenu(){
   const id = parseInt(window.contextMenuProductId);
@@ -1361,11 +1385,16 @@ function initApp(){
     e.preventDefault();
     const target = e.target.closest('.product-card');
     if(target){
-      const productGrid = document.getElementById('posProductGrid');
-      const rect = productGrid.getBoundingClientRect();
       const menu = document.getElementById('contextMenu');
-      let x = e.clientX - rect.left + productGrid.scrollLeft;
-      let y = e.clientY - rect.top + productGrid.scrollTop;
+      const rect = menu.getBoundingClientRect();
+      let x = e.clientX - rect.width/2;
+      let y = e.clientY + 10;
+      
+      // Keep menu within viewport
+      if(x < 0) x = 10;
+      if(x + rect.width > window.innerWidth) x = window.innerWidth - rect.width - 10;
+      if(y + rect.height > window.innerHeight) y = e.clientY - rect.height - 10;
+      
       menu.style.left = x + 'px';
       menu.style.top = y + 'px';
       menu.style.display = 'block';
