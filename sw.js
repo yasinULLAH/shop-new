@@ -4,7 +4,6 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/7.0.0/workbox
 if (workbox) {
     console.log(`Workbox is loaded.`);
     
-    // This message listener waits for a command from the web page to activate.
     self.addEventListener('message', (event) => {
       if (event.data && event.data.type === 'SKIP_WAITING') {
         console.log('Service Worker received SKIP_WAITING message, activating now.');
@@ -46,6 +45,14 @@ if (workbox) {
         "revision": "1a98134a086859d517de611e9e0579bc"
     },
     {
+        "url": "favicon.ico",
+        "revision": "7cbcf8be98d3ce63133537d07504db0f"
+    },
+    {
+        "url": "build pwa make html app offline and installable yasin best working re-run this for updates best for html only.pyw",
+        "revision": "d3ceb161cfab9e9c5f40a93e15e5be27"
+    },
+    {
         "url": "build pwa make html app offline and installable yasin best working re-run this for updates.py",
         "revision": "2fc7c1c94e2f15173083ebeda834d953"
     },
@@ -56,6 +63,10 @@ if (workbox) {
     {
         "url": "index.html",
         "revision": "b33c0a03ea1fcacb646b491b3028dad4"
+    },
+    {
+        "url": "index2.html",
+        "revision": "320b29ec79c7b3ed97f57d724ad43dd3"
     },
     {
         "url": "manifest.json",
@@ -75,7 +86,7 @@ if (workbox) {
     },
     {
         "url": "sw.js",
-        "revision": "cd50bcbad93a0fb5545c079e4ad63d08"
+        "revision": "3483698eafb806c01122a6ee0323b305"
     },
     {
         "url": "workbox-window.prod.mjs",

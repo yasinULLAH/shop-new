@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+
+<html data-theme="light" lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>ShopFlow Enterprise — Production Ready</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <style>
   :root{
     --bg:#0b0f1a;--bg2:#111728;--surface:#161d33;--surface2:#1c2440;--surface3:#232c4d;
@@ -288,411 +289,384 @@
   .scanner-result{padding:14px;background:var(--surface2);border-radius:10px;border:1px solid var(--border);margin-top:14px}
   .scanner-placeholder{color:#666;text-align:center;padding:40px 20px}
 </style>
-</head>
+<link href="manifest.json" rel="manifest"/><link href="favicon.ico" rel="icon" type="image/x-icon"/></head>
 <body>
-
 <div class="app">
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <div class="logo-icon"><i class="fas fa-store"></i></div>
-      <div class="logo-text">Shop<span>Flow</span></div>
-      <div class="collapse-toggle" onclick="toggleSidebar()" title="Expand sidebar"><i class="fas fa-angles-right"></i></div>
-    </div>
-    <nav class="sidebar-nav" id="sidebarNav">
-      <div class="nav-group"><div class="nav-label">Main</div>
-        <div class="nav-item active" data-page="dashboard"><i class="fas fa-chart-line"></i><span>Dashboard</span></div>
-        <div class="nav-item" data-page="pos"><i class="fas fa-cash-register"></i><span>Point of Sale</span></div>
-      </div>
-      <div class="nav-group"><div class="nav-label">Catalog & Inventory</div>
-        <div class="nav-item" data-page="products"><i class="fas fa-box"></i><span>Products</span></div>
-        <div class="nav-item" data-page="inventory"><i class="fas fa-warehouse"></i><span>Inventory</span><span class="badge">4</span></div>
-        <div class="nav-item" data-page="categories"><i class="fas fa-tags"></i><span>Categories</span></div>
-        <div class="nav-item" data-page="barcode"><i class="fas fa-barcode"></i><span>Barcode / SKU</span></div>
-      </div>
-      <div class="nav-group"><div class="nav-label">Sales & CRM</div>
-        <div class="nav-item" data-page="orders"><i class="fas fa-shopping-cart"></i><span>Orders</span><span class="badge">5</span></div>
-        <div class="nav-item" data-page="customers"><i class="fas fa-users"></i><span>Customers</span></div>
-        <div class="nav-item" data-page="loyalty"><i class="fas fa-medal"></i><span>Loyalty Program</span></div>
-        <div class="nav-item" data-page="marketing"><i class="fas fa-bullhorn"></i><span>Marketing</span></div>
-      </div>
-      <div class="nav-group"><div class="nav-label">Procurement</div>
-        <div class="nav-item" data-page="suppliers"><i class="fas fa-truck"></i><span>Suppliers</span></div>
-        <div class="nav-item" data-page="purchase"><i class="fas fa-file-invoice"></i><span>Purchase Orders</span></div>
-      </div>
-      <div class="nav-group"><div class="nav-label">Operations</div>
-        <div class="nav-item" data-page="hr"><i class="fas fa-id-badge"></i><span>HR & Payroll</span></div>
-        <div class="nav-item" data-page="tasks"><i class="fas fa-list-check"></i><span>Tasks & Shifts</span></div>
-        <div class="nav-item" data-page="ecommerce"><i class="fas fa-globe"></i><span>E-Commerce</span></div>
-      </div>
-      <div class="nav-group"><div class="nav-label">Finance & Insights</div>
-        <div class="nav-item" data-page="finance"><i class="fas fa-money-bill-trend-up"></i><span>Finance & Tax</span></div>
-        <div class="nav-item" data-page="reports"><i class="fas fa-chart-pie"></i><span>Reports</span></div>
-        <div class="nav-item" data-page="settings"><i class="fas fa-gear"></i><span>Settings</span></div>
-      </div>
-    </nav>
-    <div class="sidebar-footer">
-      <div class="user-card">
-        <div class="avatar">AD</div>
-        <div class="user-info"><div class="user-name">Admin User</div><div class="user-role">Store Manager</div></div>
-      </div>
-    </div>
-  </aside>
-
-  <div class="main">
-    <header class="topbar">
-      <div class="topbar-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
-      <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Search anything..." id="globalSearch"></div>
-      <div class="topbar-right">
-        <div class="date-display" id="dateDisplay"></div>
-        <div class="icon-btn" onclick="toggleNotifPanel()"><i class="fas fa-bell"></i><span class="dot" id="notifDot"></span></div>
-        <div class="icon-btn" onclick="toggleTheme()"><i class="fas fa-sun" id="themeIcon"></i></div>
-        <div class="icon-btn" onclick="navigate('settings')"><i class="fas fa-gear"></i></div>
-      </div>
-    </header>
-
-    <div class="content" id="content">
-
-      <!-- ===== DASHBOARD ===== -->
-      <div class="page active" id="page-dashboard">
-        <div class="page-header"><div><div class="page-title">Dashboard</div><div class="page-subtitle">Welcome back, here's what's happening with your store today.</div></div>
-          <div class="page-actions"><button class="btn btn-secondary" onclick="navigate('reports')"><i class="fas fa-download"></i> Export</button><button class="btn btn-primary" onclick="navigate('pos')"><i class="fas fa-plus"></i> New Sale</button></div></div>
-        <div class="stats-grid">
-          <div class="stat-card c1"><div class="stat-icon"><i class="fas fa-dollar-sign"></i></div><div class="stat-label">Total Revenue</div><div class="stat-value" id="statRev">Rs 48,562</div><div class="stat-trend up"><i class="fas fa-arrow-up"></i> 12.5%</div></div>
-          <div class="stat-card c2"><div class="stat-icon"><i class="fas fa-shopping-bag"></i></div><div class="stat-label">Total Orders</div><div class="stat-value">1,284</div><div class="stat-trend up"><i class="fas fa-arrow-up"></i> 8.2%</div></div>
-          <div class="stat-card c3"><div class="stat-icon"><i class="fas fa-boxes-stacked"></i></div><div class="stat-label">Products in Stock</div><div class="stat-value">3,421</div><div class="stat-trend down"><i class="fas fa-arrow-down"></i> 2.1%</div></div>
-          <div class="stat-card c4"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-label">Total Customers</div><div class="stat-value">892</div><div class="stat-trend up"><i class="fas fa-arrow-up"></i> 15.3%</div></div>
-        </div>
-        <div class="grid-2">
-          <div class="card"><div class="card-header"><div class="card-title">Revenue Overview</div><div style="display:flex;gap:6px"><button class="btn btn-ghost btn-sm" onclick="switchChart('week')">Week</button><button class="btn btn-ghost btn-sm" id="chartMonthActive" onclick="switchChart('month')" style="background:var(--surface2)">Month</button><button class="btn btn-ghost btn-sm" onclick="switchChart('year')">Year</button></div></div>
-            <div class="card-body"><div class="chart-container"><canvas id="revenueChart"></canvas></div><div class="chart-legend"><div class="legend-item"><div class="legend-dot" style="background:var(--primary)"></div>Revenue</div><div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>Profit</div></div></div></div>
-          <div class="card"><div class="card-header"><div class="card-title">Sales by Category</div></div><div class="card-body"><div style="display:flex;align-items:center;gap:20px">
-            <svg viewBox="0 0 100 100" style="width:140px;height:140px;transform:rotate(-90deg);flex-shrink:0"><circle cx="50" cy="50" r="40" fill="none" stroke="var(--surface3)" stroke-width="12"/><circle cx="50" cy="50" r="40" fill="none" stroke="#6366f1" stroke-width="12" stroke-dasharray="75 251" stroke-linecap="round"/><circle cx="50" cy="50" r="40" fill="none" stroke="#06b6d4" stroke-width="12" stroke-dasharray="55 251" stroke-dashoffset="-75" stroke-linecap="round"/><circle cx="50" cy="50" r="40" fill="none" stroke="#10b981" stroke-width="12" stroke-dasharray="40 251" stroke-dashoffset="-130" stroke-linecap="round"/><circle cx="50" cy="50" r="40" fill="none" stroke="#f59e0b" stroke-width="12" stroke-dasharray="30 251" stroke-dashoffset="-170" stroke-linecap="round"/><circle cx="50" cy="50" r="40" fill="none" stroke="#ec4899" stroke-width="12" stroke-dasharray="51 251" stroke-dashoffset="-200" stroke-linecap="round"/></svg>
-            <div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><div style="width:10px;height:10px;border-radius:3px;background:#6366f1"></div>Electronics</span><span style="font-weight:700">30%</span></div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><div style="width:10px;height:10px;border-radius:3px;background:#06b6d4"></div>Clothing</span><span style="font-weight:700">22%</span></div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><div style="width:10px;height:10px;border-radius:3px;background:#10b981"></div>Groceries</span><span style="font-weight:700">16%</span></div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><div style="width:10px;height:10px;border-radius:3px;background:#f59e0b"></div>Home</span><span style="font-weight:700">12%</span></div><div style="display:flex;justify-content:space-between"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><div style="width:10px;height:10px;border-radius:3px;background:#ec4899"></div>Others</span><span style="font-weight:700">20%</span></div></div>
-          </div></div></div>
-        </div>
-        <div class="grid-2">
-          <div class="card"><div class="card-header"><div class="card-title">Recent Orders</div><button class="btn btn-ghost btn-sm" onclick="navigate('orders')">View All <i class="fas fa-arrow-right"></i></button></div><div class="table-wrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody id="recentOrdersBody"></tbody></table></div></div>
-          <div class="card"><div class="card-header"><div class="card-title">Low Stock Alerts</div></div><div class="card-body" id="lowStockBody"></div></div>
-        </div>
-      </div>
-
-      <!-- ===== POS ===== -->
-      <div class="page" id="page-pos">
-        <div class="page-header"><div><div class="page-title">Point of Sale</div><div class="page-subtitle">Process sales quickly and efficiently.</div></div></div>
-        <div class="pos-layout">
-          <div class="pos-left">
-            <div class="filters"><input type="text" class="filter-input" placeholder="Search products..." id="posSearch" oninput="renderPOSProducts()" style="flex:1;min-width:120px"><select class="select-input" id="posCategoryFilter" onchange="renderPOSProducts()"><option value="">All Categories</option></select><button class="btn btn-secondary btn-sm" onclick="openBarcodeScannerPOS()"><i class="fas fa-barcode"></i> Scan</button></div>
-            <div class="pos-products"><div class="product-grid" id="posProductGrid"></div></div>
-          </div>
-          <div class="pos-right">
-            <div class="cart"><div class="cart-header"><div class="cart-title"><i class="fas fa-shopping-cart" style="color:var(--primary2)"></i> Current Order <span style="color:var(--text3);font-weight:400;font-size:13px" id="cartCount">(0 items)</span></div></div>
-              <div class="cart-items" id="cartItems"><div class="empty-state"><i class="fas fa-cart-shopping"></i><p>No items in cart</p></div></div>
-              <div class="cart-footer"><div class="cart-summary"><div class="summary-row"><span>Subtotal</span><span id="cartSubtotal">$0.00</span></div><div class="summary-row"><span>Tax (8%)</span><span id="cartTax">$0.00</span></div><div class="summary-row"><span>Discount</span><span id="cartDiscount">-$0.00</span></div><div class="summary-row total"><span>Total</span><span id="cartTotal">$0.00</span></div></div>
-                <div style="display:flex;gap:8px;margin-bottom:10px"><select class="select-input" id="posCustomer" style="flex:1;min-width:0"><option value="">Walk-in Customer</option></select><select class="select-input" id="posPayment"><option>Cash</option><option>Card</option><option>Apple Pay</option><option>PayPal</option></select></div>
-                <input type="text" class="form-input" placeholder="Discount code or %" id="discountInput" oninput="updateCartTotals()" style="margin-bottom:10px">
-                <div class="cart-actions"><button class="btn btn-secondary" onclick="clearCart()"><i class="fas fa-trash"></i> Clear</button><button class="btn btn-primary" onclick="checkout()"><i class="fas fa-credit-card"></i> Checkout</button></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== PRODUCTS ===== -->
-      <div class="page" id="page-products">
-        <div class="page-header"><div><div class="page-title">Products</div><div class="page-subtitle">Manage your product catalog, variants, and pricing.</div></div><div class="page-actions"><button class="btn btn-secondary" onclick="toast('Products exported','success')"><i class="fas fa-file-export"></i> Export</button><button class="btn btn-primary" onclick="openProductModal()"><i class="fas fa-plus"></i> Add Product</button></div></div>
-        <div class="filters"><input type="text" class="filter-input" placeholder="Search products..." id="productSearch" oninput="renderProducts()" style="flex:1;min-width:200px"><select class="select-input" id="productCategoryFilter" onchange="renderProducts()"><option value="">All Categories</option></select><select class="select-input" id="productStatusFilter" onchange="renderProducts()"><option value="">All Status</option><option value="active">Active</option><option value="inactive">Inactive</option></select></div>
-        <div class="card"><div class="table-wrap"><table><thead><tr><th>Product</th><th>SKU</th><th>Category</th><th>Price</th><th>Cost</th><th>Margin</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead><tbody id="productsBody"></tbody></table></div></div>
-      </div>
-
-      <!-- ===== INVENTORY ===== -->
-      <div class="page" id="page-inventory">
-        <div class="page-header"><div><div class="page-title">Inventory Management</div><div class="page-subtitle">Track stock levels across multiple warehouses with batch tracking.</div></div><div class="page-actions"><button class="btn btn-secondary" onclick="openStockAdjustModal()"><i class="fas fa-sliders"></i> Stock Adjust</button><button class="btn btn-primary" onclick="navigate('purchase')"><i class="fas fa-plus"></i> Purchase Order</button></div></div>
-        <div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-warehouse"></i></div><div class="stat-label">Total Stock Value</div><div class="stat-value">$124,830</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-check-circle"></i></div><div class="stat-label">In Stock Items</div><div class="stat-value">142</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-triangle-exclamation"></i></div><div class="stat-label">Low Stock</div><div class="stat-value">3</div></div><div class="stat-card c5"><div class="stat-icon"><i class="fas fa-times-circle"></i></div><div class="stat-label">Out of Stock</div><div class="stat-value">1</div></div></div>
-        <div class="card"><div class="card-header"><div class="card-title">Inventory Status</div><div class="filters" style="margin:0"><input type="text" class="filter-input" placeholder="Search..." id="invSearch" oninput="renderInventory()" style="min-width:120px"><select class="select-input" id="invStatusFilter" onchange="renderInventory()"><option value="">All Status</option><option value="in">In Stock</option><option value="low">Low Stock</option><option value="out">Out of Stock</option></select></div></div><div class="table-wrap"><table><thead><tr><th>Product</th><th>SKU</th><th>Warehouse</th><th>Batch</th><th>Stock Level</th><th>Reorder Pt</th><th>Status</th><th>Actions</th></tr></thead><tbody id="inventoryBody"></tbody></table></div></div>
-      </div>
-
-      <!-- ===== CATEGORIES ===== -->
-      <div class="page" id="page-categories">
-        <div class="page-header"><div><div class="page-title">Categories & Variants</div><div class="page-subtitle">Organize products into categories and manage variant attributes.</div></div><div class="page-actions"><button class="btn btn-primary" onclick="openCategoryModal()"><i class="fas fa-plus"></i> Add Category</button></div></div>
-        <div class="grid-4" id="categoriesGrid"></div>
-      </div>
-
-      <!-- ===== BARCODE ===== -->
-      <div class="page" id="page-barcode">
-        <div class="page-header"><div><div class="page-title">Barcode & SKU Management</div><div class="page-subtitle">Generate, print, and scan barcodes for your products.</div></div><div class="page-actions"><button class="btn btn-secondary" onclick="toast('Labels sent to printer','success')"><i class="fas fa-print"></i> Print All</button><button class="btn btn-primary" onclick="generateBarcode()"><i class="fas fa-plus"></i> Generate New</button></div></div>
-        <div class="grid-2-eq">
-          <div class="card">
-            <div class="card-header"><div class="card-title">Live Barcode Scanner</div><button class="btn btn-ghost btn-sm" onclick="openBarcodeScannerPage()"><i class="fas fa-camera"></i> Open Scanner</button></div>
-            <div class="card-body">
-              <div class="scanner-container" id="scannerContainer">
-                <div class="scanner-placeholder" id="scannerPlaceholder">
-                  <i class="fas fa-camera" style="font-size:48px;margin-bottom:12px;display:block"></i>
-                  <p>Click "Open Scanner" to start scanning barcodes with your camera</p>
-                </div>
-                <video id="scannerVideo" style="display:none"></video>
-                <div class="scanner-overlay" id="scannerOverlay" style="display:none"></div>
-              </div>
-              <div class="scanner-controls">
-                <select class="select-input" id="cameraSelect" style="flex:1;min-width:150px"></select>
-                <button class="btn btn-primary btn-sm" id="startScanBtn" onclick="startScanner()"><i class="fas fa-play"></i> Start</button>
-                <button class="btn btn-danger btn-sm" id="stopScanBtn" onclick="stopScanner()" style="display:none"><i class="fas fa-stop"></i> Stop</button>
-              </div>
-              <div class="scanner-result" id="scannerResult" style="display:none">
-                <div style="display:flex;justify-content:space-between;align-items:center">
-                  <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">Last Scanned</div><div style="font-family:'Courier New',monospace;font-size:22px;font-weight:700;letter-spacing:2px" id="scannedCode">—</div></div>
-                  <div id="scannedProduct" style="text-align:right"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header"><div class="card-title">Product Barcodes</div></div>
-            <div class="card-body" style="max-height:500px;overflow-y:auto" id="barcodeList"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== ORDERS ===== -->
-      <div class="page" id="page-orders">
-        <div class="page-header"><div><div class="page-title">Orders</div><div class="page-subtitle">Track and manage all customer orders with returns support.</div></div><div class="page-actions"><button class="btn btn-secondary" onclick="openReturnModal()"><i class="fas fa-rotate-left"></i> Process Return</button><button class="btn btn-primary" onclick="navigate('pos')"><i class="fas fa-plus"></i> New Order</button></div></div>
-        <div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-clock"></i></div><div class="stat-label">Pending</div><div class="stat-value">5</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-truck"></i></div><div class="stat-label">Shipped</div><div class="stat-value">23</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-check"></i></div><div class="stat-label">Delivered</div><div class="stat-value">1,248</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-rotate-left"></i></div><div class="stat-label">Returns</div><div class="stat-value">8</div></div></div>
-        <div class="filters"><input type="text" class="filter-input" placeholder="Search orders..." id="orderSearch" oninput="renderOrders()" style="flex:1;min-width:200px"><select class="select-input" id="orderStatusFilter" onchange="renderOrders()"><option value="">All Status</option><option value="pending">Pending</option><option value="processing">Processing</option><option value="shipped">Shipped</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option><option value="returned">Returned</option></select></div>
-        <div class="card"><div class="table-wrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Payment</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody id="ordersBody"></tbody></table></div></div>
-      </div>
-
-      <!-- ===== CUSTOMERS ===== -->
-      <div class="page" id="page-customers">
-        <div class="page-header"><div><div class="page-title">Customers</div><div class="page-subtitle">Manage customer relationships, history, and loyalty.</div></div><div class="page-actions"><button class="btn btn-primary" onclick="openCustomerModal()"><i class="fas fa-user-plus"></i> Add Customer</button></div></div>
-        <div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-label">Total Customers</div><div class="stat-value">892</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-user-plus"></i></div><div class="stat-label">New This Month</div><div class="stat-value">67</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-crown"></i></div><div class="stat-label">VIP Customers</div><div class="stat-value">34</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-repeat"></i></div><div class="stat-label">Repeat Rate</div><div class="stat-value">68%</div></div></div>
-        <div class="filters"><input type="text" class="filter-input" placeholder="Search customers..." id="customerSearch" oninput="renderCustomers()" style="flex:1;min-width:200px"><select class="select-input" id="customerTierFilter" onchange="renderCustomers()"><option value="">All Tiers</option><option value="regular">Regular</option><option value="silver">Silver</option><option value="gold">Gold</option><option value="platinum">Platinum</option></select></div>
-        <div class="card"><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Email</th><th>Phone</th><th>Orders</th><th>Total Spent</th><th>Points</th><th>Tier</th><th>Actions</th></tr></thead><tbody id="customersBody"></tbody></table></div></div>
-      </div>
-
-      <!-- ===== LOYALTY ===== -->
-      <div class="page" id="page-loyalty">
-        <div class="page-header"><div><div class="page-title">Loyalty Program</div><div class="page-subtitle">Reward repeat customers with points, tiers, and perks.</div></div><div class="page-actions"><button class="btn btn-primary" onclick="toast('Loyalty settings updated','success')"><i class="fas fa-cog"></i> Program Settings</button></div></div>
-        <div class="grid-4"><div class="card"><div class="card-body" style="text-align:center"><div style="font-size:28px;font-weight:800;color:var(--primary2)">1,245,680</div><div style="font-size:13px;color:var(--text3);margin-top:4px">Total Points Issued</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div style="font-size:28px;font-weight:800;color:var(--success)">487,230</div><div style="font-size:13px;color:var(--text3);margin-top:4px">Points Redeemed</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div style="font-size:28px;font-weight:800;color:var(--warning)">758,450</div><div style="font-size:13px;color:var(--text3);margin-top:4px">Points Balance</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div style="font-size:28px;font-weight:800;color:var(--pink)">342</div><div style="font-size:13px;color:var(--text3);margin-top:4px">Active Members</div></div></div></div>
-        <div class="grid-2-eq">
-          <div class="card"><div class="card-header"><div class="card-title">Loyalty Tiers</div></div><div class="card-body">
-            <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface2);border-radius:10px;margin-bottom:8px"><div style="width:40px;height:40px;border-radius:50%;background:var(--surface3);display:flex;align-items:center;justify-content:center"><i class="fas fa-user" style="color:var(--text3)"></i></div><div style="flex:1"><div style="font-weight:700">Regular</div><div style="font-size:12px;color:var(--text3)">0-100 points • 1x multiplier</div></div><span style="font-weight:700">412</span></div>
-            <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface2);border-radius:10px;margin-bottom:8px"><div style="width:40px;height:40px;border-radius:50%;background:rgba(192,192,192,.2);display:flex;align-items:center;justify-content:center"><i class="fas fa-user" style="color:silver"></i></div><div style="flex:1"><div style="font-weight:700">Silver</div><div style="font-size:12px;color:var(--text3)">100-500 points • 1.5x multiplier</div></div><span style="font-weight:700">248</span></div>
-            <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface2);border-radius:10px;margin-bottom:8px"><div style="width:40px;height:40px;border-radius:50%;background:rgba(245,158,11,.2);display:flex;align-items:center;justify-content:center"><i class="fas fa-crown" style="color:var(--warning)"></i></div><div style="flex:1"><div style="font-weight:700">Gold</div><div style="font-size:12px;color:var(--text3)">500-2000 points • 2x multiplier</div></div><span style="font-weight:700">156</span></div>
-            <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface2);border-radius:10px"><div style="width:40px;height:40px;border-radius:50%;background:rgba(139,92,246,.2);display:flex;align-items:center;justify-content:center"><i class="fas fa-gem" style="color:var(--purple)"></i></div><div style="flex:1"><div style="font-weight:700">Platinum</div><div style="font-size:12px;color:var(--text3)">2000+ points • 3x multiplier</div></div><span style="font-weight:700">76</span></div>
-          </div></div>
-          <div class="card"><div class="card-header"><div class="card-title">Reward Rules</div><button class="btn btn-ghost btn-sm" onclick="toast('Add reward rule','info')"><i class="fas fa-plus"></i></button></div><div class="card-body">
-            <div style="padding:10px 0;border-bottom:1px solid var(--border)"><div style="font-weight:600;font-size:13px">$1 Spent = 1 Point</div><div style="font-size:12px;color:var(--text3)">Base earning rate</div></div>
-            <div style="padding:10px 0;border-bottom:1px solid var(--border)"><div style="font-weight:600;font-size:13px">100 Points = $5 Discount</div><div style="font-size:12px;color:var(--text3)">Redemption rate</div></div>
-            <div style="padding:10px 0;border-bottom:1px solid var(--border)"><div style="font-weight:600;font-size:13px">Birthday Bonus: 200 Points</div><div style="font-size:12px;color:var(--text3)">Automatic on birthday</div></div>
-            <div style="padding:10px 0"><div style="font-weight:600;font-size:13px">Referral Bonus: 500 Points</div><div style="font-size:12px;color:var(--text3)">When referral makes first purchase</div></div>
-          </div></div>
-        </div>
-      </div>
-
-      <!-- ===== MARKETING ===== -->
-      <div class="page" id="page-marketing">
-        <div class="page-header"><div><div class="page-title">Marketing & Promotions</div><div class="page-subtitle">Create campaigns, discounts, and promotional offers.</div></div><div class="page-actions"><button class="btn btn-primary" onclick="openCampaignModal()"><i class="fas fa-plus"></i> New Campaign</button></div></div>
-        <div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-bullhorn"></i></div><div class="stat-label">Active Campaigns</div><div class="stat-value">4</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-envelope"></i></div><div class="stat-label">Emails Sent</div><div class="stat-value">12,450</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-mouse-pointer"></i></div><div class="stat-label">Open Rate</div><div class="stat-value">38.5%</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-tag"></i></div><div class="stat-label">Active Coupons</div><div class="stat-value">12</div></div></div>
-        <div class="card"><div class="card-header"><div class="card-title">Active Campaigns</div></div><div class="table-wrap"><table><thead><tr><th>Campaign</th><th>Type</th><th>Discount</th><th>Status</th><th>Performance</th></tr></thead><tbody id="campaignsBody"></tbody></table></div></div>
-        <div class="card"><div class="card-header"><div class="card-title">Active Coupons & Promotions</div><button class="btn btn-ghost btn-sm" onclick="toast('Coupon created','success')"><i class="fas fa-plus"></i> Add Coupon</button></div><div class="table-wrap"><table><thead><tr><th>Code</th><th>Description</th><th>Discount</th><th>Used/Limit</th><th>Expiry</th><th>Status</th></tr></thead><tbody id="couponsBody"></tbody></table></div></div>
-      </div>
-
-      <!-- ===== SUPPLIERS ===== -->
-      <div class="page" id="page-suppliers">
-        <div class="page-header"><div><div class="page-title">Suppliers</div><div class="page-subtitle">Manage supplier relationships and performance.</div></div><div class="page-actions"><button class="btn btn-primary" onclick="openSupplierModal()"><i class="fas fa-plus"></i> Add Supplier</button></div></div>
-        <div class="filters"><input type="text" class="filter-input" placeholder="Search suppliers..." id="supplierSearch" oninput="renderSuppliers()" style="flex:1;min-width:200px"></div>
-        <div class="card"><div class="table-wrap"><table><thead><tr><th>Supplier</th><th>Contact</th><th>Email</th><th>Phone</th><th>Products</th><th>Performance</th><th>Status</th><th>Actions</th></tr></thead><tbody id="suppliersBody"></tbody></table></div></div>
-      </div>
-
-      <!-- ===== PURCHASE ORDERS ===== -->
-      <div class="page" id="page-purchase">
-        <div class="page-header"><div><div class="page-title">Purchase Orders</div><div class="page-subtitle">Manage procurement and supplier orders.</div></div><div class="page-actions"><button class="btn btn-primary" onclick="openPurchaseOrderModal()"><i class="fas fa-plus"></i> Create PO</button></div></div>
-        <div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-file-circle-plus"></i></div><div class="stat-label">Total POs</div><div class="stat-value">86</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-clock"></i></div><div class="stat-label">Pending</div><div class="stat-value">5</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-truck"></i></div><div class="stat-label">In Transit</div><div class="stat-value">12</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-check-circle"></i></div><div class="stat-label">Received</div><div class="stat-value">69</div></div></div>
-        <div class="card"><div class="table-wrap"><table><thead><tr><th>PO Number</th><th>Supplier</th><th>Items</th><th>Total</th><th>Status</th><th>Expected</th><th>Actions</th></tr></thead><tbody id="purchaseOrdersBody"></tbody></table></div></div>
-      </div>
-
-      <!-- ===== HR & PAYROLL ===== -->
-      <div class="page" id="page-hr">
-        <div class="page-header"><div><div class="page-title">HR & Payroll</div><div class="page-subtitle">Manage employees, attendance, and payroll.</div></div><div class="page-actions"><button class="btn btn-secondary" onclick="toast('Payslips generated','success')"><i class="fas fa-file-invoice-dollar"></i> Generate Payslips</button><button class="btn btn-primary" onclick="openStaffModal()"><i class="fas fa-user-plus"></i> Add Employee</button></div></div>
-        <div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-label">Total Employees</div><div class="stat-value">12</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-user-check"></i></div><div class="stat-label">Present Today</div><div class="stat-value">10</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-money-bill-wave"></i></div><div class="stat-label">Monthly Payroll</div><div class="stat-value">$42,500</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-clock"></i></div><div class="stat-label">Avg Hours/Week</div><div class="stat-value">38.5</div></div></div>
-        <div class="grid-2-eq">
-          <div class="card"><div class="card-header"><div class="card-title">Employee Directory</div></div><div class="table-wrap"><table><thead><tr><th>Employee</th><th>Role</th><th>Salary</th><th>Status</th><th>Actions</th></tr></thead><tbody id="staffBody"></tbody></table></div></div>
-          <div class="card"><div class="card-header"><div class="card-title">Today's Attendance</div></div><div class="card-body" id="attendanceBody"></div></div>
-        </div>
-      </div>
-
-      <!-- ===== TASKS & SHIFTS ===== -->
-      <div class="page" id="page-tasks">
-        <div class="page-header"><div><div class="page-title">Tasks & Shift Management</div><div class="page-subtitle">Assign tasks, manage shifts, and track productivity.</div></div></div>
-        <div class="grid-2-eq">
-          <div class="card"><div class="card-header"><div class="card-title">Task Board</div><button class="btn btn-ghost btn-sm" onclick="openTaskModal()"><i class="fas fa-plus"></i> Add Task</button></div><div class="card-body" style="padding:14px"><div class="kanban"><div class="kanban-col"><div class="kanban-col-header"><div class="kanban-col-title"><i class="fas fa-circle" style="color:var(--warning);font-size:8px"></i> To Do</div><span class="kanban-count" id="todoCount">0</span></div><div id="kanbanTodo"></div></div><div class="kanban-col"><div class="kanban-col-header"><div class="kanban-col-title"><i class="fas fa-circle" style="color:var(--primary);font-size:8px"></i> In Progress</div><span class="kanban-count" id="progressCount">0</span></div><div id="kanbanProgress"></div></div><div class="kanban-col"><div class="kanban-col-header"><div class="kanban-col-title"><i class="fas fa-circle" style="color:var(--success);font-size:8px"></i> Done</div><span class="kanban-count" id="doneCount">0</span></div><div id="kanbanDone"></div></div></div></div></div>
-          <div class="card"><div class="card-header"><div class="card-title">Weekly Shift Schedule</div></div><div class="table-wrap"><table><thead><tr><th>Employee</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr></thead><tbody id="shiftsBody"></tbody></table></div></div>
-        </div>
-      </div>
-
-      <!-- ===== E-COMMERCE ===== -->
-      <div class="page" id="page-ecommerce">
-        <div class="page-header"><div><div class="page-title">E-Commerce Platform</div><div class="page-subtitle">Manage your online store, channels, and digital presence.</div></div><div class="page-actions"><button class="btn btn-secondary" onclick="toast('Opening online store','info')"><i class="fas fa-globe"></i> View Store</button><button class="btn btn-primary" onclick="toast('Product published to store','success')"><i class="fas fa-upload"></i> Publish</button></div></div>
-        <div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-cart-shopping"></i></div><div class="stat-label">Online Orders</div><div class="stat-value">542</div><div class="stat-trend up"><i class="fas fa-arrow-up"></i> 18.2%</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-eye"></i></div><div class="stat-label">Store Visits</div><div class="stat-value">24,560</div><div class="stat-trend up"><i class="fas fa-arrow-up"></i> 12.4%</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-percent"></i></div><div class="stat-label">Conversion Rate</div><div class="stat-value">2.2%</div><div class="stat-trend up"><i class="fas fa-arrow-up"></i> 0.3%</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-star"></i></div><div class="stat-label">Avg Rating</div><div class="stat-value">4.6</div></div></div>
-        <div class="grid-2-eq">
-          <div class="card"><div class="card-header"><div class="card-title">Sales Channels</div></div><div class="card-body">
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:center;gap:12px"><i class="fas fa-globe" style="font-size:22px;color:var(--primary2)"></i><div><div style="font-weight:600">Web Store</div><div style="font-size:12px;color:var(--text3)">shopflow.com</div></div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:center;gap:12px"><i class="fab fa-amazon" style="font-size:22px;color:#ff9900"></i><div><div style="font-weight:600">Amazon</div><div style="font-size:12px;color:var(--text3)">Marketplace sync</div></div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:center;gap:12px"><i class="fab fa-shopify" style="font-size:22px;color:#95BF47"></i><div><div style="font-weight:600">Shopify</div><div style="font-size:12px;color:var(--text3)">Cross-platform sync</div></div></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0"><div style="display:flex;align-items:center;gap:12px"><i class="fab fa-instagram" style="font-size:22px;color:#E4405F"></i><div><div style="font-weight:600">Instagram Shop</div><div style="font-size:12px;color:var(--text3)">Social commerce</div></div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
-          </div></div>
-          <div class="card"><div class="card-header"><div class="card-title">Recent Reviews</div></div><div class="card-body" id="reviewsBody"></div></div>
-        </div>
-        <div class="card" style="margin-top:16px"><div class="card-header"><div class="card-title">Online Order Fulfillment Status</div></div><div class="card-body">
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px">
-            <div style="text-align:center;padding:16px;background:var(--surface2);border-radius:10px"><div style="font-size:28px;font-weight:800;color:var(--warning)">23</div><div style="font-size:12px;color:var(--text3);margin-top:4px">Pending Fulfillment</div></div>
-            <div style="text-align:center;padding:16px;background:var(--surface2);border-radius:10px"><div style="font-size:28px;font-weight:800;color:var(--primary2)">45</div><div style="font-size:12px;color:var(--text3);margin-top:4px">Shipped</div></div>
-            <div style="text-align:center;padding:16px;background:var(--surface2);border-radius:10px"><div style="font-size:28px;font-weight:800;color:var(--success)">468</div><div style="font-size:12px;color:var(--text3);margin-top:4px">Delivered</div></div>
-            <div style="text-align:center;padding:16px;background:var(--surface2);border-radius:10px"><div style="font-size:28px;font-weight:800;color:var(--danger)">6</div><div style="font-size:12px;color:var(--text3);margin-top:4px">Returns Requested</div></div>
-          </div>
-        </div></div>
-      </div>
-
-      <!-- ===== FINANCE ===== -->
-      <div class="page" id="page-finance">
-        <div class="page-header"><div><div class="page-title">Finance & Tax Management</div><div class="page-subtitle">Track expenses, revenue, taxes, and generate financial reports.</div></div><div class="page-actions"><button class="btn btn-secondary" onclick="toast('P&L exported','success')"><i class="fas fa-file-export"></i> Export P&L</button><button class="btn btn-primary" onclick="openExpenseModal()"><i class="fas fa-plus"></i> Add Expense</button></div></div>
-        <div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-arrow-up"></i></div><div class="stat-label">Total Revenue (MTD)</div><div class="stat-value">Rs 48,562</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-arrow-down"></i></div><div class="stat-label">Total Expenses (MTD)</div><div class="stat-value">Rs 30,268</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-coins"></i></div><div class="stat-label">Net Profit</div><div class="stat-value">Rs 18,294</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-percentage"></i></div><div class="stat-label">Profit Margin</div><div class="stat-value">37.7%</div></div></div>
-        <div class="grid-2-eq">
-          <div class="card"><div class="card-header"><div class="card-title">Revenue vs Expenses</div></div><div class="card-body"><div style="height:280px;padding:10px 0"><canvas id="financeChart"></canvas></div></div></div>
-          <div class="card"><div class="card-header"><div class="card-title">Tax Summary</div></div><div class="table-wrap"><table><thead><tr><th>Tax Type</th><th>Rate</th><th>Collected</th><th>Status</th></tr></thead><tbody><tr><td>Sales Tax</td><td>8%</td><td class="td-primary">Rs 3,884.96</td><td><span class="tag tag-warning">Due Jan 31</span></td></tr><tr><td>VAT</td><td>0%</td><td>Rs 0.00</td><td><span class="tag tag-success">N/A</span></td></tr><tr><td>Payroll Tax</td><td>7.5%</td><td class="td-primary">Rs 3,187.50</td><td><span class="tag tag-warning">Due Feb 15</span></td></tr><tr><td>Income Tax (Est.)</td><td>21%</td><td class="td-primary">Rs 3,841.74</td><td><span class="tag tag-info">Quarterly</span></td></tr></tbody></table></div></div>
-        </div>
-        <div class="card"><div class="card-header"><div class="card-title">Recent Expenses</div><button class="btn btn-ghost btn-sm" onclick="openExpenseModal()"><i class="fas fa-plus"></i> Add</button></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Description</th><th>Category</th><th>Amount</th><th>Payment</th><th>Actions</th></tr></thead><tbody id="expensesBody"></tbody></table></div></div>
-      </div>
-
-      <!-- ===== REPORTS ===== -->
-      <div class="page" id="page-reports">
-        <div class="page-header"><div><div class="page-title">Reports & Analytics</div><div class="page-subtitle">Deep insights into your business performance.</div></div><div class="page-actions"><select class="select-input"><option>Last 30 Days</option><option>Last 7 Days</option><option>This Quarter</option><option>This Year</option></select><button class="btn btn-primary" onclick="toast('Report downloaded','success')"><i class="fas fa-download"></i> Download</button></div></div>
-        <div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-chart-line"></i></div><div class="stat-label">Gross Revenue</div><div class="stat-value">Rs 48,562</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-coins"></i></div><div class="stat-label">Net Profit</div><div class="stat-value">Rs 18,294</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-receipt"></i></div><div class="stat-label">Avg Order Value</div><div class="stat-value">Rs 37.82</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-shopping-basket"></i></div><div class="stat-label">Items per Order</div><div class="stat-value">3.2</div></div></div>
-        <div class="grid-2"><div class="card"><div class="card-header"><div class="card-title">Monthly Sales Trend</div></div><div class="card-body"><div style="height:280px;padding:10px 0"><canvas id="salesTrendChart"></canvas></div></div></div><div class="card"><div class="card-header"><div class="card-title">Top Products by Revenue</div></div><div class="card-body" id="topProductsReport"></div></div></div>
-        <div class="grid-2"><div class="card"><div class="card-header"><div class="card-title">Payment Methods</div></div><div class="card-body" id="paymentMethodsReport"></div></div><div class="card"><div class="card-header"><div class="card-title">Sales by Day of Week</div></div><div class="card-body"><div style="height:280px;padding:10px 0"><canvas id="dayOfWeekChart"></canvas></div></div></div></div>
-      </div>
-
-      <!-- ===== SETTINGS ===== -->
-      <div class="page" id="page-settings">
-        <div class="page-header"><div><div class="page-title">Settings</div><div class="page-subtitle">Configure your store, integrations, and preferences.</div></div></div>
-        <div class="tabs">
-          <div class="tab active" onclick="switchTab(event,'tab-general')">General</div>
-          <div class="tab" onclick="switchTab(event,'tab-tax')">Tax & Currency</div>
-          <div class="tab" onclick="switchTab(event,'tab-payment')">Payments</div>
-          <div class="tab" onclick="switchTab(event,'tab-backup')">Backup & Restore</div>
-          <div class="tab" onclick="switchTab(event,'tab-integrations')">Integrations</div>
-          <div class="tab" onclick="switchTab(event,'tab-compliance')">Compliance</div>
-          <div class="tab" onclick="switchTab(event,'tab-notif')">Notifications</div>
-        </div>
-        <div id="tab-general" class="tab-content">
-          <div class="card"><div class="card-header"><div class="card-title">Store Information</div></div><div class="card-body">
-            <div class="form-row"><div class="form-group"><label class="form-label">Store Name</label><input type="text" class="form-input" value="ShopFlow Superstore"></div><div class="form-group"><label class="form-label">Store Type</label><select class="form-select"><option>Retail Store</option><option>Wholesale</option><option>E-commerce</option><option>Hybrid</option></select></div></div>
-            <div class="form-group"><label class="form-label">Store Address</label><input type="text" class="form-input" value="123 Commerce Street, New York, NY 10001"></div>
-            <div class="form-row-3"><div class="form-group"><label class="form-label">Phone</label><input type="text" class="form-input" value="+1 (555) 123-4567"></div><div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" value="contact@shopflow.com"></div><div class="form-group"><label class="form-label">Website</label><input type="text" class="form-input" value="www.shopflow.com"></div></div>
-            <div class="form-row"><div class="form-group"><label class="form-label">Timezone</label><select class="form-select"><option>UTC-05:00 Eastern Time</option><option>UTC-08:00 Pacific Time</option><option>UTC+00:00 GMT</option><option>UTC+05:00 Pakistan Standard Time</option><option>UTC+05:30 India Standard Time</option></select></div><div class="form-group"><label class="form-label">Date Format</label><select class="form-select"><option>MM/DD/YYYY</option><option>DD/MM/YYYY</option><option>YYYY-MM-DD</option></select></div></div>
-            <button class="btn btn-primary" onclick="toast('Settings saved!','success')"><i class="fas fa-save"></i> Save Changes</button>
-          </div></div>
-        </div>
-        <div id="tab-tax" class="tab-content" style="display:none">
-          <div class="card"><div class="card-header"><div class="card-title">Tax & Currency Settings</div></div><div class="card-body">
-            <div class="form-row"><div class="form-group"><label class="form-label">Currency</label><select class="form-select" id="currencySelect" onchange="changeCurrency()"><option value="$" data-code="USD">USD - US Dollar ($)</option><option value="€" data-code="EUR">EUR - Euro (€)</option><option value="£" data-code="GBP">GBP - British Pound (£)</option><option value="₹" data-code="INR">INR - Indian Rupee (₹)</option><option value="₨" data-code="PKR">PKR - Pakistani Rupee (₨)</option><option value="¥" data-code="JPY">JPY - Japanese Yen (¥)</option><option value="₦" data-code="NGN">NGN - Nigerian Naira (₦)</option><option value="R" data-code="ZAR">ZAR - South African Rand (R)</option><option value="C$" data-code="CAD">CAD - Canadian Dollar (C$)</option><option value="A$" data-code="AUD">AUD - Australian Dollar (A$)</option></select></div><div class="form-group"><label class="form-label">Symbol Position</label><select class="form-select"><option>Before amount ($100)</option><option>After amount (100$)</option></select></div></div>
-            <div class="form-row-3"><div class="form-group"><label class="form-label">Default Tax Rate (%)</label><input type="number" class="form-input" value="8"></div><div class="form-group"><label class="form-label">State Tax (%)</label><input type="number" class="form-input" value="4"></div><div class="form-group"><label class="form-label">Local Tax (%)</label><input type="number" class="form-input" value="2"></div></div>
-            <div class="form-group"><label class="form-label">Tax Included in Prices?</label><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
-            <button class="btn btn-primary" onclick="toast('Tax settings saved!','success')"><i class="fas fa-save"></i> Save</button>
-          </div></div>
-        </div>
-        <div id="tab-payment" class="tab-content" style="display:none">
-          <div class="card"><div class="card-header"><div class="card-title">Payment Methods</div></div><div class="card-body">
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:center;gap:12px"><i class="fab fa-cc-visa" style="font-size:28px;color:#1a1f71"></i><div><div style="font-weight:600">Credit/Debit Cards</div><div style="font-size:12px;color:var(--text3)">Visa, Mastercard, Amex</div></div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:center;gap:12px"><i class="fab fa-paypal" style="font-size:24px;color:#003087"></i><div><div style="font-weight:600">PayPal</div><div style="font-size:12px;color:var(--text3)">Online payments</div></div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:center;gap:12px"><i class="fas fa-money-bill-wave" style="font-size:22px;color:var(--success)"></i><div><div style="font-weight:600">Cash</div><div style="font-size:12px;color:var(--text3)">In-store payments</div></div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0"><div style="display:flex;align-items:center;gap:12px"><i class="fab fa-apple-pay" style="font-size:24px"></i><div><div style="font-weight:600">Apple Pay</div><div style="font-size:12px;color:var(--text3)">Contactless payments</div></div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
-            <button class="btn btn-primary" onclick="toast('Payment settings saved!','success')"><i class="fas fa-save"></i> Save</button>
-          </div></div>
-        </div>
-        <div id="tab-backup" class="tab-content" style="display:none">
-          <div class="grid-2-eq">
-            <div class="card"><div class="card-header"><div class="card-title">Backup & Restore</div></div><div class="card-body">
-              <div class="backup-card"><div style="display:flex;align-items:center;gap:12px;margin-bottom:8px"><i class="fas fa-download" style="color:var(--primary2);font-size:20px"></i><div style="font-weight:700">Manual Backup</div></div><div style="font-size:12px;color:var(--text3);margin-bottom:12px">Download a full backup of your shop data, settings, and history.</div><button class="btn btn-primary btn-sm" onclick="createLocalBackup()"><i class="fas fa-download"></i> Download Backup</button></div>
-              <div class="backup-card"><div style="display:flex;align-items:center;gap:12px;margin-bottom:8px"><i class="fas fa-upload" style="color:var(--success);font-size:20px"></i><div style="font-weight:700">Restore from File</div></div><div style="font-size:12px;color:var(--text3);margin-bottom:12px">Upload a backup file to restore your data. This will overwrite current data.</div><button class="btn btn-secondary btn-sm" onclick="toast('Restore dialog opened','info')"><i class="fas fa-upload"></i> Upload & Restore</button></div>
-              <div class="backup-card"><div style="display:flex;align-items:center;gap:12px;margin-bottom:8px"><i class="fas fa-clock-rotate-left" style="color:var(--warning);font-size:20px"></i><div style="font-weight:700">Scheduled Backups</div></div><div style="font-size:12px;color:var(--text3);margin-bottom:12px">Automatically backup your data at regular intervals.</div>
-                <div class="form-row"><select class="form-select"><option>Daily at 2:00 AM</option><option>Every 12 hours</option><option>Weekly on Sunday</option><option>Monthly on 1st</option></select><button class="btn btn-success btn-sm" onclick="toast('Schedule enabled!','success')">Enable</button></div>
-              </div>
-            </div></div>
-            <div class="card"><div class="card-header"><div class="card-title"><i class="fab fa-google-drive" style="color:#4285F4;margin-right:8px"></i>Google Drive Sync</div></div><div class="card-body">
-              <div id="gdriveStatus">
-                <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><i class="fab fa-google" style="font-size:36px;color:#4285F4"></i><div><div style="font-weight:700">Connect Google Drive</div><div style="font-size:12px;color:var(--text3)">Securely backup and sync your data to your own Google Drive account.</div></div></div>
-                <button class="btn btn-primary" onclick="connectGdrive()"><i class="fas fa-link"></i> Connect with Google</button>
-              </div>
-            </div></div>
-          </div>
-          <div class="card" style="margin-top:16px"><div class="card-header"><div class="card-title">Version History</div></div><div class="card-body" id="versionHistory"></div></div>
-        </div>
-        <div id="tab-integrations" class="tab-content" style="display:none">
-          <div class="card"><div class="card-header"><div class="card-title">Third-Party Integrations</div></div><div class="card-body">
-            <div class="grid-2-eq">
-              <div style="padding:16px;background:var(--surface2);border-radius:10px;border:1px solid var(--border)"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div style="display:flex;align-items:center;gap:10px"><i class="fas fa-shipping-fast" style="font-size:22px;color:var(--accent)"></i><span style="font-weight:700">ShipStation</span></div><span class="tag tag-success">Connected</span></div><div style="font-size:12px;color:var(--text3)">Shipping & fulfillment integration</div></div>
-              <div style="padding:16px;background:var(--surface2);border-radius:10px;border:1px solid var(--border)"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div style="display:flex;align-items:center;gap:10px"><i class="fas fa-envelope" style="font-size:22px;color:var(--warning)"></i><span style="font-weight:700">Mailchimp</span></div><span class="tag tag-success">Connected</span></div><div style="font-size:12px;color:var(--text3)">Email marketing automation</div></div>
-              <div style="padding:16px;background:var(--surface2);border-radius:10px;border:1px solid var(--border)"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div style="display:flex;align-items:center;gap:10px"><i class="fas fa-chart-pie" style="font-size:22px;color:var(--success)"></i><span style="font-weight:700">QuickBooks</span></div><span class="tag tag-success">Connected</span></div><div style="font-size:12px;color:var(--text3)">Accounting & bookkeeping</div></div>
-              <div style="padding:16px;background:var(--surface2);border-radius:10px;border:1px solid var(--border)"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div style="display:flex;align-items:center;gap:10px"><i class="fab fa-google" style="font-size:22px;color:#4285F4"></i><span style="font-weight:700">Google Analytics</span></div><span class="tag tag-success">Connected</span></div><div style="font-size:12px;color:var(--text3)">Web analytics tracking</div></div>
-            </div>
-          </div></div>
-        </div>
-        <div id="tab-compliance" class="tab-content" style="display:none">
-          <div class="card"><div class="card-header"><div class="card-title">Compliance & Security</div></div><div class="card-body">
-            <div class="compliance-card"><div class="compliance-icon" style="background:rgba(16,185,129,.2);color:var(--success)"><i class="fas fa-shield-halved"></i></div><div style="flex:1"><div style="font-weight:700">PCI DSS Compliance</div><div style="font-size:12px;color:var(--text3)">Payment Card Industry Data Security Standard</div></div><span class="tag tag-success">Compliant</span></div>
-            <div class="compliance-card"><div class="compliance-icon" style="background:rgba(16,185,129,.2);color:var(--success)"><i class="fas fa-lock"></i></div><div style="flex:1"><div style="font-weight:700">SSL Certificate</div><div style="font-size:12px;color:var(--text3)">256-bit encryption • Expires Mar 2025</div></div><span class="tag tag-success">Active</span></div>
-            <div class="compliance-card"><div class="compliance-icon" style="background:rgba(6,182,212,.2);color:var(--accent)"><i class="fas fa-database"></i></div><div style="flex:1"><div style="font-weight:700">GDPR Compliance</div><div style="font-size:12px;color:var(--text3)">General Data Protection Regulation</div></div><span class="tag tag-info">Review Due</span></div>
-            <div class="compliance-card"><div class="compliance-icon" style="background:rgba(245,158,11,.2);color:var(--warning)"><i class="fas fa-file-contract"></i></div><div style="flex:1"><div style="font-weight:700">Business License</div><div style="font-size:12px;color:var(--text3)">NY State Retail License #NY-2024-7890</div></div><span class="tag tag-warning">Renew Jun 2025</span></div>
-          </div></div>
-        </div>
-        <div id="tab-notif" class="tab-content" style="display:none">
-          <div class="card"><div class="card-header"><div class="card-title">Notification Preferences</div></div><div class="card-body">
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)"><div><div style="font-weight:600">Low Stock Alerts</div><div style="font-size:12px;color:var(--text3)">Get notified when products are running low</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)"><div><div style="font-weight:600">New Order Notifications</div><div style="font-size:12px;color:var(--text3)">Alert me when new orders come in</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)"><div><div style="font-weight:600">Daily Sales Summary</div><div style="font-size:12px;color:var(--text3)">Receive a daily email with sales summary</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0"><div><div style="font-weight:600">Customer Reviews</div><div style="font-size:12px;color:var(--text3)">Notifications for new customer reviews</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
-            <button class="btn btn-primary" onclick="toast('Preferences saved!','success')"><i class="fas fa-save"></i> Save</button>
-          </div></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="logo-icon"><i class="fas fa-store"></i></div>
+<div class="logo-text">Shop<span>Flow</span></div>
+<div class="collapse-toggle" onclick="toggleSidebar()" title="Expand sidebar"><i class="fas fa-angles-right"></i></div>
 </div>
-
+<nav class="sidebar-nav" id="sidebarNav">
+<div class="nav-group"><div class="nav-label">Main</div>
+<div class="nav-item active" data-page="dashboard"><i class="fas fa-chart-line"></i><span>Dashboard</span></div>
+<div class="nav-item" data-page="pos"><i class="fas fa-cash-register"></i><span>Point of Sale</span></div>
+</div>
+<div class="nav-group"><div class="nav-label">Catalog &amp; Inventory</div>
+<div class="nav-item" data-page="products"><i class="fas fa-box"></i><span>Products</span></div>
+<div class="nav-item" data-page="inventory"><i class="fas fa-warehouse"></i><span>Inventory</span><span class="badge">4</span></div>
+<div class="nav-item" data-page="categories"><i class="fas fa-tags"></i><span>Categories</span></div>
+<div class="nav-item" data-page="barcode"><i class="fas fa-barcode"></i><span>Barcode / SKU</span></div>
+</div>
+<div class="nav-group"><div class="nav-label">Sales &amp; CRM</div>
+<div class="nav-item" data-page="orders"><i class="fas fa-shopping-cart"></i><span>Orders</span><span class="badge">5</span></div>
+<div class="nav-item" data-page="customers"><i class="fas fa-users"></i><span>Customers</span></div>
+<div class="nav-item" data-page="loyalty"><i class="fas fa-medal"></i><span>Loyalty Program</span></div>
+<div class="nav-item" data-page="marketing"><i class="fas fa-bullhorn"></i><span>Marketing</span></div>
+</div>
+<div class="nav-group"><div class="nav-label">Procurement</div>
+<div class="nav-item" data-page="suppliers"><i class="fas fa-truck"></i><span>Suppliers</span></div>
+<div class="nav-item" data-page="purchase"><i class="fas fa-file-invoice"></i><span>Purchase Orders</span></div>
+</div>
+<div class="nav-group"><div class="nav-label">Operations</div>
+<div class="nav-item" data-page="hr"><i class="fas fa-id-badge"></i><span>HR &amp; Payroll</span></div>
+<div class="nav-item" data-page="tasks"><i class="fas fa-list-check"></i><span>Tasks &amp; Shifts</span></div>
+<div class="nav-item" data-page="ecommerce"><i class="fas fa-globe"></i><span>E-Commerce</span></div>
+</div>
+<div class="nav-group"><div class="nav-label">Finance &amp; Insights</div>
+<div class="nav-item" data-page="finance"><i class="fas fa-money-bill-trend-up"></i><span>Finance &amp; Tax</span></div>
+<div class="nav-item" data-page="reports"><i class="fas fa-chart-pie"></i><span>Reports</span></div>
+<div class="nav-item" data-page="settings"><i class="fas fa-gear"></i><span>Settings</span></div>
+</div>
+</nav>
+<div class="sidebar-footer">
+<div class="user-card">
+<div class="avatar">AD</div>
+<div class="user-info"><div class="user-name">Admin User</div><div class="user-role">Store Manager</div></div>
+</div>
+</div>
+</aside>
+<div class="main">
+<header class="topbar">
+<div class="topbar-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+<div class="search-box"><i class="fas fa-search"></i><input id="globalSearch" placeholder="Search anything..." type="text"/></div>
+<div class="topbar-right">
+<div class="date-display" id="dateDisplay"></div>
+<div class="icon-btn" onclick="toggleNotifPanel()"><i class="fas fa-bell"></i><span class="dot" id="notifDot"></span></div>
+<div class="icon-btn" onclick="toggleTheme()"><i class="fas fa-sun" id="themeIcon"></i></div>
+<div class="icon-btn" onclick="navigate('settings')"><i class="fas fa-gear"></i></div>
+</div>
+</header>
+<div class="content" id="content">
+<!-- ===== DASHBOARD ===== -->
+<div class="page active" id="page-dashboard">
+<div class="page-header"><div><div class="page-title">Dashboard</div><div class="page-subtitle">Welcome back, here's what's happening with your store today.</div></div>
+<div class="page-actions"><button class="btn btn-secondary" onclick="navigate('reports')"><i class="fas fa-download"></i> Export</button><button class="btn btn-primary" onclick="navigate('pos')"><i class="fas fa-plus"></i> New Sale</button></div></div>
+<div class="stats-grid">
+<div class="stat-card c1"><div class="stat-icon"><i class="fas fa-dollar-sign"></i></div><div class="stat-label">Total Revenue</div><div class="stat-value" id="statRev">Rs 48,562</div><div class="stat-trend up"><i class="fas fa-arrow-up"></i> 12.5%</div></div>
+<div class="stat-card c2"><div class="stat-icon"><i class="fas fa-shopping-bag"></i></div><div class="stat-label">Total Orders</div><div class="stat-value">1,284</div><div class="stat-trend up"><i class="fas fa-arrow-up"></i> 8.2%</div></div>
+<div class="stat-card c3"><div class="stat-icon"><i class="fas fa-boxes-stacked"></i></div><div class="stat-label">Products in Stock</div><div class="stat-value">3,421</div><div class="stat-trend down"><i class="fas fa-arrow-down"></i> 2.1%</div></div>
+<div class="stat-card c4"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-label">Total Customers</div><div class="stat-value">892</div><div class="stat-trend up"><i class="fas fa-arrow-up"></i> 15.3%</div></div>
+</div>
+<div class="grid-2">
+<div class="card"><div class="card-header"><div class="card-title">Revenue Overview</div><div style="display:flex;gap:6px"><button class="btn btn-ghost btn-sm" onclick="switchChart('week')">Week</button><button class="btn btn-ghost btn-sm" id="chartMonthActive" onclick="switchChart('month')" style="background:var(--surface2)">Month</button><button class="btn btn-ghost btn-sm" onclick="switchChart('year')">Year</button></div></div>
+<div class="card-body"><div class="chart-container"><canvas id="revenueChart"></canvas></div><div class="chart-legend"><div class="legend-item"><div class="legend-dot" style="background:var(--primary)"></div>Revenue</div><div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>Profit</div></div></div></div>
+<div class="card"><div class="card-header"><div class="card-title">Sales by Category</div></div><div class="card-body"><div style="display:flex;align-items:center;gap:20px">
+<svg style="width:140px;height:140px;transform:rotate(-90deg);flex-shrink:0" viewbox="0 0 100 100"><circle cx="50" cy="50" fill="none" r="40" stroke="var(--surface3)" stroke-width="12"></circle><circle cx="50" cy="50" fill="none" r="40" stroke="#6366f1" stroke-dasharray="75 251" stroke-linecap="round" stroke-width="12"></circle><circle cx="50" cy="50" fill="none" r="40" stroke="#06b6d4" stroke-dasharray="55 251" stroke-dashoffset="-75" stroke-linecap="round" stroke-width="12"></circle><circle cx="50" cy="50" fill="none" r="40" stroke="#10b981" stroke-dasharray="40 251" stroke-dashoffset="-130" stroke-linecap="round" stroke-width="12"></circle><circle cx="50" cy="50" fill="none" r="40" stroke="#f59e0b" stroke-dasharray="30 251" stroke-dashoffset="-170" stroke-linecap="round" stroke-width="12"></circle><circle cx="50" cy="50" fill="none" r="40" stroke="#ec4899" stroke-dasharray="51 251" stroke-dashoffset="-200" stroke-linecap="round" stroke-width="12"></circle></svg>
+<div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><div style="width:10px;height:10px;border-radius:3px;background:#6366f1"></div>Electronics</span><span style="font-weight:700">30%</span></div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><div style="width:10px;height:10px;border-radius:3px;background:#06b6d4"></div>Clothing</span><span style="font-weight:700">22%</span></div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><div style="width:10px;height:10px;border-radius:3px;background:#10b981"></div>Groceries</span><span style="font-weight:700">16%</span></div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><div style="width:10px;height:10px;border-radius:3px;background:#f59e0b"></div>Home</span><span style="font-weight:700">12%</span></div><div style="display:flex;justify-content:space-between"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><div style="width:10px;height:10px;border-radius:3px;background:#ec4899"></div>Others</span><span style="font-weight:700">20%</span></div></div>
+</div></div></div>
+</div>
+<div class="grid-2">
+<div class="card"><div class="card-header"><div class="card-title">Recent Orders</div><button class="btn btn-ghost btn-sm" onclick="navigate('orders')">View All <i class="fas fa-arrow-right"></i></button></div><div class="table-wrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody id="recentOrdersBody"></tbody></table></div></div>
+<div class="card"><div class="card-header"><div class="card-title">Low Stock Alerts</div></div><div class="card-body" id="lowStockBody"></div></div>
+</div>
+</div>
+<!-- ===== POS ===== -->
+<div class="page" id="page-pos">
+<div class="page-header"><div><div class="page-title">Point of Sale</div><div class="page-subtitle">Process sales quickly and efficiently.</div></div></div>
+<div class="pos-layout">
+<div class="pos-left">
+<div class="filters"><input class="filter-input" id="posSearch" oninput="renderPOSProducts()" placeholder="Search products..." style="flex:1;min-width:120px" type="text"/><select class="select-input" id="posCategoryFilter" onchange="renderPOSProducts()"><option value="">All Categories</option></select><button class="btn btn-secondary btn-sm" onclick="openBarcodeScannerPOS()"><i class="fas fa-barcode"></i> Scan</button></div>
+<div class="pos-products"><div class="product-grid" id="posProductGrid"></div></div>
+</div>
+<div class="pos-right">
+<div class="cart"><div class="cart-header"><div class="cart-title"><i class="fas fa-shopping-cart" style="color:var(--primary2)"></i> Current Order <span id="cartCount" style="color:var(--text3);font-weight:400;font-size:13px">(0 items)</span></div></div>
+<div class="cart-items" id="cartItems"><div class="empty-state"><i class="fas fa-cart-shopping"></i><p>No items in cart</p></div></div>
+<div class="cart-footer"><div class="cart-summary"><div class="summary-row"><span>Subtotal</span><span id="cartSubtotal">$0.00</span></div><div class="summary-row"><span>Tax (8%)</span><span id="cartTax">$0.00</span></div><div class="summary-row"><span>Discount</span><span id="cartDiscount">-$0.00</span></div><div class="summary-row total"><span>Total</span><span id="cartTotal">$0.00</span></div></div>
+<div style="display:flex;gap:8px;margin-bottom:10px"><select class="select-input" id="posCustomer" style="flex:1;min-width:0"><option value="">Walk-in Customer</option></select><select class="select-input" id="posPayment"><option>Cash</option><option>Card</option><option>Apple Pay</option><option>PayPal</option></select></div>
+<input class="form-input" id="discountInput" oninput="updateCartTotals()" placeholder="Discount code or %" style="margin-bottom:10px" type="text"/>
+<div class="cart-actions"><button class="btn btn-secondary" onclick="clearCart()"><i class="fas fa-trash"></i> Clear</button><button class="btn btn-primary" onclick="checkout()"><i class="fas fa-credit-card"></i> Checkout</button></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ===== PRODUCTS ===== -->
+<div class="page" id="page-products">
+<div class="page-header"><div><div class="page-title">Products</div><div class="page-subtitle">Manage your product catalog, variants, and pricing.</div></div><div class="page-actions"><button class="btn btn-secondary" onclick="toast('Products exported','success')"><i class="fas fa-file-export"></i> Export</button><button class="btn btn-primary" onclick="openProductModal()"><i class="fas fa-plus"></i> Add Product</button></div></div>
+<div class="filters"><input class="filter-input" id="productSearch" oninput="renderProducts()" placeholder="Search products..." style="flex:1;min-width:200px" type="text"/><select class="select-input" id="productCategoryFilter" onchange="renderProducts()"><option value="">All Categories</option></select><select class="select-input" id="productStatusFilter" onchange="renderProducts()"><option value="">All Status</option><option value="active">Active</option><option value="inactive">Inactive</option></select></div>
+<div class="card"><div class="table-wrap"><table><thead><tr><th>Product</th><th>SKU</th><th>Category</th><th>Price</th><th>Cost</th><th>Margin</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead><tbody id="productsBody"></tbody></table></div></div>
+</div>
+<!-- ===== INVENTORY ===== -->
+<div class="page" id="page-inventory">
+<div class="page-header"><div><div class="page-title">Inventory Management</div><div class="page-subtitle">Track stock levels across multiple warehouses with batch tracking.</div></div><div class="page-actions"><button class="btn btn-secondary" onclick="openStockAdjustModal()"><i class="fas fa-sliders"></i> Stock Adjust</button><button class="btn btn-primary" onclick="navigate('purchase')"><i class="fas fa-plus"></i> Purchase Order</button></div></div>
+<div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-warehouse"></i></div><div class="stat-label">Total Stock Value</div><div class="stat-value">$124,830</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-check-circle"></i></div><div class="stat-label">In Stock Items</div><div class="stat-value">142</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-triangle-exclamation"></i></div><div class="stat-label">Low Stock</div><div class="stat-value">3</div></div><div class="stat-card c5"><div class="stat-icon"><i class="fas fa-times-circle"></i></div><div class="stat-label">Out of Stock</div><div class="stat-value">1</div></div></div>
+<div class="card"><div class="card-header"><div class="card-title">Inventory Status</div><div class="filters" style="margin:0"><input class="filter-input" id="invSearch" oninput="renderInventory()" placeholder="Search..." style="min-width:120px" type="text"/><select class="select-input" id="invStatusFilter" onchange="renderInventory()"><option value="">All Status</option><option value="in">In Stock</option><option value="low">Low Stock</option><option value="out">Out of Stock</option></select></div></div><div class="table-wrap"><table><thead><tr><th>Product</th><th>SKU</th><th>Warehouse</th><th>Batch</th><th>Stock Level</th><th>Reorder Pt</th><th>Status</th><th>Actions</th></tr></thead><tbody id="inventoryBody"></tbody></table></div></div>
+</div>
+<!-- ===== CATEGORIES ===== -->
+<div class="page" id="page-categories">
+<div class="page-header"><div><div class="page-title">Categories &amp; Variants</div><div class="page-subtitle">Organize products into categories and manage variant attributes.</div></div><div class="page-actions"><button class="btn btn-primary" onclick="openCategoryModal()"><i class="fas fa-plus"></i> Add Category</button></div></div>
+<div class="grid-4" id="categoriesGrid"></div>
+</div>
+<!-- ===== BARCODE ===== -->
+<div class="page" id="page-barcode">
+<div class="page-header"><div><div class="page-title">Barcode &amp; SKU Management</div><div class="page-subtitle">Generate, print, and scan barcodes for your products.</div></div><div class="page-actions"><button class="btn btn-secondary" onclick="toast('Labels sent to printer','success')"><i class="fas fa-print"></i> Print All</button><button class="btn btn-primary" onclick="generateBarcode()"><i class="fas fa-plus"></i> Generate New</button></div></div>
+<div class="grid-2-eq">
+<div class="card">
+<div class="card-header"><div class="card-title">Live Barcode Scanner</div><button class="btn btn-ghost btn-sm" onclick="openBarcodeScannerPage()"><i class="fas fa-camera"></i> Open Scanner</button></div>
+<div class="card-body">
+<div class="scanner-container" id="scannerContainer">
+<div class="scanner-placeholder" id="scannerPlaceholder">
+<i class="fas fa-camera" style="font-size:48px;margin-bottom:12px;display:block"></i>
+<p>Click "Open Scanner" to start scanning barcodes with your camera</p>
+</div>
+<video id="scannerVideo" style="display:none"></video>
+<div class="scanner-overlay" id="scannerOverlay" style="display:none"></div>
+</div>
+<div class="scanner-controls">
+<select class="select-input" id="cameraSelect" style="flex:1;min-width:150px"></select>
+<button class="btn btn-primary btn-sm" id="startScanBtn" onclick="startScanner()"><i class="fas fa-play"></i> Start</button>
+<button class="btn btn-danger btn-sm" id="stopScanBtn" onclick="stopScanner()" style="display:none"><i class="fas fa-stop"></i> Stop</button>
+</div>
+<div class="scanner-result" id="scannerResult" style="display:none">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">Last Scanned</div><div id="scannedCode" style="font-family:'Courier New',monospace;font-size:22px;font-weight:700;letter-spacing:2px">—</div></div>
+<div id="scannedProduct" style="text-align:right"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">Product Barcodes</div></div>
+<div class="card-body" id="barcodeList" style="max-height:500px;overflow-y:auto"></div>
+</div>
+</div>
+</div>
+<!-- ===== ORDERS ===== -->
+<div class="page" id="page-orders">
+<div class="page-header"><div><div class="page-title">Orders</div><div class="page-subtitle">Track and manage all customer orders with returns support.</div></div><div class="page-actions"><button class="btn btn-secondary" onclick="openReturnModal()"><i class="fas fa-rotate-left"></i> Process Return</button><button class="btn btn-primary" onclick="navigate('pos')"><i class="fas fa-plus"></i> New Order</button></div></div>
+<div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-clock"></i></div><div class="stat-label">Pending</div><div class="stat-value">5</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-truck"></i></div><div class="stat-label">Shipped</div><div class="stat-value">23</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-check"></i></div><div class="stat-label">Delivered</div><div class="stat-value">1,248</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-rotate-left"></i></div><div class="stat-label">Returns</div><div class="stat-value">8</div></div></div>
+<div class="filters"><input class="filter-input" id="orderSearch" oninput="renderOrders()" placeholder="Search orders..." style="flex:1;min-width:200px" type="text"/><select class="select-input" id="orderStatusFilter" onchange="renderOrders()"><option value="">All Status</option><option value="pending">Pending</option><option value="processing">Processing</option><option value="shipped">Shipped</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option><option value="returned">Returned</option></select></div>
+<div class="card"><div class="table-wrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Payment</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody id="ordersBody"></tbody></table></div></div>
+</div>
+<!-- ===== CUSTOMERS ===== -->
+<div class="page" id="page-customers">
+<div class="page-header"><div><div class="page-title">Customers</div><div class="page-subtitle">Manage customer relationships, history, and loyalty.</div></div><div class="page-actions"><button class="btn btn-primary" onclick="openCustomerModal()"><i class="fas fa-user-plus"></i> Add Customer</button></div></div>
+<div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-label">Total Customers</div><div class="stat-value">892</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-user-plus"></i></div><div class="stat-label">New This Month</div><div class="stat-value">67</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-crown"></i></div><div class="stat-label">VIP Customers</div><div class="stat-value">34</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-repeat"></i></div><div class="stat-label">Repeat Rate</div><div class="stat-value">68%</div></div></div>
+<div class="filters"><input class="filter-input" id="customerSearch" oninput="renderCustomers()" placeholder="Search customers..." style="flex:1;min-width:200px" type="text"/><select class="select-input" id="customerTierFilter" onchange="renderCustomers()"><option value="">All Tiers</option><option value="regular">Regular</option><option value="silver">Silver</option><option value="gold">Gold</option><option value="platinum">Platinum</option></select></div>
+<div class="card"><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Email</th><th>Phone</th><th>Orders</th><th>Total Spent</th><th>Points</th><th>Tier</th><th>Actions</th></tr></thead><tbody id="customersBody"></tbody></table></div></div>
+</div>
+<!-- ===== LOYALTY ===== -->
+<div class="page" id="page-loyalty">
+<div class="page-header"><div><div class="page-title">Loyalty Program</div><div class="page-subtitle">Reward repeat customers with points, tiers, and perks.</div></div><div class="page-actions"><button class="btn btn-primary" onclick="toast('Loyalty settings updated','success')"><i class="fas fa-cog"></i> Program Settings</button></div></div>
+<div class="grid-4"><div class="card"><div class="card-body" style="text-align:center"><div style="font-size:28px;font-weight:800;color:var(--primary2)">1,245,680</div><div style="font-size:13px;color:var(--text3);margin-top:4px">Total Points Issued</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div style="font-size:28px;font-weight:800;color:var(--success)">487,230</div><div style="font-size:13px;color:var(--text3);margin-top:4px">Points Redeemed</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div style="font-size:28px;font-weight:800;color:var(--warning)">758,450</div><div style="font-size:13px;color:var(--text3);margin-top:4px">Points Balance</div></div></div><div class="card"><div class="card-body" style="text-align:center"><div style="font-size:28px;font-weight:800;color:var(--pink)">342</div><div style="font-size:13px;color:var(--text3);margin-top:4px">Active Members</div></div></div></div>
+<div class="grid-2-eq">
+<div class="card"><div class="card-header"><div class="card-title">Loyalty Tiers</div></div><div class="card-body">
+<div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface2);border-radius:10px;margin-bottom:8px"><div style="width:40px;height:40px;border-radius:50%;background:var(--surface3);display:flex;align-items:center;justify-content:center"><i class="fas fa-user" style="color:var(--text3)"></i></div><div style="flex:1"><div style="font-weight:700">Regular</div><div style="font-size:12px;color:var(--text3)">0-100 points • 1x multiplier</div></div><span style="font-weight:700">412</span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface2);border-radius:10px;margin-bottom:8px"><div style="width:40px;height:40px;border-radius:50%;background:rgba(192,192,192,.2);display:flex;align-items:center;justify-content:center"><i class="fas fa-user" style="color:silver"></i></div><div style="flex:1"><div style="font-weight:700">Silver</div><div style="font-size:12px;color:var(--text3)">100-500 points • 1.5x multiplier</div></div><span style="font-weight:700">248</span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface2);border-radius:10px;margin-bottom:8px"><div style="width:40px;height:40px;border-radius:50%;background:rgba(245,158,11,.2);display:flex;align-items:center;justify-content:center"><i class="fas fa-crown" style="color:var(--warning)"></i></div><div style="flex:1"><div style="font-weight:700">Gold</div><div style="font-size:12px;color:var(--text3)">500-2000 points • 2x multiplier</div></div><span style="font-weight:700">156</span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface2);border-radius:10px"><div style="width:40px;height:40px;border-radius:50%;background:rgba(139,92,246,.2);display:flex;align-items:center;justify-content:center"><i class="fas fa-gem" style="color:var(--purple)"></i></div><div style="flex:1"><div style="font-weight:700">Platinum</div><div style="font-size:12px;color:var(--text3)">2000+ points • 3x multiplier</div></div><span style="font-weight:700">76</span></div>
+</div></div>
+<div class="card"><div class="card-header"><div class="card-title">Reward Rules</div><button class="btn btn-ghost btn-sm" onclick="toast('Add reward rule','info')"><i class="fas fa-plus"></i></button></div><div class="card-body">
+<div style="padding:10px 0;border-bottom:1px solid var(--border)"><div style="font-weight:600;font-size:13px">$1 Spent = 1 Point</div><div style="font-size:12px;color:var(--text3)">Base earning rate</div></div>
+<div style="padding:10px 0;border-bottom:1px solid var(--border)"><div style="font-weight:600;font-size:13px">100 Points = $5 Discount</div><div style="font-size:12px;color:var(--text3)">Redemption rate</div></div>
+<div style="padding:10px 0;border-bottom:1px solid var(--border)"><div style="font-weight:600;font-size:13px">Birthday Bonus: 200 Points</div><div style="font-size:12px;color:var(--text3)">Automatic on birthday</div></div>
+<div style="padding:10px 0"><div style="font-weight:600;font-size:13px">Referral Bonus: 500 Points</div><div style="font-size:12px;color:var(--text3)">When referral makes first purchase</div></div>
+</div></div>
+</div>
+</div>
+<!-- ===== MARKETING ===== -->
+<div class="page" id="page-marketing">
+<div class="page-header"><div><div class="page-title">Marketing &amp; Promotions</div><div class="page-subtitle">Create campaigns, discounts, and promotional offers.</div></div><div class="page-actions"><button class="btn btn-primary" onclick="openCampaignModal()"><i class="fas fa-plus"></i> New Campaign</button></div></div>
+<div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-bullhorn"></i></div><div class="stat-label">Active Campaigns</div><div class="stat-value">4</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-envelope"></i></div><div class="stat-label">Emails Sent</div><div class="stat-value">12,450</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-mouse-pointer"></i></div><div class="stat-label">Open Rate</div><div class="stat-value">38.5%</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-tag"></i></div><div class="stat-label">Active Coupons</div><div class="stat-value">12</div></div></div>
+<div class="card"><div class="card-header"><div class="card-title">Active Campaigns</div></div><div class="table-wrap"><table><thead><tr><th>Campaign</th><th>Type</th><th>Discount</th><th>Status</th><th>Performance</th></tr></thead><tbody id="campaignsBody"></tbody></table></div></div>
+<div class="card"><div class="card-header"><div class="card-title">Active Coupons &amp; Promotions</div><button class="btn btn-ghost btn-sm" onclick="toast('Coupon created','success')"><i class="fas fa-plus"></i> Add Coupon</button></div><div class="table-wrap"><table><thead><tr><th>Code</th><th>Description</th><th>Discount</th><th>Used/Limit</th><th>Expiry</th><th>Status</th></tr></thead><tbody id="couponsBody"></tbody></table></div></div>
+</div>
+<!-- ===== SUPPLIERS ===== -->
+<div class="page" id="page-suppliers">
+<div class="page-header"><div><div class="page-title">Suppliers</div><div class="page-subtitle">Manage supplier relationships and performance.</div></div><div class="page-actions"><button class="btn btn-primary" onclick="openSupplierModal()"><i class="fas fa-plus"></i> Add Supplier</button></div></div>
+<div class="filters"><input class="filter-input" id="supplierSearch" oninput="renderSuppliers()" placeholder="Search suppliers..." style="flex:1;min-width:200px" type="text"/></div>
+<div class="card"><div class="table-wrap"><table><thead><tr><th>Supplier</th><th>Contact</th><th>Email</th><th>Phone</th><th>Products</th><th>Performance</th><th>Status</th><th>Actions</th></tr></thead><tbody id="suppliersBody"></tbody></table></div></div>
+</div>
+<!-- ===== PURCHASE ORDERS ===== -->
+<div class="page" id="page-purchase">
+<div class="page-header"><div><div class="page-title">Purchase Orders</div><div class="page-subtitle">Manage procurement and supplier orders.</div></div><div class="page-actions"><button class="btn btn-primary" onclick="openPurchaseOrderModal()"><i class="fas fa-plus"></i> Create PO</button></div></div>
+<div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-file-circle-plus"></i></div><div class="stat-label">Total POs</div><div class="stat-value">86</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-clock"></i></div><div class="stat-label">Pending</div><div class="stat-value">5</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-truck"></i></div><div class="stat-label">In Transit</div><div class="stat-value">12</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-check-circle"></i></div><div class="stat-label">Received</div><div class="stat-value">69</div></div></div>
+<div class="card"><div class="table-wrap"><table><thead><tr><th>PO Number</th><th>Supplier</th><th>Items</th><th>Total</th><th>Status</th><th>Expected</th><th>Actions</th></tr></thead><tbody id="purchaseOrdersBody"></tbody></table></div></div>
+</div>
+<!-- ===== HR & PAYROLL ===== -->
+<div class="page" id="page-hr">
+<div class="page-header"><div><div class="page-title">HR &amp; Payroll</div><div class="page-subtitle">Manage employees, attendance, and payroll.</div></div><div class="page-actions"><button class="btn btn-secondary" onclick="toast('Payslips generated','success')"><i class="fas fa-file-invoice-dollar"></i> Generate Payslips</button><button class="btn btn-primary" onclick="openStaffModal()"><i class="fas fa-user-plus"></i> Add Employee</button></div></div>
+<div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-label">Total Employees</div><div class="stat-value">12</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-user-check"></i></div><div class="stat-label">Present Today</div><div class="stat-value">10</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-money-bill-wave"></i></div><div class="stat-label">Monthly Payroll</div><div class="stat-value">$42,500</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-clock"></i></div><div class="stat-label">Avg Hours/Week</div><div class="stat-value">38.5</div></div></div>
+<div class="grid-2-eq">
+<div class="card"><div class="card-header"><div class="card-title">Employee Directory</div></div><div class="table-wrap"><table><thead><tr><th>Employee</th><th>Role</th><th>Salary</th><th>Status</th><th>Actions</th></tr></thead><tbody id="staffBody"></tbody></table></div></div>
+<div class="card"><div class="card-header"><div class="card-title">Today's Attendance</div></div><div class="card-body" id="attendanceBody"></div></div>
+</div>
+</div>
+<!-- ===== TASKS & SHIFTS ===== -->
+<div class="page" id="page-tasks">
+<div class="page-header"><div><div class="page-title">Tasks &amp; Shift Management</div><div class="page-subtitle">Assign tasks, manage shifts, and track productivity.</div></div></div>
+<div class="grid-2-eq">
+<div class="card"><div class="card-header"><div class="card-title">Task Board</div><button class="btn btn-ghost btn-sm" onclick="openTaskModal()"><i class="fas fa-plus"></i> Add Task</button></div><div class="card-body" style="padding:14px"><div class="kanban"><div class="kanban-col"><div class="kanban-col-header"><div class="kanban-col-title"><i class="fas fa-circle" style="color:var(--warning);font-size:8px"></i> To Do</div><span class="kanban-count" id="todoCount">0</span></div><div id="kanbanTodo"></div></div><div class="kanban-col"><div class="kanban-col-header"><div class="kanban-col-title"><i class="fas fa-circle" style="color:var(--primary);font-size:8px"></i> In Progress</div><span class="kanban-count" id="progressCount">0</span></div><div id="kanbanProgress"></div></div><div class="kanban-col"><div class="kanban-col-header"><div class="kanban-col-title"><i class="fas fa-circle" style="color:var(--success);font-size:8px"></i> Done</div><span class="kanban-count" id="doneCount">0</span></div><div id="kanbanDone"></div></div></div></div></div>
+<div class="card"><div class="card-header"><div class="card-title">Weekly Shift Schedule</div></div><div class="table-wrap"><table><thead><tr><th>Employee</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr></thead><tbody id="shiftsBody"></tbody></table></div></div>
+</div>
+</div>
+<!-- ===== E-COMMERCE ===== -->
+<div class="page" id="page-ecommerce">
+<div class="page-header"><div><div class="page-title">E-Commerce Platform</div><div class="page-subtitle">Manage your online store, channels, and digital presence.</div></div><div class="page-actions"><button class="btn btn-secondary" onclick="toast('Opening online store','info')"><i class="fas fa-globe"></i> View Store</button><button class="btn btn-primary" onclick="toast('Product published to store','success')"><i class="fas fa-upload"></i> Publish</button></div></div>
+<div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-cart-shopping"></i></div><div class="stat-label">Online Orders</div><div class="stat-value">542</div><div class="stat-trend up"><i class="fas fa-arrow-up"></i> 18.2%</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-eye"></i></div><div class="stat-label">Store Visits</div><div class="stat-value">24,560</div><div class="stat-trend up"><i class="fas fa-arrow-up"></i> 12.4%</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-percent"></i></div><div class="stat-label">Conversion Rate</div><div class="stat-value">2.2%</div><div class="stat-trend up"><i class="fas fa-arrow-up"></i> 0.3%</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-star"></i></div><div class="stat-label">Avg Rating</div><div class="stat-value">4.6</div></div></div>
+<div class="grid-2-eq">
+<div class="card"><div class="card-header"><div class="card-title">Sales Channels</div></div><div class="card-body">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:center;gap:12px"><i class="fas fa-globe" style="font-size:22px;color:var(--primary2)"></i><div><div style="font-weight:600">Web Store</div><div style="font-size:12px;color:var(--text3)">shopflow.com</div></div></div><label class="toggle"><input checked="" type="checkbox"/><span class="toggle-slider"></span></label></div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:center;gap:12px"><i class="fab fa-amazon" style="font-size:22px;color:#ff9900"></i><div><div style="font-weight:600">Amazon</div><div style="font-size:12px;color:var(--text3)">Marketplace sync</div></div></div><label class="toggle"><input checked="" type="checkbox"/><span class="toggle-slider"></span></label></div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:center;gap:12px"><i class="fab fa-shopify" style="font-size:22px;color:#95BF47"></i><div><div style="font-weight:600">Shopify</div><div style="font-size:12px;color:var(--text3)">Cross-platform sync</div></div></div><label class="toggle"><input type="checkbox"/><span class="toggle-slider"></span></label></div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0"><div style="display:flex;align-items:center;gap:12px"><i class="fab fa-instagram" style="font-size:22px;color:#E4405F"></i><div><div style="font-weight:600">Instagram Shop</div><div style="font-size:12px;color:var(--text3)">Social commerce</div></div></div><label class="toggle"><input checked="" type="checkbox"/><span class="toggle-slider"></span></label></div>
+</div></div>
+<div class="card"><div class="card-header"><div class="card-title">Recent Reviews</div></div><div class="card-body" id="reviewsBody"></div></div>
+</div>
+<div class="card" style="margin-top:16px"><div class="card-header"><div class="card-title">Online Order Fulfillment Status</div></div><div class="card-body">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px">
+<div style="text-align:center;padding:16px;background:var(--surface2);border-radius:10px"><div style="font-size:28px;font-weight:800;color:var(--warning)">23</div><div style="font-size:12px;color:var(--text3);margin-top:4px">Pending Fulfillment</div></div>
+<div style="text-align:center;padding:16px;background:var(--surface2);border-radius:10px"><div style="font-size:28px;font-weight:800;color:var(--primary2)">45</div><div style="font-size:12px;color:var(--text3);margin-top:4px">Shipped</div></div>
+<div style="text-align:center;padding:16px;background:var(--surface2);border-radius:10px"><div style="font-size:28px;font-weight:800;color:var(--success)">468</div><div style="font-size:12px;color:var(--text3);margin-top:4px">Delivered</div></div>
+<div style="text-align:center;padding:16px;background:var(--surface2);border-radius:10px"><div style="font-size:28px;font-weight:800;color:var(--danger)">6</div><div style="font-size:12px;color:var(--text3);margin-top:4px">Returns Requested</div></div>
+</div>
+</div></div>
+</div>
+<!-- ===== FINANCE ===== -->
+<div class="page" id="page-finance">
+<div class="page-header"><div><div class="page-title">Finance &amp; Tax Management</div><div class="page-subtitle">Track expenses, revenue, taxes, and generate financial reports.</div></div><div class="page-actions"><button class="btn btn-secondary" onclick="toast('P&amp;L exported','success')"><i class="fas fa-file-export"></i> Export P&amp;L</button><button class="btn btn-primary" onclick="openExpenseModal()"><i class="fas fa-plus"></i> Add Expense</button></div></div>
+<div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-arrow-up"></i></div><div class="stat-label">Total Revenue (MTD)</div><div class="stat-value">Rs 48,562</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-arrow-down"></i></div><div class="stat-label">Total Expenses (MTD)</div><div class="stat-value">Rs 30,268</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-coins"></i></div><div class="stat-label">Net Profit</div><div class="stat-value">Rs 18,294</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-percentage"></i></div><div class="stat-label">Profit Margin</div><div class="stat-value">37.7%</div></div></div>
+<div class="grid-2-eq">
+<div class="card"><div class="card-header"><div class="card-title">Revenue vs Expenses</div></div><div class="card-body"><div style="height:280px;padding:10px 0"><canvas id="financeChart"></canvas></div></div></div>
+<div class="card"><div class="card-header"><div class="card-title">Tax Summary</div></div><div class="table-wrap"><table><thead><tr><th>Tax Type</th><th>Rate</th><th>Collected</th><th>Status</th></tr></thead><tbody><tr><td>Sales Tax</td><td>8%</td><td class="td-primary">Rs 3,884.96</td><td><span class="tag tag-warning">Due Jan 31</span></td></tr><tr><td>VAT</td><td>0%</td><td>Rs 0.00</td><td><span class="tag tag-success">N/A</span></td></tr><tr><td>Payroll Tax</td><td>7.5%</td><td class="td-primary">Rs 3,187.50</td><td><span class="tag tag-warning">Due Feb 15</span></td></tr><tr><td>Income Tax (Est.)</td><td>21%</td><td class="td-primary">Rs 3,841.74</td><td><span class="tag tag-info">Quarterly</span></td></tr></tbody></table></div></div>
+</div>
+<div class="card"><div class="card-header"><div class="card-title">Recent Expenses</div><button class="btn btn-ghost btn-sm" onclick="openExpenseModal()"><i class="fas fa-plus"></i> Add</button></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Description</th><th>Category</th><th>Amount</th><th>Payment</th><th>Actions</th></tr></thead><tbody id="expensesBody"></tbody></table></div></div>
+</div>
+<!-- ===== REPORTS ===== -->
+<div class="page" id="page-reports">
+<div class="page-header"><div><div class="page-title">Reports &amp; Analytics</div><div class="page-subtitle">Deep insights into your business performance.</div></div><div class="page-actions"><select class="select-input"><option>Last 30 Days</option><option>Last 7 Days</option><option>This Quarter</option><option>This Year</option></select><button class="btn btn-primary" onclick="toast('Report downloaded','success')"><i class="fas fa-download"></i> Download</button></div></div>
+<div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-chart-line"></i></div><div class="stat-label">Gross Revenue</div><div class="stat-value">Rs 48,562</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-coins"></i></div><div class="stat-label">Net Profit</div><div class="stat-value">Rs 18,294</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-receipt"></i></div><div class="stat-label">Avg Order Value</div><div class="stat-value">Rs 37.82</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-shopping-basket"></i></div><div class="stat-label">Items per Order</div><div class="stat-value">3.2</div></div></div>
+<div class="grid-2"><div class="card"><div class="card-header"><div class="card-title">Monthly Sales Trend</div></div><div class="card-body"><div style="height:280px;padding:10px 0"><canvas id="salesTrendChart"></canvas></div></div></div><div class="card"><div class="card-header"><div class="card-title">Top Products by Revenue</div></div><div class="card-body" id="topProductsReport"></div></div></div>
+<div class="grid-2"><div class="card"><div class="card-header"><div class="card-title">Payment Methods</div></div><div class="card-body" id="paymentMethodsReport"></div></div><div class="card"><div class="card-header"><div class="card-title">Sales by Day of Week</div></div><div class="card-body"><div style="height:280px;padding:10px 0"><canvas id="dayOfWeekChart"></canvas></div></div></div></div>
+</div>
+<!-- ===== SETTINGS ===== -->
+<div class="page" id="page-settings">
+<div class="page-header"><div><div class="page-title">Settings</div><div class="page-subtitle">Configure your store, integrations, and preferences.</div></div></div>
+<div class="tabs">
+<div class="tab active" onclick="switchTab(event,'tab-general')">General</div>
+<div class="tab" onclick="switchTab(event,'tab-tax')">Tax &amp; Currency</div>
+<div class="tab" onclick="switchTab(event,'tab-payment')">Payments</div>
+<div class="tab" onclick="switchTab(event,'tab-backup')">Backup &amp; Restore</div>
+<div class="tab" onclick="switchTab(event,'tab-integrations')">Integrations</div>
+<div class="tab" onclick="switchTab(event,'tab-compliance')">Compliance</div>
+<div class="tab" onclick="switchTab(event,'tab-notif')">Notifications</div>
+</div>
+<div class="tab-content" id="tab-general">
+<div class="card"><div class="card-header"><div class="card-title">Store Information</div></div><div class="card-body">
+<div class="form-row"><div class="form-group"><label class="form-label">Store Name</label><input class="form-input" type="text" value="ShopFlow Superstore"/></div><div class="form-group"><label class="form-label">Store Type</label><select class="form-select"><option>Retail Store</option><option>Wholesale</option><option>E-commerce</option><option>Hybrid</option></select></div></div>
+<div class="form-group"><label class="form-label">Store Address</label><input class="form-input" type="text" value="123 Commerce Street, New York, NY 10001"/></div>
+<div class="form-row-3"><div class="form-group"><label class="form-label">Phone</label><input class="form-input" type="text" value="+1 (555) 123-4567"/></div><div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" value="contact@shopflow.com"/></div><div class="form-group"><label class="form-label">Website</label><input class="form-input" type="text" value="www.shopflow.com"/></div></div>
+<div class="form-row"><div class="form-group"><label class="form-label">Timezone</label><select class="form-select"><option>UTC-05:00 Eastern Time</option><option>UTC-08:00 Pacific Time</option><option>UTC+00:00 GMT</option><option>UTC+05:00 Pakistan Standard Time</option><option>UTC+05:30 India Standard Time</option></select></div><div class="form-group"><label class="form-label">Date Format</label><select class="form-select"><option>MM/DD/YYYY</option><option>DD/MM/YYYY</option><option>YYYY-MM-DD</option></select></div></div>
+<button class="btn btn-primary" onclick="toast('Settings saved!','success')"><i class="fas fa-save"></i> Save Changes</button>
+</div></div>
+</div>
+<div class="tab-content" id="tab-tax" style="display:none">
+<div class="card"><div class="card-header"><div class="card-title">Tax &amp; Currency Settings</div></div><div class="card-body">
+<div class="form-row"><div class="form-group"><label class="form-label">Currency</label><select class="form-select" id="currencySelect" onchange="changeCurrency()"><option data-code="USD" value="$">USD - US Dollar ($)</option><option data-code="EUR" value="€">EUR - Euro (€)</option><option data-code="GBP" value="£">GBP - British Pound (£)</option><option data-code="INR" value="₹">INR - Indian Rupee (₹)</option><option data-code="PKR" value="₨">PKR - Pakistani Rupee (₨)</option><option data-code="JPY" value="¥">JPY - Japanese Yen (¥)</option><option data-code="NGN" value="₦">NGN - Nigerian Naira (₦)</option><option data-code="ZAR" value="R">ZAR - South African Rand (R)</option><option data-code="CAD" value="C$">CAD - Canadian Dollar (C$)</option><option data-code="AUD" value="A$">AUD - Australian Dollar (A$)</option></select></div><div class="form-group"><label class="form-label">Symbol Position</label><select class="form-select"><option>Before amount ($100)</option><option>After amount (100$)</option></select></div></div>
+<div class="form-row-3"><div class="form-group"><label class="form-label">Default Tax Rate (%)</label><input class="form-input" type="number" value="8"/></div><div class="form-group"><label class="form-label">State Tax (%)</label><input class="form-input" type="number" value="4"/></div><div class="form-group"><label class="form-label">Local Tax (%)</label><input class="form-input" type="number" value="2"/></div></div>
+<div class="form-group"><label class="form-label">Tax Included in Prices?</label><label class="toggle"><input type="checkbox"/><span class="toggle-slider"></span></label></div>
+<button class="btn btn-primary" onclick="toast('Tax settings saved!','success')"><i class="fas fa-save"></i> Save</button>
+</div></div>
+</div>
+<div class="tab-content" id="tab-payment" style="display:none">
+<div class="card"><div class="card-header"><div class="card-title">Payment Methods</div></div><div class="card-body">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:center;gap:12px"><i class="fab fa-cc-visa" style="font-size:28px;color:#1a1f71"></i><div><div style="font-weight:600">Credit/Debit Cards</div><div style="font-size:12px;color:var(--text3)">Visa, Mastercard, Amex</div></div></div><label class="toggle"><input checked="" type="checkbox"/><span class="toggle-slider"></span></label></div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:center;gap:12px"><i class="fab fa-paypal" style="font-size:24px;color:#003087"></i><div><div style="font-weight:600">PayPal</div><div style="font-size:12px;color:var(--text3)">Online payments</div></div></div><label class="toggle"><input checked="" type="checkbox"/><span class="toggle-slider"></span></label></div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:center;gap:12px"><i class="fas fa-money-bill-wave" style="font-size:22px;color:var(--success)"></i><div><div style="font-weight:600">Cash</div><div style="font-size:12px;color:var(--text3)">In-store payments</div></div></div><label class="toggle"><input checked="" type="checkbox"/><span class="toggle-slider"></span></label></div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0"><div style="display:flex;align-items:center;gap:12px"><i class="fab fa-apple-pay" style="font-size:24px"></i><div><div style="font-weight:600">Apple Pay</div><div style="font-size:12px;color:var(--text3)">Contactless payments</div></div></div><label class="toggle"><input checked="" type="checkbox"/><span class="toggle-slider"></span></label></div>
+<button class="btn btn-primary" onclick="toast('Payment settings saved!','success')"><i class="fas fa-save"></i> Save</button>
+</div></div>
+</div>
+<div class="tab-content" id="tab-backup" style="display:none">
+<div class="grid-2-eq">
+<div class="card"><div class="card-header"><div class="card-title">Backup &amp; Restore</div></div><div class="card-body">
+<div class="backup-card"><div style="display:flex;align-items:center;gap:12px;margin-bottom:8px"><i class="fas fa-download" style="color:var(--primary2);font-size:20px"></i><div style="font-weight:700">Manual Backup</div></div><div style="font-size:12px;color:var(--text3);margin-bottom:12px">Download a full backup of your shop data, settings, and history.</div><button class="btn btn-primary btn-sm" onclick="createLocalBackup()"><i class="fas fa-download"></i> Download Backup</button></div>
+<div class="backup-card"><div style="display:flex;align-items:center;gap:12px;margin-bottom:8px"><i class="fas fa-upload" style="color:var(--success);font-size:20px"></i><div style="font-weight:700">Restore from File</div></div><div style="font-size:12px;color:var(--text3);margin-bottom:12px">Upload a backup file to restore your data. This will overwrite current data.</div><button class="btn btn-secondary btn-sm" onclick="toast('Restore dialog opened','info')"><i class="fas fa-upload"></i> Upload &amp; Restore</button></div>
+<div class="backup-card"><div style="display:flex;align-items:center;gap:12px;margin-bottom:8px"><i class="fas fa-clock-rotate-left" style="color:var(--warning);font-size:20px"></i><div style="font-weight:700">Scheduled Backups</div></div><div style="font-size:12px;color:var(--text3);margin-bottom:12px">Automatically backup your data at regular intervals.</div>
+<div class="form-row"><select class="form-select"><option>Daily at 2:00 AM</option><option>Every 12 hours</option><option>Weekly on Sunday</option><option>Monthly on 1st</option></select><button class="btn btn-success btn-sm" onclick="toast('Schedule enabled!','success')">Enable</button></div>
+</div>
+</div></div>
+<div class="card"><div class="card-header"><div class="card-title"><i class="fab fa-google-drive" style="color:#4285F4;margin-right:8px"></i>Google Drive Sync</div></div><div class="card-body">
+<div id="gdriveStatus">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><i class="fab fa-google" style="font-size:36px;color:#4285F4"></i><div><div style="font-weight:700">Connect Google Drive</div><div style="font-size:12px;color:var(--text3)">Securely backup and sync your data to your own Google Drive account.</div></div></div>
+<button class="btn btn-primary" onclick="connectGdrive()"><i class="fas fa-link"></i> Connect with Google</button>
+</div>
+</div></div>
+</div>
+<div class="card" style="margin-top:16px"><div class="card-header"><div class="card-title">Version History</div></div><div class="card-body" id="versionHistory"></div></div>
+</div>
+<div class="tab-content" id="tab-integrations" style="display:none">
+<div class="card"><div class="card-header"><div class="card-title">Third-Party Integrations</div></div><div class="card-body">
+<div class="grid-2-eq">
+<div style="padding:16px;background:var(--surface2);border-radius:10px;border:1px solid var(--border)"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div style="display:flex;align-items:center;gap:10px"><i class="fas fa-shipping-fast" style="font-size:22px;color:var(--accent)"></i><span style="font-weight:700">ShipStation</span></div><span class="tag tag-success">Connected</span></div><div style="font-size:12px;color:var(--text3)">Shipping &amp; fulfillment integration</div></div>
+<div style="padding:16px;background:var(--surface2);border-radius:10px;border:1px solid var(--border)"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div style="display:flex;align-items:center;gap:10px"><i class="fas fa-envelope" style="font-size:22px;color:var(--warning)"></i><span style="font-weight:700">Mailchimp</span></div><span class="tag tag-success">Connected</span></div><div style="font-size:12px;color:var(--text3)">Email marketing automation</div></div>
+<div style="padding:16px;background:var(--surface2);border-radius:10px;border:1px solid var(--border)"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div style="display:flex;align-items:center;gap:10px"><i class="fas fa-chart-pie" style="font-size:22px;color:var(--success)"></i><span style="font-weight:700">QuickBooks</span></div><span class="tag tag-success">Connected</span></div><div style="font-size:12px;color:var(--text3)">Accounting &amp; bookkeeping</div></div>
+<div style="padding:16px;background:var(--surface2);border-radius:10px;border:1px solid var(--border)"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div style="display:flex;align-items:center;gap:10px"><i class="fab fa-google" style="font-size:22px;color:#4285F4"></i><span style="font-weight:700">Google Analytics</span></div><span class="tag tag-success">Connected</span></div><div style="font-size:12px;color:var(--text3)">Web analytics tracking</div></div>
+</div>
+</div></div>
+</div>
+<div class="tab-content" id="tab-compliance" style="display:none">
+<div class="card"><div class="card-header"><div class="card-title">Compliance &amp; Security</div></div><div class="card-body">
+<div class="compliance-card"><div class="compliance-icon" style="background:rgba(16,185,129,.2);color:var(--success)"><i class="fas fa-shield-halved"></i></div><div style="flex:1"><div style="font-weight:700">PCI DSS Compliance</div><div style="font-size:12px;color:var(--text3)">Payment Card Industry Data Security Standard</div></div><span class="tag tag-success">Compliant</span></div>
+<div class="compliance-card"><div class="compliance-icon" style="background:rgba(16,185,129,.2);color:var(--success)"><i class="fas fa-lock"></i></div><div style="flex:1"><div style="font-weight:700">SSL Certificate</div><div style="font-size:12px;color:var(--text3)">256-bit encryption • Expires Mar 2025</div></div><span class="tag tag-success">Active</span></div>
+<div class="compliance-card"><div class="compliance-icon" style="background:rgba(6,182,212,.2);color:var(--accent)"><i class="fas fa-database"></i></div><div style="flex:1"><div style="font-weight:700">GDPR Compliance</div><div style="font-size:12px;color:var(--text3)">General Data Protection Regulation</div></div><span class="tag tag-info">Review Due</span></div>
+<div class="compliance-card"><div class="compliance-icon" style="background:rgba(245,158,11,.2);color:var(--warning)"><i class="fas fa-file-contract"></i></div><div style="flex:1"><div style="font-weight:700">Business License</div><div style="font-size:12px;color:var(--text3)">NY State Retail License #NY-2024-7890</div></div><span class="tag tag-warning">Renew Jun 2025</span></div>
+</div></div>
+</div>
+<div class="tab-content" id="tab-notif" style="display:none">
+<div class="card"><div class="card-header"><div class="card-title">Notification Preferences</div></div><div class="card-body">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)"><div><div style="font-weight:600">Low Stock Alerts</div><div style="font-size:12px;color:var(--text3)">Get notified when products are running low</div></div><label class="toggle"><input checked="" type="checkbox"/><span class="toggle-slider"></span></label></div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)"><div><div style="font-weight:600">New Order Notifications</div><div style="font-size:12px;color:var(--text3)">Alert me when new orders come in</div></div><label class="toggle"><input checked="" type="checkbox"/><span class="toggle-slider"></span></label></div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)"><div><div style="font-weight:600">Daily Sales Summary</div><div style="font-size:12px;color:var(--text3)">Receive a daily email with sales summary</div></div><label class="toggle"><input checked="" type="checkbox"/><span class="toggle-slider"></span></label></div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0"><div><div style="font-weight:600">Customer Reviews</div><div style="font-size:12px;color:var(--text3)">Notifications for new customer reviews</div></div><label class="toggle"><input checked="" type="checkbox"/><span class="toggle-slider"></span></label></div>
+<button class="btn btn-primary" onclick="toast('Preferences saved!','success')"><i class="fas fa-save"></i> Save</button>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav" id="bottomNav">
-  <div class="bottom-nav-item active" data-page="dashboard" onclick="navigate('dashboard')"><i class="fas fa-chart-line"></i><span>Home</span></div>
-  <div class="bottom-nav-item" data-page="pos" onclick="navigate('pos')"><i class="fas fa-cash-register"></i><span>POS</span></div>
-  <div class="bottom-nav-item" data-page="products" onclick="navigate('products')"><i class="fas fa-box"></i><span>Products</span></div>
-  <div class="bottom-nav-item" data-page="inventory" onclick="navigate('inventory')"><i class="fas fa-warehouse"></i><span>Inventory</span></div>
-  <div class="bottom-nav-item" data-page="categories" onclick="navigate('categories')"><i class="fas fa-tags"></i><span>Categories</span></div>
-  <div class="bottom-nav-item" data-page="orders" onclick="navigate('orders')"><i class="fas fa-shopping-cart"></i><span>Orders</span></div>
-  <div class="bottom-nav-item" data-page="customers" onclick="navigate('customers')"><i class="fas fa-users"></i><span>Customers</span></div>
-  <div class="bottom-nav-item" data-page="suppliers" onclick="navigate('suppliers')"><i class="fas fa-truck"></i><span>Suppliers</span></div>
-  <div class="bottom-nav-item" data-page="reports" onclick="navigate('reports')"><i class="fas fa-chart-pie"></i><span>Reports</span></div>
-  <div class="bottom-nav-item" data-page="finance" onclick="navigate('finance')"><i class="fas fa-money-bill-trend-up"></i><span>Finance</span></div>
-  <div class="bottom-nav-item" data-page="settings" onclick="navigate('settings')"><i class="fas fa-gear"></i><span>Settings</span></div>
+<div class="bottom-nav-item active" data-page="dashboard" onclick="navigate('dashboard')"><i class="fas fa-chart-line"></i><span>Home</span></div>
+<div class="bottom-nav-item" data-page="pos" onclick="navigate('pos')"><i class="fas fa-cash-register"></i><span>POS</span></div>
+<div class="bottom-nav-item" data-page="products" onclick="navigate('products')"><i class="fas fa-box"></i><span>Products</span></div>
+<div class="bottom-nav-item" data-page="inventory" onclick="navigate('inventory')"><i class="fas fa-warehouse"></i><span>Inventory</span></div>
+<div class="bottom-nav-item" data-page="categories" onclick="navigate('categories')"><i class="fas fa-tags"></i><span>Categories</span></div>
+<div class="bottom-nav-item" data-page="orders" onclick="navigate('orders')"><i class="fas fa-shopping-cart"></i><span>Orders</span></div>
+<div class="bottom-nav-item" data-page="customers" onclick="navigate('customers')"><i class="fas fa-users"></i><span>Customers</span></div>
+<div class="bottom-nav-item" data-page="suppliers" onclick="navigate('suppliers')"><i class="fas fa-truck"></i><span>Suppliers</span></div>
+<div class="bottom-nav-item" data-page="reports" onclick="navigate('reports')"><i class="fas fa-chart-pie"></i><span>Reports</span></div>
+<div class="bottom-nav-item" data-page="finance" onclick="navigate('finance')"><i class="fas fa-money-bill-trend-up"></i><span>Finance</span></div>
+<div class="bottom-nav-item" data-page="settings" onclick="navigate('settings')"><i class="fas fa-gear"></i><span>Settings</span></div>
 </nav>
-
 <!-- CONTEXT MENU -->
 <div class="context-menu" id="contextMenu" style="display:none">
-  <div class="context-menu-item" onclick="quickSellFromContextMenu()"><i class="fas fa-cart-plus"></i> Quick Sell</div>
+<div class="context-menu-item" onclick="quickSellFromContextMenu()"><i class="fas fa-cart-plus"></i> Quick Sell</div>
 </div>
-
 <!-- NOTIFICATION PANEL -->
 <div class="notif-panel" id="notifPanel">
-  <div class="notif-header"><div style="font-size:18px;font-weight:700">Notifications & Messages</div><div class="icon-btn" onclick="toggleNotifPanel()"><i class="fas fa-times"></i></div></div>
-  <div class="notif-tabs">
-    <div class="notif-tab active" onclick="switchNotifTab(event,'notifications')">Notifications <span style="background:var(--danger);color:#fff;padding:1px 6px;border-radius:8px;font-size:10px;margin-left:4px">3</span></div>
-    <div class="notif-tab" onclick="switchNotifTab(event,'messages')">Messages <span style="background:var(--primary);color:#fff;padding:1px 6px;border-radius:8px;font-size:10px;margin-left:4px">2</span></div>
-  </div>
-  <div class="notif-list" id="notifList"></div>
+<div class="notif-header"><div style="font-size:18px;font-weight:700">Notifications &amp; Messages</div><div class="icon-btn" onclick="toggleNotifPanel()"><i class="fas fa-times"></i></div></div>
+<div class="notif-tabs">
+<div class="notif-tab active" onclick="switchNotifTab(event,'notifications')">Notifications <span style="background:var(--danger);color:#fff;padding:1px 6px;border-radius:8px;font-size:10px;margin-left:4px">3</span></div>
+<div class="notif-tab" onclick="switchNotifTab(event,'messages')">Messages <span style="background:var(--primary);color:#fff;padding:1px 6px;border-radius:8px;font-size:10px;margin-left:4px">2</span></div>
 </div>
-
+<div class="notif-list" id="notifList"></div>
+</div>
 <div class="modal-overlay" id="modalOverlay"><div class="modal" id="modalContent"></div></div>
 <div class="toast-container" id="toastContainer"></div>
-
 <script>
 // ===== STATE PERSISTENCE (window.name based, no localStorage) =====
 function saveState(){
@@ -1424,5 +1398,5 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();docume
 // Start the app
 initApp();
 </script>
-</body>
+<script src="./pwa-register.js" type="module"></script></body>
 </html>
