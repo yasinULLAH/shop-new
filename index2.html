@@ -2500,8 +2500,8 @@
 <div class="cart">
 <div class="cart-header">
 <div class="cart-title"><i class="fas fa-shopping-cart" style="color:var(--primary2)"></i> Current
-                    Order <span id="cartCount" style="color:var(--text3);font-weight:400;font-size:13px">(0
-                      items)</span></div>
+Order <span id="cartCount" style="color:var(--text3);font-weight:400;font-size:13px">(0
+items)</span></div>
 </div>
 <div class="cart-items" id="cartItems">
 <div class="empty-state"><i class="fas fa-cart-shopping"></i>
@@ -2527,6 +2527,26 @@
 <div class="cart-actions"><button class="btn btn-secondary" onclick="clearCart()"><i class="fas fa-trash"></i> Clear</button><button class="btn btn-primary" onclick="checkout()"><i class="fas fa-credit-card"></i> Checkout</button></div>
 </div>
 </div>
+</div>
+</div>
+<!-- Mobile Cart FAB + Bottom Sheet -->
+<button class="pos-cart-fab" id="cartFab" onclick="toggleCartSheet()">
+<i class="fas fa-shopping-cart"></i>
+<span class="badge" id="cartFabBadge">0</span>
+</button>
+<div class="cart-sheet-overlay" id="cartSheetOverlay" onclick="toggleCartSheet()"></div>
+<div class="cart-sheet" id="cartSheet">
+<div class="cart-sheet-handle"></div>
+<div class="cart-sheet-header">
+<div class="cart-title"><i class="fas fa-shopping-cart" style="color:var(--primary2)"></i> Cart <span id="cartSheetCount" style="color:var(--text3);font-weight:400;font-size:13px">(0 items)</span></div>
+<button class="btn btn-ghost btn-sm" onclick="clearCart();toggleCartSheet()"><i class="fas fa-trash"></i></button>
+</div>
+<div class="cart-sheet-body" id="cartSheetBody">
+<div class="empty-state"><i class="fas fa-cart-shopping"></i><p>No items in cart</p></div>
+</div>
+<div class="cart-sheet-footer">
+<div class="summary-row total" style="border:none;margin-bottom:12px;padding:0"><span>Total</span><span id="cartSheetTotal">$0.00</span></div>
+<button class="btn btn-primary" onclick="toggleCartSheet();checkout()"><i class="fas fa-credit-card"></i> Checkout</button>
 </div>
 </div>
 </div>
@@ -2791,6 +2811,7 @@
 <th>Phone</th>
 <th>Orders</th>
 <th>Total Spent</th>
+<th>Balance</th>
 <th>Points</th>
 <th>Tier</th>
 <th>Actions</th>
@@ -2996,6 +3017,7 @@
 <th>Email</th>
 <th>Phone</th>
 <th>Products</th>
+<th>Balance</th>
 <th>Performance</th>
 <th>Status</th>
 <th>Actions</th>
@@ -4221,6 +4243,17 @@ Please visit again.</textarea></div>
           const cf = document.getElementById('posCategoryFilter'); cf.innerHTML = '<option value="">All Categories</option>' + categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
           const cs = document.getElementById('posCustomer'); cs.innerHTML = '<option value="">Walk-in Customer</option>' + customers.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
           renderPOSProducts(); renderCart();
+          if (window.innerWidth <= 900) {
+            document.getElementById('cartFab').style.display = 'flex';
+          }
+        }
+        function toggleCartSheet() {
+          const overlay = document.getElementById('cartSheetOverlay');
+          const sheet = document.getElementById('cartSheet');
+          const isOpen = sheet.classList.contains('open');
+          sheet.classList.toggle('open');
+          overlay.classList.toggle('open');
+          document.body.style.overflow = isOpen ? '' : 'hidden';
         }
         function renderPOSProducts() {
           const s = (document.getElementById('posSearch')?.value || '').toLowerCase(), c = document.getElementById('posCategoryFilter')?.value || '';
@@ -4229,9 +4262,18 @@ Please visit again.</textarea></div>
         }
         function addToCart(id) { const p = products.find(x => x.id === id); if (!p || p.stock <= 0) { toast('Out of stock!', 'error'); return } const e = cart.find(x => x.id === id); if (e) { e.qty++; if (e.qty > p.stock) { e.qty--; toast('Not enough stock!', 'warning'); return } } else cart.push({ id: p.id, name: p.name, price: p.price, icon: p.icon, qty: 1, stock: p.stock }); renderCart(); toast(p.name + ' added', 'success') }
         function renderCart() {
+          const cartHtml = cart.length ? cart.map(i => `<div class="cart-item" style="cursor:pointer" onclick="openQtyKeypad(${i.id})"><div class="cart-item-icon"><i class="fas ${i.icon}"></i></div><div class="cart-item-info"><div class="cart-item-name">${i.name}</div><div class="cart-item-price">${currencySymbol}${i.price.toFixed(2)} each</div></div><div class="qty-control"><button class="qty-btn" onclick="event.stopPropagation();updateQty(${i.id},-1)">−</button><span class="qty-val">${i.qty}</span><button class="qty-btn" onclick="event.stopPropagation();updateQty(${i.id},1)">+</button></div><div class="cart-item-total">${currencySymbol}${(i.price * i.qty).toFixed(2)}</div><span class="cart-remove" onclick="event.stopPropagation();removeFromCart(${i.id})"><i class="fas fa-times"></i></span></div>`).join('') : '<div class="empty-state"><i class="fas fa-cart-shopping"></i><p>No items in cart</p></div>';
           const ci = document.getElementById('cartItems');
-          ci.innerHTML = cart.length ? cart.map(i => `<div class="cart-item"><div class="cart-item-icon"><i class="fas ${i.icon}"></i></div><div class="cart-item-info"><div class="cart-item-name">${i.name}</div><div class="cart-item-price">${currencySymbol}${i.price.toFixed(2)} each</div></div><div class="qty-control"><button class="qty-btn" onclick="updateQty(${i.id},-1)">−</button><span class="qty-val">${i.qty}</span><button class="qty-btn" onclick="updateQty(${i.id},1)">+</button></div><div class="cart-item-total">${currencySymbol}${(i.price * i.qty).toFixed(2)}</div><span class="cart-remove" onclick="removeFromCart(${i.id})"><i class="fas fa-times"></i></span></div>`).join('') : '<div class="empty-state"><i class="fas fa-cart-shopping"></i><p>No items in cart</p></div>';
-          document.getElementById('cartCount').textContent = `(${cart.reduce((s, x) => s + x.qty, 0)} items)`; updateCartTotals();
+          if (ci) ci.innerHTML = cartHtml;
+          const csb = document.getElementById('cartSheetBody');
+          if (csb) csb.innerHTML = cart.length ? cart.map(i => `<div class="cart-item cart-sheet-item"><div class="cart-item-icon"><i class="fas ${i.icon}"></i></div><div class="cart-item-info"><div class="cart-item-name">${i.name}</div><div class="cart-item-price">${currencySymbol}${i.price.toFixed(2)} each</div></div><div class="qty-control"><button class="qty-btn" onclick="updateQty(${i.id},-1)">−</button><span class="qty-val">${i.qty}</span><button class="qty-btn" onclick="updateQty(${i.id},1)">+</button></div><div class="cart-item-total">${currencySymbol}${(i.price * i.qty).toFixed(2)}</div><span class="cart-remove" onclick="removeFromCart(${i.id})"><i class="fas fa-times"></i></span></div>`).join('') : '<div class="empty-state"><i class="fas fa-cart-shopping"></i><p>No items in cart</p></div>';
+          const count = cart.reduce((s, x) => s + x.qty, 0);
+          document.getElementById('cartCount').textContent = `(${count} items)`;
+          const sc = document.getElementById('cartSheetCount');
+          if (sc) sc.textContent = `(${count} items)`;
+          const badge = document.getElementById('cartFabBadge');
+          if (badge) { badge.textContent = count; badge.style.display = count > 0 ? 'flex' : 'none'; }
+          updateCartTotals();
         }
         function updateQty(id, d) { const i = cart.find(x => x.id === id); if (!i) return; i.qty += d; if (i.qty <= 0) cart = cart.filter(x => x.id !== id); if (i.qty > i.stock) { i.qty = i.stock; toast('Max stock reached', 'warning') } renderCart() }
         function removeFromCart(id) { cart = cart.filter(x => x.id !== id); renderCart() }
@@ -4258,7 +4300,61 @@ Please visit again.</textarea></div>
         function saveStaff(id) { const name = document.getElementById('stN').value; const role = document.getElementById('stR').value; const salary = parseFloat(document.getElementById('stS').value); const email = document.getElementById('stE').value; const shift = document.getElementById('stSh').value; if (id) { const staffMember = staff.find(x => x.id === id); if (staffMember) { staffMember.name = name; staffMember.role = role; staffMember.salary = salary; staffMember.email = email; staffMember.shift = shift; } } else { staff.push({ id: nextStaffId++, name, role, salary, email, shift, status: 'active' }); } closeModal(); renderHR(); toast('Staff saved!', 'success') }
         function deleteCategory(id) { if (confirm('Delete this category? Products will be unassigned.')) { categories = categories.filter(x => x.id !== id); renderCategories(); toast('Category deleted', 'info') } }
         function deleteExpense(id) { if (confirm('Delete this expense?')) { expenses = expenses.filter(x => x.id !== id); renderFinance(); toast('Expense deleted', 'info') } }
-        function updateCartTotals() { const s = cart.reduce((s, x) => s + x.price * x.qty, 0), dv = parseFloat(document.getElementById('discountInput').value) || 0, dis = isNaN(dv) ? 0 : dv > 1 ? dv : s * dv / 100, t = s - dis, tax = t * 0.08, tot = t + tax; document.getElementById('cartSubtotal').textContent = currencySymbol + s.toFixed(2); document.getElementById('cartTax').textContent = currencySymbol + tax.toFixed(2); document.getElementById('cartDiscount').textContent = '-' + currencySymbol + dis.toFixed(2); document.getElementById('cartTotal').textContent = currencySymbol + tot.toFixed(2) }
+        function updateCartTotals() { const s = cart.reduce((s, x) => s + x.price * x.qty, 0), dv = parseFloat(document.getElementById('discountInput').value) || 0, dis = isNaN(dv) ? 0 : dv > 1 ? dv : s * dv / 100, t = s - dis, tax = t * 0.08, tot = t + tax; const ttl = currencySymbol + tot.toFixed(2); document.getElementById('cartSubtotal').textContent = currencySymbol + s.toFixed(2); document.getElementById('cartTax').textContent = currencySymbol + tax.toFixed(2); document.getElementById('cartDiscount').textContent = '-' + currencySymbol + dis.toFixed(2); document.getElementById('cartTotal').textContent = ttl; const cst = document.getElementById('cartSheetTotal'); if (cst) cst.textContent = ttl }
+
+        function openQtyKeypad(id) {
+          const item = cart.find(x => x.id === id);
+          if (!item) return;
+          const curQty = item.qty;
+          const maxQty = item.stock;
+          let val = curQty.toString();
+          const modal = document.getElementById('modalContent');
+          modal.innerHTML = `
+            <div class="modal-header">
+              <div class="modal-title">Set Quantity: ${item.name}</div>
+              <span class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></span>
+            </div>
+            <div class="modal-body" style="padding:16px">
+              <div class="qty-display" id="qtyDisplay">${val}</div>
+              <div class="qty-keypad" id="qtyKeypad">
+                <button onclick="keypadInput('1')">1</button>
+                <button onclick="keypadInput('2')">2</button>
+                <button onclick="keypadInput('3')">3</button>
+                <button onclick="keypadInput('4')">4</button>
+                <button onclick="keypadInput('5')">5</button>
+                <button onclick="keypadInput('6')">6</button>
+                <button onclick="keypadInput('7')">7</button>
+                <button onclick="keypadInput('8')">8</button>
+                <button onclick="keypadInput('9')">9</button>
+                <button class="key-clear" onclick="keypadClear()"><i class="fas fa-backspace"></i></button>
+                <button onclick="keypadInput('0')">0</button>
+                <button class="key-enter" onclick="keypadConfirm(${id})"><i class="fas fa-check"></i> SET</button>
+              </div>
+              <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--text3)">Max: ${maxQty} in stock</div>
+            </div>`;
+          window._keypadVal = val;
+          window._keypadItemId = id;
+          window._keypadMax = maxQty;
+          document.getElementById('modalOverlay').classList.add('active');
+        }
+        function keypadInput(d) {
+          const cur = window._keypadVal || '0';
+          let next = cur === '0' ? d : cur + d;
+          if (parseInt(next) > window._keypadMax) next = window._keypadMax.toString();
+          window._keypadVal = next;
+          document.getElementById('qtyDisplay').textContent = next;
+        }
+        function keypadClear() {
+          window._keypadVal = '0';
+          document.getElementById('qtyDisplay').textContent = '0';
+        }
+        function keypadConfirm(id) {
+          const qty = parseInt(window._keypadVal) || 1;
+          const item = cart.find(x => x.id === id);
+          if (item) item.qty = Math.min(Math.max(1, qty), item.stock);
+          closeModal();
+          renderCart();
+        }
 
         function checkout() {
           if (!cart.length) { toast('Cart is empty!', 'error'); return; }
@@ -4301,7 +4397,7 @@ Please visit again.</textarea></div>
                 const debt = tot - paid;
                 c.balance = (c.balance || 0) + debt;
                 if (!c.khata) c.khata = [];
-                c.khata.push({ date: new Date().toISOString().split('T')[0], orderId: oid, type: 'debit', amount: debt, note: 'Partial payment on POS checkout' });
+                c.khata.push({ id: c.khata.length + 1, date: new Date().toISOString().split('T')[0], desc: 'Invoice #' + oid + ' - Partial payment', debit: debt, credit: 0, type: 'bill' });
               }
             }
           }
@@ -4598,8 +4694,90 @@ Please visit again.</textarea></div>
         function renderOrders() { const s = (document.getElementById('orderSearch')?.value || '').toLowerCase(), st = document.getElementById('orderStatusFilter')?.value || ''; const f = orders.filter(o => (!s || o.id.toLowerCase().includes(s) || o.customer.toLowerCase().includes(s)) && (!st || o.status === st)); document.getElementById('ordersBody').innerHTML = f.length ? f.map(o => `<tr><td class="td-primary">${o.id}</td><td>${o.customer}</td><td>${o.items}</td><td class="td-primary">${currencySymbol}${o.total.toFixed(2)}</td><td><span class="tag tag-info">${o.payment}</span></td><td><span class="tag ${orderStatusTag(o.status)}">${o.status.charAt(0).toUpperCase() + o.status.slice(1)}</span></td><td>${o.date}</td><td><button class="btn btn-ghost btn-sm" onclick="viewOrder('${o.id}')"><i class="fas fa-eye"></i></button></td></tr>`).join('') : '<tr><td colspan="8"><div class="empty-state"><i class="fas fa-shopping-cart"></i><p>No orders</p></div></td></tr>' }
         function viewOrder(id) { const o = orders.find(x => x.id === id); document.getElementById('modalContent').innerHTML = `<div class="modal-header"><div class="modal-title">Order ${o.id}</div><span class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></span></div><div class="modal-body"><div style="margin:16px 0;padding:16px;background:var(--surface);border-radius:10px"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="color:var(--text3)">Customer</span><span>${o.customer}</span></div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="color:var(--text3)">Items</span><span>${o.items}</span></div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="color:var(--text3)">Payment</span><span>${o.payment}</span></div><div style="display:flex;justify-content:space-between;font-size:18px;font-weight:800;padding-top:8px;border-top:1px solid var(--border)"><span>Total</span><span style="color:var(--primary2)">${currencySymbol}${o.total.toFixed(2)}</span></div></div></div><div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="toast('Printed!','success');closeModal()"><i class="fas fa-print"></i> Print Invoice</button></div>`; document.getElementById('modalOverlay').classList.add('active') }
         function openReturnModal() { document.getElementById('modalContent').innerHTML = `<div class="modal-header"><div class="modal-title">Process Return</div><span class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></span></div><div class="modal-body"><div class="form-group"><label class="form-label">Order ID</label><select class="form-select">${orders.map(o => `<option>${o.id} — ${o.customer}</option>`).join('')}</select></div><div class="form-row"><div class="form-group"><label class="form-label">Reason</label><select class="form-select"><option>Damaged</option><option>Wrong item</option><option>Changed mind</option></select></div><div class="form-group"><label class="form-label">Refund Type</label><select class="form-select"><option>Full</option><option>Partial</option><option>Store credit</option></select></div></div></div><div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-danger" onclick="closeModal();toast('Return processed','success')"><i class="fas fa-rotate-left"></i> Process</button></div>`; document.getElementById('modalOverlay').classList.add('active') }
-        function renderCustomers() { const s = (document.getElementById('customerSearch')?.value || '').toLowerCase(), t = document.getElementById('customerTierFilter')?.value || ''; const f = customers.filter(c => (!s || c.name.toLowerCase().includes(s) || c.email.toLowerCase().includes(s)) && (!t || c.tier === t)); const tc = { regular: 'tag-info', silver: 'tag-info', gold: 'tag-warning', platinum: 'tag-primary' }; document.getElementById('customersBody').innerHTML = f.length ? f.map(c => `<tr><td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="width:36px;height:36px;font-size:13px">${c.name.split(' ').map(n => n[0]).join('').substring(0, 2)}</div><span class="td-primary">${c.name}</span></div></td><td>${c.email}</td><td>${c.phone}</td><td>${c.orders}</td><td class="td-primary">${currencySymbol}${c.total.toFixed(2)}</td><td>${c.points}</td><td><span class="tag ${tc[c.tier]}">${c.tier.charAt(0).toUpperCase() + c.tier.slice(1)}</span></td><td><button class="btn btn-ghost btn-sm" onclick="openCustomerModal(${c.id})"><i class="fas fa-edit"></i></button><button class="btn btn-ghost btn-sm" onclick="openKhataModal(\'customer\', ${c.id})" style="color:var(--primary)"><i class="fas fa-book"></i></button></td></tr>`).join('') : '<tr><td colspan="8"><div class="empty-state"><i class="fas fa-users"></i><p>No customers</p></div></td></tr>' }
-        function openCustomerModal(id) { const c = id ? customers.find(x => x.id === id) : null; document.getElementById('modalContent').innerHTML = `<div class="modal-header"><div class="modal-title">${c ? 'Edit' : 'Add'} Customer</div><span class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></span></div><div class="modal-body"><div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" id="cN" value="${c ? c.name : ''}"></div><div class="form-row"><div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="cE" value="${c ? c.email : ''}"></div><div class="form-group"><label class="form-label">Phone</label><input type="text" class="form-input" id="cP" value="${c ? c.phone : ''}"></div></div><div class="form-row"><div class="form-group"><label class="form-label">Tier</label><select class="form-select" id="cT"><option value="regular" ${c && c.tier === 'regular' ? 'selected' : ''}>Regular</option><option value="silver" ${c && c.tier === 'silver' ? 'selected' : ''}>Silver</option><option value="gold" ${c && c.tier === 'gold' ? 'selected' : ''}>Gold</option><option value="platinum" ${c && c.tier === 'platinum' ? 'selected' : ''}>Platinum</option></select></div><div class="form-group"><label class="form-label">Points</label><input type="number" class="form-input" id="cPts" value="${c ? c.points : 0}"></div></div></div><div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveCustomer(${id || 0})"><i class="fas fa-save"></i> Save</button></div>`; document.getElementById('modalOverlay').classList.add('active') }
+        function renderCustomers() { const s = (document.getElementById('customerSearch')?.value || '').toLowerCase(), t = document.getElementById('customerTierFilter')?.value || ''; const f = customers.filter(c => (!s || c.name.toLowerCase().includes(s) || c.email.toLowerCase().includes(s)) && (!t || c.tier === t)); const tc = { regular: 'tag-info', silver: 'tag-info', gold: 'tag-warning', platinum: 'tag-primary' }; document.getElementById('customersBody').innerHTML = f.length ? f.map(c => { const bal = c.balance || 0; return `<tr><td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="width:36px;height:36px;font-size:13px">${c.name.split(' ').map(n => n[0]).join('').substring(0, 2)}</div><span class="td-primary">${c.name}</span></div></td><td>${c.email}</td><td>${c.phone}</td><td>${c.orders}</td><td class="td-primary">${currencySymbol}${c.total.toFixed(2)}</td><td style="color:${bal > 0 ? 'var(--danger)' : 'var(--text3)'};font-weight:${bal > 0 ? '700' : '400'}">${bal > 0 ? currencySymbol + bal.toFixed(2) : '-'}</td><td>${c.points}</td><td><span class="tag ${tc[c.tier]}">${c.tier.charAt(0).toUpperCase() + c.tier.slice(1)}</span></td><td><button class="btn btn-ghost btn-sm" onclick="openCustomerModal(${c.id})"><i class="fas fa-edit"></i></button><button class="btn btn-ghost btn-sm" onclick="openKhataModal(\'customer\', ${c.id})" style="color:var(--primary)"><i class="fas fa-book"></i></button></td></tr>` }).join('') : '<tr><td colspan="9"><div class="empty-state"><i class="fas fa-users"></i><p>No customers</p></div></td></tr>' }
+        function openCustomerModal(id) {
+          const c = id ? customers.find(x => x.id === id) : null;
+          const bal = c?.balance || 0;
+          const khataRows = (c?.khata || []).map(k => `<tr><td>${k.date || ''}</td><td>${k.desc || k.note || ''}</td><td style="text-align:right;color:${k.debit > 0 ? 'var(--danger)' : 'inherit'}">${k.debit > 0 ? currencySymbol + k.debit.toFixed(2) : '-'}</td><td style="text-align:right;color:${k.credit > 0 ? 'var(--success)' : 'inherit'}">${k.credit > 0 ? currencySymbol + k.credit.toFixed(2) : '-'}</td></tr>`).join('');
+          document.getElementById('modalContent').innerHTML = `
+        <div class="modal-header">
+            <div class="modal-title">${c ? 'Edit' : 'Add'} Customer</div>
+            <span class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></span>
+        </div>
+        <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+            <div class="tabs" style="margin-bottom:15px;">
+                <div class="tab active" onclick="switchCustomerTab('details', event)">Details</div>
+                ${c ? `<div class="tab" onclick="switchCustomerTab('khata', event)">Khata (Ledger)</div>` : ''}
+            </div>
+            <div id="custDetailsTab">
+                <div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" id="cN" value="${c ? c.name : ''}"></div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="cE" value="${c ? c.email : ''}"></div>
+                    <div class="form-group"><label class="form-label">Phone</label><input type="text" class="form-input" id="cP" value="${c ? c.phone : ''}"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Tier</label><select class="form-select" id="cT"><option value="regular" ${c && c.tier === 'regular' ? 'selected' : ''}>Regular</option><option value="silver" ${c && c.tier === 'silver' ? 'selected' : ''}>Silver</option><option value="gold" ${c && c.tier === 'gold' ? 'selected' : ''}>Gold</option><option value="platinum" ${c && c.tier === 'platinum' ? 'selected' : ''}>Platinum</option></select></div>
+                    <div class="form-group"><label class="form-label">Points</label><input type="number" class="form-input" id="cPts" value="${c ? c.points : 0}"></div>
+                </div>
+            </div>
+            ${c ? `
+            <div id="custKhataTab" style="display:none;">
+                <div style="background:var(--surface2); padding:15px; border-radius:8px; margin-bottom:15px; display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <div style="font-size:12px; color:var(--text2)">Outstanding Balance</div>
+                        <div style="font-size:24px; font-weight:bold; color:${bal > 0 ? 'var(--danger)' : 'var(--success)'}">${currencySymbol}${bal.toFixed(2)}</div>
+                    </div>
+                    <div>
+                        <button class="btn btn-success btn-sm" onclick="recordCustomerPayment(${c.id})" style="margin-right:5px;">Record Payment</button>
+                        <button class="btn btn-primary btn-sm" onclick="addCustomerBill(${c.id})">Add Bill</button>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead><tr><th>Date</th><th>Description</th><th style="text-align:right">Debit</th><th style="text-align:right">Credit</th></tr></thead>
+                    <tbody>${khataRows || '<tr><td colspan="4" style="text-align:center">No Khata records</td></tr>'}</tbody>
+                </table>
+            </div>
+            ` : ''}
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="saveCustomer(${id || 0})"><i class="fas fa-save"></i> Save</button>
+        </div>`;
+          document.getElementById('modalOverlay').classList.add('active');
+        }
+        window.switchCustomerTab = function (tab, e) {
+          document.querySelectorAll('#modalContent .tab').forEach(t => t.classList.remove('active'));
+          e.target.classList.add('active');
+          document.getElementById('custDetailsTab').style.display = tab === 'details' ? 'block' : 'none';
+          const khataTab = document.getElementById('custKhataTab');
+          if (khataTab) khataTab.style.display = tab === 'khata' ? 'block' : 'none';
+        };
+        window.recordCustomerPayment = function (id) {
+          const amt = prompt('Enter payment amount received from customer:');
+          if (amt && !isNaN(amt) && amt > 0) {
+            const c = customers.find(x => x.id === id);
+            c.balance = (c.balance || 0) - parseFloat(amt);
+            if (!c.khata) c.khata = [];
+            const kl = c.khata.length;
+            c.khata.push({ id: kl + 1, date: new Date().toISOString().split('T')[0], desc: 'Payment received', debit: 0, credit: parseFloat(amt), type: 'payment' });
+            toast('Payment recorded successfully', 'success');
+            openCustomerModal(id);
+            renderCustomers();
+          }
+        };
+        window.addCustomerBill = function (id) {
+          const amt = prompt('Enter bill amount to charge customer:');
+          if (amt && !isNaN(amt) && amt > 0) {
+            const c = customers.find(x => x.id === id);
+            c.balance = (c.balance || 0) + parseFloat(amt);
+            if (!c.khata) c.khata = [];
+            const kl = c.khata.length;
+            c.khata.push({ id: kl + 1, date: new Date().toISOString().split('T')[0], desc: 'Bill added', debit: parseFloat(amt), credit: 0, type: 'bill' });
+            toast('Bill added successfully', 'success');
+            openCustomerModal(id);
+            renderCustomers();
+          }
+        };
         function saveCustomer(id) { const n = document.getElementById('cN').value.trim(); if (!n) { toast('Name required!', 'error'); return } const d = { name: n, email: document.getElementById('cE').value.trim(), phone: document.getElementById('cP').value.trim(), tier: document.getElementById('cT').value, points: parseInt(document.getElementById('cPts').value) || 0 }; if (id) Object.assign(customers.find(c => c.id === id), d); else { d.id = nextCustomerId++; d.orders = 0; d.total = 0; customers.push(d) } closeModal(); renderCustomers(); toast('Saved!', 'success') }
         function renderMarketing() { document.getElementById('campaignsBody').innerHTML = campaigns.map(c => `<tr><td class="td-primary">${c.name}</td><td>${c.type}</td><td><span class="tag tag-primary">${c.discount}</span></td><td><span class="tag ${c.status === 'active' ? 'tag-success' : 'tag-info'}">${c.status}</span></td><td><div style="display:flex;align-items:center;gap:8px"><div class="progress" style="flex:1;min-width:80px"><div class="progress-bar grad3" style="width:${c.perf}%"></div></div><span>${c.perf}%</span></div></td></tr>`).join(''); document.getElementById('couponsBody').innerHTML = coupons.map(c => `<tr><td class="td-primary"><strong>${c.code}</strong></td><td>${c.desc}</td><td><span class="tag tag-primary">${c.discount}</span></td><td>${c.used}/${c.limit || '∞'}</td><td>${c.expiry}</td><td><span class="tag ${c.status === 'active' ? 'tag-success' : 'tag-danger'}">${c.status}</span></td></tr>`).join('') }
         function openCampaignModal() { document.getElementById('modalContent').innerHTML = `<div class="modal-header"><div class="modal-title">New Campaign</div><span class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></span></div><div class="modal-body"><div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" placeholder="Valentine's Sale"></div><div class="form-row"><div class="form-group"><label class="form-label">Type</label><select class="form-select"><option>Seasonal</option><option>Flash Sale</option><option>Email</option></select></div><div class="form-group"><label class="form-label">Discount</label><input type="text" class="form-input" placeholder="30% OFF"></div></div></div><div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="closeModal();toast('Campaign created!','success')"><i class="fas fa-bullhorn"></i> Launch</button></div>`; document.getElementById('modalOverlay').classList.add('active') }
@@ -4608,7 +4786,7 @@ Please visit again.</textarea></div>
         function openSupplierModal(id) {
           const s = id ? suppliers.find(x => x.id === id) : null;
           const bal = s?.balance || 0;
-          const khataRows = (s?.khata || []).map(k => `<tr><td>${k.date}</td><td>${k.orderId}</td><td style="color:${k.type === 'credit' ? 'var(--danger)' : 'var(--success)'}">${k.type === 'credit' ? '-' : '+'}${currencySymbol}${k.amount.toFixed(2)}</td><td>${k.note}</td></tr>`).join('');
+          const khataRows = (s?.khata || []).map(k => `<tr><td>${k.date || ''}</td><td>${k.desc || k.note || k.orderId || ''}</td><td style="text-align:right;color:${k.debit > 0 ? 'var(--danger)' : 'inherit'}">${k.debit > 0 ? currencySymbol + k.debit.toFixed(2) : '-'}</td><td style="text-align:right;color:${k.credit > 0 ? 'var(--success)' : 'inherit'}">${k.credit > 0 ? currencySymbol + k.credit.toFixed(2) : '-'}</td></tr>`).join('');
 
           document.getElementById('modalContent').innerHTML = `
         <div class="modal-header">
@@ -4643,7 +4821,7 @@ Please visit again.</textarea></div>
                     </div>
                 </div>
                 <table class="table">
-                    <thead><tr><th>Date</th><th>Ref</th><th>Amount</th><th>Note</th></tr></thead>
+                    <thead><tr><th>Date</th><th>Description</th><th style="text-align:right">Debit</th><th style="text-align:right">Credit</th></tr></thead>
                     <tbody>${khataRows || '<tr><td colspan="4" style="text-align:center">No Khata records</td></tr>'}</tbody>
                 </table>
             </div>
@@ -4670,7 +4848,8 @@ Please visit again.</textarea></div>
             const s = suppliers.find(x => x.id === id);
             s.balance = (s.balance || 0) - parseFloat(amt);
             if (!s.khata) s.khata = [];
-            s.khata.push({ date: new Date().toISOString().split('T')[0], orderId: 'PAYMENT', type: 'debit', amount: parseFloat(amt), note: 'Payment made to supplier' });
+            const khataLen = s.khata.length;
+            s.khata.push({ id: khataLen + 1, date: new Date().toISOString().split('T')[0], desc: 'Payment made to supplier', debit: 0, credit: parseFloat(amt), type: 'payment' });
             toast('Payment recorded successfully', 'success');
             openSupplierModal(id);
             renderSuppliers();
@@ -4683,7 +4862,8 @@ Please visit again.</textarea></div>
             const s = suppliers.find(x => x.id === id);
             s.balance = (s.balance || 0) + parseFloat(amt);
             if (!s.khata) s.khata = [];
-            s.khata.push({ date: new Date().toISOString().split('T')[0], orderId: 'BILL', type: 'credit', amount: parseFloat(amt), note: 'Bill added' });
+            const khataLen = s.khata.length;
+            s.khata.push({ id: khataLen + 1, date: new Date().toISOString().split('T')[0], desc: 'Bill added', debit: parseFloat(amt), credit: 0, type: 'bill' });
             toast('Bill added successfully', 'success');
             openSupplierModal(id);
             renderSuppliers();
@@ -4736,6 +4916,7 @@ Please visit again.</textarea></div>
         }
         function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); stopScannerModal(); }
         document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal() });
+        document.getElementById('khataModalOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeKhataModal() });
         let lastScrollTop = 0;
         let bottomNav = document.getElementById('bottomNav');
         let contentEl = document.getElementById('content');
@@ -5003,6 +5184,7 @@ Please visit again.</textarea></div>
                     { id: 2, date: '2023-12-15', desc: isCustomer ? 'Invoice #1042' : 'Bill #998', debit: isCustomer ? 1200 : 0, credit: isCustomer ? 0 : 1200, type: 'bill' },
                     { id: 3, date: '2023-12-20', desc: 'Payment Received/Made', debit: isCustomer ? 0 : 800, credit: isCustomer ? 800 : 0, type: 'payment' }
                 ];
+                entity.balance = isCustomer ? 500 + 1200 - 0 - 800 : 500 + 1200 - 0 - 800; // net = opening + bills - payments
             }
             
             renderKhataTable();
@@ -5212,7 +5394,234 @@ Please visit again.</textarea></div>
 
       
       #barcodePrintContainer { display: none; }
-      @media print {
+    /* === MOBILE POS IMPROVEMENTS === */
+    .pos-cart-fab {
+      display: none;
+      position: fixed;
+      bottom: 76px;
+      right: 16px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--grad1);
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, .5);
+      cursor: pointer;
+      z-index: 55;
+      font-size: 24px;
+      align-items: center;
+      justify-content: center;
+      transition: transform .15s, box-shadow .15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .pos-cart-fab:active {
+      transform: scale(.92);
+    }
+    .pos-cart-fab .badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--danger);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--bg2);
+    }
+
+    .cart-sheet-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .5);
+      z-index: 65;
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .cart-sheet-overlay.open {
+      display: block;
+      opacity: 1;
+    }
+    .cart-sheet {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      max-height: 85vh;
+      background: var(--bg2);
+      border-radius: 20px 20px 0 0;
+      z-index: 66;
+      transform: translateY(100%);
+      transition: transform .3s cubic-bezier(.4, 0, .2, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 -8px 40px rgba(0, 0, 0, .25);
+    }
+    .cart-sheet.open {
+      transform: translateY(0);
+    }
+    .cart-sheet-handle {
+      width: 40px;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border2);
+      margin: 10px auto 0;
+    }
+    .cart-sheet-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .cart-sheet-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 16px;
+      min-height: 160px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .cart-sheet-footer {
+      border-top: 1px solid var(--border);
+      padding: 16px 20px;
+      padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+      flex-shrink: 0;
+    }
+    .cart-sheet-footer .btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      justify-content: center;
+    }
+
+    @media(max-width:900px) {
+      .pos-cart-fab {
+        display: flex;
+      }
+      .pos-right {
+        display: none !important;
+      }
+      .pos-layout {
+        height: calc(100vh - 140px) !important;
+      }
+      .pos-products {
+        height: 100%;
+      }
+      .product-card {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+      .product-card:active {
+        transform: scale(.97);
+      }
+      .product-img {
+        height: 80px;
+        font-size: 28px;
+      }
+      .product-info {
+        padding: 8px 10px;
+      }
+      .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 8px;
+      }
+      .filters {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: var(--bg);
+        padding: 8px 0;
+        margin: 0 -4px 8px;
+      }
+      .filter-input,
+      .select-input {
+        font-size: 14px;
+        padding: 10px 12px;
+      }
+      .btn-sm {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+      .cart-sheet-item {
+        padding: 12px 8px !important;
+      }
+      .cart-sheet-item .qty-btn {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 18px !important;
+      }
+      .cart-sheet-item .qty-val {
+        font-size: 16px !important;
+        min-width: 32px !important;
+      }
+    }
+
+    @media(max-width:480px) {
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+      }
+      .product-name {
+        font-size: 12px;
+      }
+      .product-price {
+        font-size: 13px;
+      }
+      .product-stock {
+        font-size: 10px;
+      }
+    }
+
+    /* Quantity keypad modal */
+    .qty-keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 16px;
+    }
+    .qty-keypad button {
+      height: 52px;
+      border-radius: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 22px;
+      font-weight: 600;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .qty-keypad button:active {
+      background: var(--surface3);
+      transform: scale(.96);
+    }
+    .qty-keypad .key-enter {
+      background: var(--grad1);
+      color: #fff;
+      border: none;
+      grid-column: span 2;
+    }
+    .qty-keypad .key-clear {
+      background: var(--danger);
+      color: #fff;
+      border: none;
+    }
+    .qty-display {
+      text-align: center;
+      font-size: 36px;
+      font-weight: 800;
+      padding: 16px;
+      color: var(--text);
+    }
+
+    @media print {
           #barcodePrintContainer {
               display: block !important;
               position: absolute;
