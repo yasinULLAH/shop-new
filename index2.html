@@ -4258,7 +4258,7 @@ Please visit again.</textarea></div>
         function renderPOSProducts() {
           const s = (document.getElementById('posSearch')?.value || '').toLowerCase(), c = document.getElementById('posCategoryFilter')?.value || '';
           const f = products.filter(p => (!s || p.name.toLowerCase().includes(s)) && (!c || p.cat == c) && p.status === 'active');
-          document.getElementById('posProductGrid').innerHTML = f.length ? f.map(p => `<div class="product-card" onclick="addToCart(${p.id})"><div class="product-img"><i class="fas ${p.icon}"></i></div><div class="product-info"><div class="product-name">${p.name}</div><div class="product-price">${currencySymbol}${p.price.toFixed(2)}</div><div class="product-stock">${p.stock > 0 ? p.stock + ' in stock' : 'Out of stock'}</div></div></div>`).join('') : '<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-search"></i><p>No products found</p></div>';
+          document.getElementById('posProductGrid').innerHTML = f.length ? f.map(p => `<div class="product-card" data-product-id="${p.id}" onclick="addToCart(${p.id})"><div class="product-img"><i class="fas ${p.icon}"></i></div><div class="product-info"><div class="product-name">${p.name}</div><div class="product-price">${currencySymbol}${p.price.toFixed(2)}</div><div class="product-stock">${p.stock > 0 ? p.stock + ' in stock' : 'Out of stock'}</div></div></div>`).join('') : '<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-search"></i><p>No products found</p></div>';
         }
         function addToCart(id) { const p = products.find(x => x.id === id); if (!p || p.stock <= 0) { toast('Out of stock!', 'error'); return } const e = cart.find(x => x.id === id); if (e) { e.qty++; if (e.qty > p.stock) { e.qty--; toast('Not enough stock!', 'warning'); return } } else cart.push({ id: p.id, name: p.name, price: p.price, icon: p.icon, qty: 1, stock: p.stock }); renderCart(); toast(p.name + ' added', 'success') }
         function renderCart() {
@@ -4354,6 +4354,11 @@ Please visit again.</textarea></div>
           if (item) item.qty = Math.min(Math.max(1, qty), item.stock);
           closeModal();
           renderCart();
+        }
+
+        function showModal(html) {
+          document.getElementById('modalContent').innerHTML = html;
+          document.getElementById('modalOverlay').classList.add('active');
         }
 
         function checkout() {
