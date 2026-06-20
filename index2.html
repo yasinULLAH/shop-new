@@ -2181,6 +2181,7 @@
 <link href="manifest.json" rel="manifest"/>
 <link href="favicon.ico" rel="icon" type="image/x-icon"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
 <div class="login-overlay" id="loginOverlay">
@@ -2592,7 +2593,7 @@
 <div class="page-title">Barcode &amp; SKU Management</div>
 <div class="page-subtitle">Generate, print, and scan barcodes for your products.</div>
 </div>
-<div class="page-actions"><button class="btn btn-secondary" onclick="toast('Labels sent to printer','success')"><i class="fas fa-print"></i> Print
+<div class="page-actions"><button class="btn btn-secondary" onclick="printAllBarcodes()"><i class="fas fa-print"></i> Print
                 All</button><button class="btn btn-primary" onclick="generateBarcode()"><i class="fas fa-plus"></i>
                 Generate New</button></div>
 </div>
@@ -3981,7 +3982,21 @@ Please visit again.</textarea></div>
           setTimeout(scrollActiveNavIntoView, 50);
           const r = { dashboard: renderDashboard, pos: renderPOS, products: renderProducts, inventory: renderInventory, categories: renderCategories, barcode: renderBarcodes, orders: renderOrders, customers: renderCustomers, marketing: renderMarketing, suppliers: renderSuppliers, purchase: renderPurchaseOrders, hr: renderHR, tasks: renderTasks, ecommerce: renderEcommerce, finance: renderFinance, reports: renderReports, settings: renderSettings };
           if (r[page]) r[page]();
+          
           document.getElementById('notifPanel').classList.remove('open');
+          
+          setTimeout(() => {
+              if (page === 'dashboard') {
+                  ['revenueChartjs', 'categoryChartjs', 'trafficChartjs', 'demographicsChartjs', 'metricsChartjs'].forEach(id => {
+                      const chart = Chart.getChart(id);
+                      if(chart) chart.resize();
+                  });
+              } else if (page === 'reports') {
+                  const activeTab = document.querySelector('.report-tab-content[style*="display: block"]') || document.getElementById('report-sales');
+                  if (activeTab) switchReportTab(activeTab.id);
+              }
+          }, 50);
+
         }
         function scrollActiveNavIntoView() {
           const sidebarNav = document.getElementById('sidebarNav');
@@ -4329,7 +4344,7 @@ Please visit again.</textarea></div>
         function saveCategory(id) { const n = document.getElementById('catN').value.trim(); if (!n) { toast('Name required!', 'error'); return } const d = { name: n, icon: document.getElementById('catI').value, color: document.getElementById('catC').value }; if (id) Object.assign(categories.find(c => c.id === id), d); else { d.id = categories.length + 1; d.count = 0; categories.push(d) } closeModal(); renderCategories(); toast('Saved!', 'success') }
         function deleteCategory(id) { if (confirm('Delete?')) { categories.splice(categories.findIndex(c => c.id === id), 1); renderCategories(); toast('Deleted', 'info') } }
         function renderBarcodes() {
-          document.getElementById('barcodeList').innerHTML = products.map(p => `<div style="display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;background:var(--surface2);margin-bottom:8px"><div style="flex:1"><div style="font-size:13px;font-weight:600">${p.name}</div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">SKU: ${p.sku}</div><div style="font-family:'Courier New',monospace;font-size:16px;letter-spacing:1px;color:var(--primary2)">${p.barcode}</div></div><button class="btn btn-ghost btn-sm" onclick="toast('Printing ${p.sku}...','info')"><i class="fas fa-print"></i></button></div>`).join('');
+          document.getElementById('barcodeList').innerHTML = products.map(p => `<div style="display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;background:var(--surface2);margin-bottom:8px"><div style="flex:1"><div style="font-size:13px;font-weight:600">${p.name}</div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">SKU: ${p.sku}</div><div style="font-family:'Courier New',monospace;font-size:16px;letter-spacing:1px;color:var(--primary2)">${p.barcode}</div></div><button class="btn btn-ghost btn-sm" onclick="printIndividualBarcode(\'${p.sku}\', \'${p.name}\')"><i class="fas fa-print"></i></button></div>`).join('');
         }
         function generateBarcode() { const code = '0' + Date.now().toString().slice(-12); toast('New barcode generated: ' + code, 'success') }
         async function openBarcodeScannerPage() {
@@ -4481,12 +4496,12 @@ Please visit again.</textarea></div>
         function renderOrders() { const s = (document.getElementById('orderSearch')?.value || '').toLowerCase(), st = document.getElementById('orderStatusFilter')?.value || ''; const f = orders.filter(o => (!s || o.id.toLowerCase().includes(s) || o.customer.toLowerCase().includes(s)) && (!st || o.status === st)); document.getElementById('ordersBody').innerHTML = f.length ? f.map(o => `<tr><td class="td-primary">${o.id}</td><td>${o.customer}</td><td>${o.items}</td><td class="td-primary">${currencySymbol}${o.total.toFixed(2)}</td><td><span class="tag tag-info">${o.payment}</span></td><td><span class="tag ${orderStatusTag(o.status)}">${o.status.charAt(0).toUpperCase() + o.status.slice(1)}</span></td><td>${o.date}</td><td><button class="btn btn-ghost btn-sm" onclick="viewOrder('${o.id}')"><i class="fas fa-eye"></i></button></td></tr>`).join('') : '<tr><td colspan="8"><div class="empty-state"><i class="fas fa-shopping-cart"></i><p>No orders</p></div></td></tr>' }
         function viewOrder(id) { const o = orders.find(x => x.id === id); document.getElementById('modalContent').innerHTML = `<div class="modal-header"><div class="modal-title">Order ${o.id}</div><span class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></span></div><div class="modal-body"><div style="margin:16px 0;padding:16px;background:var(--surface);border-radius:10px"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="color:var(--text3)">Customer</span><span>${o.customer}</span></div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="color:var(--text3)">Items</span><span>${o.items}</span></div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="color:var(--text3)">Payment</span><span>${o.payment}</span></div><div style="display:flex;justify-content:space-between;font-size:18px;font-weight:800;padding-top:8px;border-top:1px solid var(--border)"><span>Total</span><span style="color:var(--primary2)">${currencySymbol}${o.total.toFixed(2)}</span></div></div></div><div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="toast('Printed!','success');closeModal()"><i class="fas fa-print"></i> Print Invoice</button></div>`; document.getElementById('modalOverlay').classList.add('active') }
         function openReturnModal() { document.getElementById('modalContent').innerHTML = `<div class="modal-header"><div class="modal-title">Process Return</div><span class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></span></div><div class="modal-body"><div class="form-group"><label class="form-label">Order ID</label><select class="form-select">${orders.map(o => `<option>${o.id} — ${o.customer}</option>`).join('')}</select></div><div class="form-row"><div class="form-group"><label class="form-label">Reason</label><select class="form-select"><option>Damaged</option><option>Wrong item</option><option>Changed mind</option></select></div><div class="form-group"><label class="form-label">Refund Type</label><select class="form-select"><option>Full</option><option>Partial</option><option>Store credit</option></select></div></div></div><div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-danger" onclick="closeModal();toast('Return processed','success')"><i class="fas fa-rotate-left"></i> Process</button></div>`; document.getElementById('modalOverlay').classList.add('active') }
-        function renderCustomers() { const s = (document.getElementById('customerSearch')?.value || '').toLowerCase(), t = document.getElementById('customerTierFilter')?.value || ''; const f = customers.filter(c => (!s || c.name.toLowerCase().includes(s) || c.email.toLowerCase().includes(s)) && (!t || c.tier === t)); const tc = { regular: 'tag-info', silver: 'tag-info', gold: 'tag-warning', platinum: 'tag-primary' }; document.getElementById('customersBody').innerHTML = f.length ? f.map(c => `<tr><td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="width:36px;height:36px;font-size:13px">${c.name.split(' ').map(n => n[0]).join('').substring(0, 2)}</div><span class="td-primary">${c.name}</span></div></td><td>${c.email}</td><td>${c.phone}</td><td>${c.orders}</td><td class="td-primary">${currencySymbol}${c.total.toFixed(2)}</td><td>${c.points}</td><td><span class="tag ${tc[c.tier]}">${c.tier.charAt(0).toUpperCase() + c.tier.slice(1)}</span></td><td><button class="btn btn-ghost btn-sm" onclick="openCustomerModal(${c.id})"><i class="fas fa-edit"></i></button></td></tr>`).join('') : '<tr><td colspan="8"><div class="empty-state"><i class="fas fa-users"></i><p>No customers</p></div></td></tr>' }
+        function renderCustomers() { const s = (document.getElementById('customerSearch')?.value || '').toLowerCase(), t = document.getElementById('customerTierFilter')?.value || ''; const f = customers.filter(c => (!s || c.name.toLowerCase().includes(s) || c.email.toLowerCase().includes(s)) && (!t || c.tier === t)); const tc = { regular: 'tag-info', silver: 'tag-info', gold: 'tag-warning', platinum: 'tag-primary' }; document.getElementById('customersBody').innerHTML = f.length ? f.map(c => `<tr><td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="width:36px;height:36px;font-size:13px">${c.name.split(' ').map(n => n[0]).join('').substring(0, 2)}</div><span class="td-primary">${c.name}</span></div></td><td>${c.email}</td><td>${c.phone}</td><td>${c.orders}</td><td class="td-primary">${currencySymbol}${c.total.toFixed(2)}</td><td>${c.points}</td><td><span class="tag ${tc[c.tier]}">${c.tier.charAt(0).toUpperCase() + c.tier.slice(1)}</span></td><td><button class="btn btn-ghost btn-sm" onclick="openCustomerModal(${c.id})"><i class="fas fa-edit"></i></button><button class="btn btn-ghost btn-sm" onclick="openKhataModal(\'customer\', ${c.id})" style="color:var(--primary)"><i class="fas fa-book"></i></button></td></tr>`).join('') : '<tr><td colspan="8"><div class="empty-state"><i class="fas fa-users"></i><p>No customers</p></div></td></tr>' }
         function openCustomerModal(id) { const c = id ? customers.find(x => x.id === id) : null; document.getElementById('modalContent').innerHTML = `<div class="modal-header"><div class="modal-title">${c ? 'Edit' : 'Add'} Customer</div><span class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></span></div><div class="modal-body"><div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" id="cN" value="${c ? c.name : ''}"></div><div class="form-row"><div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="cE" value="${c ? c.email : ''}"></div><div class="form-group"><label class="form-label">Phone</label><input type="text" class="form-input" id="cP" value="${c ? c.phone : ''}"></div></div><div class="form-row"><div class="form-group"><label class="form-label">Tier</label><select class="form-select" id="cT"><option value="regular" ${c && c.tier === 'regular' ? 'selected' : ''}>Regular</option><option value="silver" ${c && c.tier === 'silver' ? 'selected' : ''}>Silver</option><option value="gold" ${c && c.tier === 'gold' ? 'selected' : ''}>Gold</option><option value="platinum" ${c && c.tier === 'platinum' ? 'selected' : ''}>Platinum</option></select></div><div class="form-group"><label class="form-label">Points</label><input type="number" class="form-input" id="cPts" value="${c ? c.points : 0}"></div></div></div><div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveCustomer(${id || 0})"><i class="fas fa-save"></i> Save</button></div>`; document.getElementById('modalOverlay').classList.add('active') }
         function saveCustomer(id) { const n = document.getElementById('cN').value.trim(); if (!n) { toast('Name required!', 'error'); return } const d = { name: n, email: document.getElementById('cE').value.trim(), phone: document.getElementById('cP').value.trim(), tier: document.getElementById('cT').value, points: parseInt(document.getElementById('cPts').value) || 0 }; if (id) Object.assign(customers.find(c => c.id === id), d); else { d.id = nextCustomerId++; d.orders = 0; d.total = 0; customers.push(d) } closeModal(); renderCustomers(); toast('Saved!', 'success') }
         function renderMarketing() { document.getElementById('campaignsBody').innerHTML = campaigns.map(c => `<tr><td class="td-primary">${c.name}</td><td>${c.type}</td><td><span class="tag tag-primary">${c.discount}</span></td><td><span class="tag ${c.status === 'active' ? 'tag-success' : 'tag-info'}">${c.status}</span></td><td><div style="display:flex;align-items:center;gap:8px"><div class="progress" style="flex:1;min-width:80px"><div class="progress-bar grad3" style="width:${c.perf}%"></div></div><span>${c.perf}%</span></div></td></tr>`).join(''); document.getElementById('couponsBody').innerHTML = coupons.map(c => `<tr><td class="td-primary"><strong>${c.code}</strong></td><td>${c.desc}</td><td><span class="tag tag-primary">${c.discount}</span></td><td>${c.used}/${c.limit || '∞'}</td><td>${c.expiry}</td><td><span class="tag ${c.status === 'active' ? 'tag-success' : 'tag-danger'}">${c.status}</span></td></tr>`).join('') }
         function openCampaignModal() { document.getElementById('modalContent').innerHTML = `<div class="modal-header"><div class="modal-title">New Campaign</div><span class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></span></div><div class="modal-body"><div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" placeholder="Valentine's Sale"></div><div class="form-row"><div class="form-group"><label class="form-label">Type</label><select class="form-select"><option>Seasonal</option><option>Flash Sale</option><option>Email</option></select></div><div class="form-group"><label class="form-label">Discount</label><input type="text" class="form-input" placeholder="30% OFF"></div></div></div><div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="closeModal();toast('Campaign created!','success')"><i class="fas fa-bullhorn"></i> Launch</button></div>`; document.getElementById('modalOverlay').classList.add('active') }
-        function renderSuppliers() { const s = (document.getElementById('supplierSearch')?.value || '').toLowerCase(); const f = suppliers.filter(x => !s || x.name.toLowerCase().includes(s) || x.contact.toLowerCase().includes(s)); document.getElementById('suppliersBody').innerHTML = f.length ? f.map(x => `<tr><td class="td-primary">${x.name}</td><td>${x.contact}</td><td>${x.email}</td><td>${x.phone}</td><td>${x.products}</td><td><div style="display:flex;align-items:center;gap:8px"><div class="progress" style="flex:1;min-width:60px"><div class="progress-bar ${x.perf > 85 ? 'grad3' : 'grad4'}" style="width:${x.perf}%"></div></div><span>${x.perf}%</span></div></td><td><span class="tag ${x.status === 'active' ? 'tag-success' : 'tag-danger'}">${x.status}</span></td><td><button class="btn btn-ghost btn-sm" onclick="openSupplierModal(${x.id})"><i class="fas fa-edit"></i></button></td></tr>`).join('') : '<tr><td colspan="8"><div class="empty-state"><i class="fas fa-truck"></i><p>No suppliers</p></div></td></tr>' }
+        function renderSuppliers() { const s = (document.getElementById('supplierSearch')?.value || '').toLowerCase(); const f = suppliers.filter(x => !s || x.name.toLowerCase().includes(s) || x.contact.toLowerCase().includes(s)); document.getElementById('suppliersBody').innerHTML = f.length ? f.map(x => `<tr><td class="td-primary">${x.name}</td><td>${x.contact}</td><td>${x.email}</td><td>${x.phone}</td><td>${x.products}</td><td><div style="display:flex;align-items:center;gap:8px"><div class="progress" style="flex:1;min-width:60px"><div class="progress-bar ${x.perf > 85 ? 'grad3' : 'grad4'}" style="width:${x.perf}%"></div></div><span>${x.perf}%</span></div></td><td><span class="tag ${x.status === 'active' ? 'tag-success' : 'tag-danger'}">${x.status}</span></td><td><button class="btn btn-ghost btn-sm" onclick="openSupplierModal(${x.id})"><i class="fas fa-edit"></i></button><button class="btn btn-ghost btn-sm" onclick="openKhataModal(\'supplier\', ${x.id})" style="color:var(--primary)"><i class="fas fa-book"></i></button></td></tr>`).join('') : '<tr><td colspan="8"><div class="empty-state"><i class="fas fa-truck"></i><p>No suppliers</p></div></td></tr>' }
 
         function openSupplierModal(id) {
           const s = id ? suppliers.find(x => x.id === id) : null;
@@ -4754,12 +4769,33 @@ Please visit again.</textarea></div>
             dashboardCharts.revenue.update();
         }
 
+        
         function switchReportTab(tabId, e) {
             document.querySelectorAll('#page-reports .tab').forEach(t => t.classList.remove('active'));
-            e.currentTarget.classList.add('active');
+            if(e) e.currentTarget.classList.add('active');
             document.querySelectorAll('.report-tab-content').forEach(c => c.style.display = 'none');
             document.getElementById(tabId).style.display = 'block';
+            
+            // Fix Chart.js resize issue for hidden tabs
+            setTimeout(() => {
+                const charts = {
+                    'report-sales': ['salesOverTimeChart', 'salesByRegionChart'],
+                    'report-financial': ['expenseBreakdownChart', 'profitMarginChart'],
+                    'report-inventory': ['topProductsChart', 'lowStockChart'],
+                    'report-customers': ['customerRetentionChart', 'paymentMethodsChart']
+                };
+                if(charts[tabId]) {
+                    charts[tabId].forEach(id => {
+                        const chart = Chart.getChart(id);
+                        if(chart) {
+                            chart.resize();
+                            chart.update();
+                        }
+                    });
+                }
+            }, 50);
         }
+
 
         function initAllCharts() {
             if (typeof Chart === 'undefined') return;
@@ -4840,6 +4876,214 @@ Please visit again.</textarea></div>
             initAllCharts();
         });
 
+        
+        // --- KHATA (LEDGER) LOGIC ---
+        let currentKhataEntity = null;
+        let currentKhataId = null;
+
+        function openKhataModal(type, id) {
+            currentKhataEntity = type;
+            currentKhataId = id;
+            
+            const entity = type === 'customer' 
+                ? customers.find(c => c.id === id) 
+                : suppliers.find(s => s.id === id);
+                
+            if(!entity) return;
+            
+            document.getElementById('khataModalTitle').innerText = `Khata: ${entity.name}`;
+            
+            // Generate dummy khata data if none exists
+            if(!entity.khata) {
+                const isCustomer = type === 'customer';
+                entity.khata = [
+                    { id: 1, date: '2023-12-01', desc: 'Opening Balance', debit: isCustomer ? 500 : 0, credit: isCustomer ? 0 : 500, type: 'adj' },
+                    { id: 2, date: '2023-12-15', desc: isCustomer ? 'Invoice #1042' : 'Bill #998', debit: isCustomer ? 1200 : 0, credit: isCustomer ? 0 : 1200, type: 'bill' },
+                    { id: 3, date: '2023-12-20', desc: 'Payment Received/Made', debit: isCustomer ? 0 : 800, credit: isCustomer ? 800 : 0, type: 'payment' }
+                ];
+            }
+            
+            renderKhataTable();
+            document.getElementById('khataModalOverlay').classList.add('active');
+        }
+
+        function closeKhataModal() {
+            document.getElementById('khataModalOverlay').classList.remove('active');
+        }
+
+        function renderKhataTable() {
+            const entity = currentKhataEntity === 'customer' 
+                ? customers.find(c => c.id === currentKhataId) 
+                : suppliers.find(s => s.id === currentKhataId);
+                
+            if(!entity || !entity.khata) return;
+            
+            const typeFilter = document.getElementById('khataTypeFilter').value;
+            const sortFilter = document.getElementById('khataSortFilter').value;
+            
+            let filtered = [...entity.khata];
+            
+            if(typeFilter === 'debit') filtered = filtered.filter(k => k.debit > 0);
+            if(typeFilter === 'credit') filtered = filtered.filter(k => k.credit > 0);
+            
+            filtered.sort((a, b) => {
+                const dateA = new Date(a.date).getTime();
+                const dateB = new Date(b.date).getTime();
+                return sortFilter === 'desc' ? dateB - dateA : dateA - dateB;
+            });
+            
+            let runningBalance = 0;
+            let totalBilled = 0;
+            let totalPaid = 0;
+            
+            const isCustomer = currentKhataEntity === 'customer';
+            
+            const rows = filtered.map(k => {
+                if (isCustomer) {
+                    runningBalance += (k.debit - k.credit);
+                    totalBilled += k.debit;
+                    totalPaid += k.credit;
+                } else {
+                    runningBalance += (k.credit - k.debit);
+                    totalBilled += k.credit;
+                    totalPaid += k.debit;
+                }
+                
+                return `<tr>
+                    <td>${k.date}</td>
+                    <td>${k.desc}</td>
+                    <td style="text-align:right; color: ${k.debit > 0 ? 'var(--danger)' : 'inherit'}">${k.debit > 0 ? currencySymbol+k.debit.toFixed(2) : '-'}</td>
+                    <td style="text-align:right; color: ${k.credit > 0 ? 'var(--success)' : 'inherit'}">${k.credit > 0 ? currencySymbol+k.credit.toFixed(2) : '-'}</td>
+                    <td style="text-align:right; font-weight:700">${currencySymbol}${runningBalance.toFixed(2)}</td>
+                </tr>`;
+            }).join('');
+            
+            document.getElementById('khataTableBody').innerHTML = rows.length ? rows : '<tr><td colspan="5" style="text-align:center">No transactions found</td></tr>';
+            
+            document.getElementById('khataTotalBilled').innerText = `${currencySymbol}${totalBilled.toFixed(2)}`;
+            document.getElementById('khataTotalPaid').innerText = `${currencySymbol}${totalPaid.toFixed(2)}`;
+            document.getElementById('khataBalance').innerText = `${currencySymbol}${runningBalance.toFixed(2)}`;
+        }
+
+        function printKhata() {
+            const container = document.getElementById('receiptContainer');
+            const entity = currentKhataEntity === 'customer' 
+                ? customers.find(c => c.id === currentKhataId) 
+                : suppliers.find(s => s.id === currentKhataId);
+                
+            container.className = 'letterhead'; // Use A4 format
+            
+            const tableHTML = document.getElementById('khataTableBody').innerHTML;
+            const balance = document.getElementById('khataBalance').innerText;
+            
+            container.innerHTML = `
+                <div class="r-header">
+                    <div>
+                        <h1 class="r-title">ShopFlow</h1>
+                        <div>Ledger Account Statement</div>
+                    </div>
+                    <div class="r-info">
+                        <strong>${entity.name}</strong><br>
+                        Generated: ${new Date().toLocaleDateString()}<br>
+                        Closing Balance: <span style="color:red">${balance}</span>
+                    </div>
+                </div>
+                <table class="r-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th style="text-align:right">Debit</th>
+                            <th style="text-align:right">Credit</th>
+                            <th style="text-align:right">Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>${tableHTML}</tbody>
+                </table>
+            `;
+            
+            container.style.display = 'block';
+            window.print();
+            container.style.display = 'none';
+        }
+
+        // --- BARCODE PRINTING LOGIC ---
+        function generateQRCodeHTML(text, label) {
+            // We use a div wrapper, qrcode.js will append a canvas/img to it.
+            // We return a unique ID to render it later.
+            const uid = 'qr_' + Math.random().toString(36).substr(2, 9);
+            return {
+                id: uid,
+                html: `<div class="barcode-item">
+                        <div id="${uid}" class="qr-code-box"></div>
+                        <div class="qr-label">${label.substring(0,20)}</div>
+                        <div class="qr-sku">${text}</div>
+                       </div>`
+            };
+        }
+
+        function printIndividualBarcode(sku, name) {
+            let copies = prompt(`How many copies of QR Code for ${name}?`, "24");
+            if (copies === null) return;
+            copies = parseInt(copies);
+            if (isNaN(copies) || copies <= 0) copies = 24;
+            
+            setupBarcodePrintGrid(Array(copies).fill({ sku, name }));
+        }
+
+        function printAllBarcodes() {
+            toast('Generating QR Codes...', 'info');
+            // Default 1 copy for each product
+            const items = products.map(p => ({ sku: p.sku, name: p.name }));
+            setupBarcodePrintGrid(items);
+        }
+
+        function setupBarcodePrintGrid(items) {
+            const container = document.getElementById('barcodePrintContainer');
+            container.innerHTML = '';
+            
+            let html = '';
+            const qrIds = [];
+            
+            // Split into pages of 24
+            const PAGE_SIZE = 24;
+            for(let i = 0; i < items.length; i += PAGE_SIZE) {
+                const pageItems = items.slice(i, i + PAGE_SIZE);
+                
+                html += '<div class="barcode-page">';
+                pageItems.forEach(item => {
+                    const qr = generateQRCodeHTML(item.sku, item.name);
+                    qrIds.push({ id: qr.id, text: item.sku });
+                    html += qr.html;
+                });
+                // Pad with empty blocks if less than 24 to keep grid rigid
+                for(let j = pageItems.length; j < PAGE_SIZE; j++) {
+                     html += '<div class="barcode-item empty"></div>';
+                }
+                html += '</div>';
+            }
+            
+            container.innerHTML = html;
+            container.style.display = 'block';
+            
+            // Render QR Codes using QRCode.js
+            qrIds.forEach(qr => {
+                new QRCode(document.getElementById(qr.id), {
+                    text: qr.text,
+                    width: 100,
+                    height: 100,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+            });
+            
+            setTimeout(() => {
+                window.print();
+                container.style.display = 'none';
+            }, 500); // Give QR codes time to render
+        }
+
         initApp();
       </script>
 </div>
@@ -4864,6 +5108,68 @@ Please visit again.</textarea></div>
         padding: 0;
         background: #fff !important;
         color: #000 !important;
+      }
+
+      
+      #barcodePrintContainer { display: none; }
+      @media print {
+          #barcodePrintContainer {
+              display: block !important;
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 100%;
+              background: #fff;
+              z-index: 9999;
+          }
+          .barcode-page {
+              display: grid;
+              grid-template-columns: repeat(4, 1fr);
+              grid-template-rows: repeat(6, 1fr);
+              gap: 5mm;
+              width: 210mm;
+              height: 295mm; /* A4 minus a bit of margin */
+              padding: 5mm;
+              box-sizing: border-box;
+              page-break-after: always;
+              page-break-inside: avoid;
+          }
+          .barcode-item {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              border: 1px dashed #ccc;
+              box-sizing: border-box;
+              padding: 5px;
+          }
+          .barcode-item.empty {
+              border: none;
+          }
+          .qr-label {
+              font-family: Arial, sans-serif;
+              font-size: 11px;
+              font-weight: bold;
+              margin-top: 5px;
+              text-align: center;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              width: 100%;
+          }
+          .qr-sku {
+              font-family: 'Courier New', monospace;
+              font-size: 10px;
+              text-align: center;
+          }
+          .qr-code-box img, .qr-code-box canvas {
+              max-width: 100%;
+              height: auto;
+          }
+          @page {
+              size: A4;
+              margin: 0;
+          }
       }
 
       /* Thermal Style (80mm) */
@@ -4974,5 +5280,7 @@ Please visit again.</textarea></div>
     /* Hidden normally */
   </style>
 <div id="receiptContainer"></div>
+
+<div id="barcodePrintContainer" style="display:none"></div>
 <script src="./pwa-register.js" type="module"></script></body>
 </html>
