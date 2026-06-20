@@ -223,9 +223,11 @@
 
   .empty-state{text-align:center;padding:40px 20px;color:var(--text3)}.empty-state i{font-size:48px;margin-bottom:16px;opacity:.5}.empty-state p{font-size:14px}
   .toggle{position:relative;width:42px;height:24px;display:inline-block}.toggle input{display:none}.toggle-slider{position:absolute;inset:0;background:var(--surface3);border-radius:12px;cursor:pointer;transition:.2s}.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}.toggle input:checked+.toggle-slider{background:var(--primary)}.toggle input:checked+.toggle-slider::before{transform:translateX(18px)}
-  .tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:20px;overflow-x:auto;scrollbar-width:thin}
-  .tab{padding:10px 18px;cursor:pointer;font-size:14px;font-weight:600;color:var(--text3);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
-  .tab:hover{color:var(--text)}.tab.active{color:var(--primary2);border-bottom-color:var(--primary2)}
+  .tabs{display:flex;gap:8px;border-bottom:none;margin-bottom:20px;overflow-x:auto;scrollbar-width:thin;background:var(--surface2);padding:6px;border-radius:12px;}
+  .tab{padding:10px 20px;cursor:pointer;font-size:14px;font-weight:600;color:var(--text3);border-bottom:none;border-radius:8px;transition:all .2s ease;white-space:nowrap;}
+  .tab:hover{color:var(--text2);background:rgba(255,255,255,0.05);}
+  .tab.active{color:var(--primary2);background:var(--surface);box-shadow:var(--shadow);}
+  .tab-content{animation:fadeIn .25s ease-out}
   .activity-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}.activity-item:last-child{border-bottom:none}.activity-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}.activity-content{flex:1}.activity-text{font-size:13px;color:var(--text)}.activity-time{font-size:11px;color:var(--text3);margin-top:2px}
 
   /* NOTIFICATION PANEL */
@@ -260,7 +262,8 @@
     .sidebar{display:none}
     .collapse-toggle{display:none}
     .topbar-btn{display:none}
-    .bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;height:60px;background:var(--bg2);border-top:1px solid var(--border);z-index:60;justify-content:space-around;align-items:center;padding:0 4px;transition:transform .3s ease;box-shadow:0 -4px 20px rgba(0,0,0,.2);overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+    .bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;height:60px;background:var(--bg2);border-top:1px solid var(--border);z-index:60;justify-content:flex-start;gap:8px;align-items:center;padding:0 12px;transition:transform .3s ease;box-shadow:0 -4px 20px rgba(0,0,0,.2);overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+    .bottom-nav::-webkit-scrollbar { display: none; }
     .bottom-nav.hidden{transform:translateY(100%)}
     .bottom-nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 4px;border-radius:10px;cursor:pointer;color:var(--text3);font-size:9px;font-weight:600;min-width:44px;min-height:44px;transition:color .15s;position:relative;flex:1;max-width:60px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .bottom-nav-item i{font-size:14px}
@@ -275,7 +278,11 @@
     .topbar{padding:0 12px;gap:8px}
     .date-display{display:none}
     .content{padding:16px;padding-bottom:80px}
-    .page-title{font-size:22px}
+    .page-title{font-size:20px}
+    .btn{padding:8px 14px;font-size:13px}
+    .form-input, .form-select{padding:10px 14px;font-size:14px}
+    .card-title{font-size:16px}
+    .stat-value{font-size:20px}
   }
 
   /* Barcode Scanner */
@@ -288,9 +295,38 @@
   .scanner-controls{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;align-items:center}
   .scanner-result{padding:14px;background:var(--surface2);border-radius:10px;border:1px solid var(--border);margin-top:14px}
   .scanner-placeholder{color:#666;text-align:center;padding:40px 20px}
+  
+  /* LOGIN OVERLAY */
+  .login-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity .3s, visibility .3s}
+  .login-overlay.hidden{opacity:0;visibility:hidden}
+  .login-card{width:90%;max-width:400px;background:var(--bg2);padding:40px;border-radius:16px;box-shadow:var(--shadow2);text-align:center;border:1px solid var(--border)}
+  .login-logo{display:flex;align-items:center;justify-content:center;gap:12px;font-size:24px;font-weight:800;color:var(--text);margin-bottom:8px}
+  .login-logo .logo-icon{width:40px;height:40px;background:var(--grad1);color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 12px rgba(99,102,241,.3)}
+  .login-title{font-size:20px;font-weight:700;margin-bottom:4px}
+  .login-subtitle{font-size:14px;color:var(--text3);margin-bottom:24px}
+  .login-card .form-group{text-align:left;margin-bottom:16px}
 </style>
 <link href="manifest.json" rel="manifest"/><link href="favicon.ico" rel="icon" type="image/x-icon"/></head>
 <body>
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-icon"><i class="fas fa-store"></i></div>
+      ShopFlow
+    </div>
+    <div class="login-title">Welcome Back</div>
+    <div class="login-subtitle">Sign in to your account</div>
+    <div class="form-group">
+      <label class="form-label">Username</label>
+      <input type="text" class="form-input" id="loginUser" value="admin">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" class="form-input" id="loginPass" value="admin">
+    </div>
+    <button class="btn btn-primary" style="width:100%" onclick="attemptLogin()">Sign In</button>
+  </div>
+</div>
 <div class="app">
 <aside class="sidebar" id="sidebar">
 <div class="sidebar-header">
@@ -469,8 +505,8 @@
 <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface2);border-radius:10px"><div style="width:40px;height:40px;border-radius:50%;background:rgba(139,92,246,.2);display:flex;align-items:center;justify-content:center"><i class="fas fa-gem" style="color:var(--purple)"></i></div><div style="flex:1"><div style="font-weight:700">Platinum</div><div style="font-size:12px;color:var(--text3)">2000+ points • 3x multiplier</div></div><span style="font-weight:700">76</span></div>
 </div></div>
 <div class="card"><div class="card-header"><div class="card-title">Reward Rules</div><button class="btn btn-ghost btn-sm" onclick="toast('Add reward rule','info')"><i class="fas fa-plus"></i></button></div><div class="card-body">
-<div style="padding:10px 0;border-bottom:1px solid var(--border)"><div style="font-weight:600;font-size:13px">$1 Spent = 1 Point</div><div style="font-size:12px;color:var(--text3)">Base earning rate</div></div>
-<div style="padding:10px 0;border-bottom:1px solid var(--border)"><div style="font-weight:600;font-size:13px">100 Points = $5 Discount</div><div style="font-size:12px;color:var(--text3)">Redemption rate</div></div>
+<div style="padding:10px 0;border-bottom:1px solid var(--border)"><div style="font-weight:600;font-size:13px" class="fmt-curr-text" data-type="points1">$1 Spent = 1 Point</div><div style="font-size:12px;color:var(--text3)">Base earning rate</div></div>
+<div style="padding:10px 0;border-bottom:1px solid var(--border)"><div style="font-weight:600;font-size:13px" class="fmt-curr-text" data-type="points5">100 Points = $5 Discount</div><div style="font-size:12px;color:var(--text3)">Redemption rate</div></div>
 <div style="padding:10px 0;border-bottom:1px solid var(--border)"><div style="font-weight:600;font-size:13px">Birthday Bonus: 200 Points</div><div style="font-size:12px;color:var(--text3)">Automatic on birthday</div></div>
 <div style="padding:10px 0"><div style="font-weight:600;font-size:13px">Referral Bonus: 500 Points</div><div style="font-size:12px;color:var(--text3)">When referral makes first purchase</div></div>
 </div></div>
@@ -570,6 +606,12 @@
 <div class="form-row-3"><div class="form-group"><label class="form-label">Phone</label><input class="form-input" type="text" value="+1 (555) 123-4567"/></div><div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" value="contact@shopflow.com"/></div><div class="form-group"><label class="form-label">Website</label><input class="form-input" type="text" value="www.shopflow.com"/></div></div>
 <div class="form-row"><div class="form-group"><label class="form-label">Timezone</label><select class="form-select"><option>UTC-05:00 Eastern Time</option><option>UTC-08:00 Pacific Time</option><option>UTC+00:00 GMT</option><option>UTC+05:00 Pakistan Standard Time</option><option>UTC+05:30 India Standard Time</option></select></div><div class="form-group"><label class="form-label">Date Format</label><select class="form-select"><option>MM/DD/YYYY</option><option>DD/MM/YYYY</option><option>YYYY-MM-DD</option></select></div></div>
 <button class="btn btn-primary" onclick="toast('Settings saved!','success')"><i class="fas fa-save"></i> Save Changes</button>
+<div class="card" style="margin-top:20px;"><div class="card-header"><div class="card-title">Account &amp; Data</div></div><div class="card-body">
+<div class="form-row"><div class="form-group"><label class="form-label">Update Password</label><input class="form-input" type="password" id="settingPass" placeholder="Enter new password"/></div></div>
+<div style="display:flex;gap:10px;margin-top:10px;">
+<button class="btn btn-primary" onclick="updatePassword()"><i class="fas fa-key"></i> Update Password</button>
+<button class="btn btn-danger" onclick="clearSampleData()"><i class="fas fa-trash"></i> Clear Sample Data</button>
+</div>
 </div></div>
 </div>
 <div class="tab-content" id="tab-tax" style="display:none">
@@ -645,11 +687,18 @@
 <div class="bottom-nav-item" data-page="products" onclick="navigate('products')"><i class="fas fa-box"></i><span>Products</span></div>
 <div class="bottom-nav-item" data-page="inventory" onclick="navigate('inventory')"><i class="fas fa-warehouse"></i><span>Inventory</span></div>
 <div class="bottom-nav-item" data-page="categories" onclick="navigate('categories')"><i class="fas fa-tags"></i><span>Categories</span></div>
+<div class="bottom-nav-item" data-page="barcode" onclick="navigate('barcode')"><i class="fas fa-barcode"></i><span>Barcode</span></div>
 <div class="bottom-nav-item" data-page="orders" onclick="navigate('orders')"><i class="fas fa-shopping-cart"></i><span>Orders</span></div>
 <div class="bottom-nav-item" data-page="customers" onclick="navigate('customers')"><i class="fas fa-users"></i><span>Customers</span></div>
+<div class="bottom-nav-item" data-page="loyalty" onclick="navigate('loyalty')"><i class="fas fa-medal"></i><span>Loyalty</span></div>
+<div class="bottom-nav-item" data-page="marketing" onclick="navigate('marketing')"><i class="fas fa-bullhorn"></i><span>Marketing</span></div>
 <div class="bottom-nav-item" data-page="suppliers" onclick="navigate('suppliers')"><i class="fas fa-truck"></i><span>Suppliers</span></div>
-<div class="bottom-nav-item" data-page="reports" onclick="navigate('reports')"><i class="fas fa-chart-pie"></i><span>Reports</span></div>
+<div class="bottom-nav-item" data-page="purchase" onclick="navigate('purchase')"><i class="fas fa-file-invoice"></i><span>Purchase</span></div>
+<div class="bottom-nav-item" data-page="hr" onclick="navigate('hr')"><i class="fas fa-id-badge"></i><span>HR</span></div>
+<div class="bottom-nav-item" data-page="tasks" onclick="navigate('tasks')"><i class="fas fa-list-check"></i><span>Tasks</span></div>
+<div class="bottom-nav-item" data-page="ecommerce" onclick="navigate('ecommerce')"><i class="fas fa-globe"></i><span>E-Commerce</span></div>
 <div class="bottom-nav-item" data-page="finance" onclick="navigate('finance')"><i class="fas fa-money-bill-trend-up"></i><span>Finance</span></div>
+<div class="bottom-nav-item" data-page="reports" onclick="navigate('reports')"><i class="fas fa-chart-pie"></i><span>Reports</span></div>
 <div class="bottom-nav-item" data-page="settings" onclick="navigate('settings')"><i class="fas fa-gear"></i><span>Settings</span></div>
 </nav>
 <!-- CONTEXT MENU -->
@@ -945,8 +994,40 @@ function switchNotifTab(e,tab){
     list.innerHTML=messages.map(m=>`<div class="msg-item" onclick="openMessage(${m.id})"><div class="avatar" style="width:36px;height:36px;font-size:13px;background:${m.color}">${m.avatar}</div><div style="flex:1"><div style="display:flex;justify-content:space-between"><span style="font-weight:600;font-size:13px">${m.name}</span><span style="font-size:11px;color:var(--text3)">${m.time}</span></div><div style="font-size:12px;color:var(--text3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.msg}</div></div>${!m.read?'<div style="width:8px;height:8px;border-radius:50%;background:var(--primary);flex-shrink:0"></div>':''}</div>`).join('');
   }
 }
-function markNotifRead(id){const n=notifications.find(x=>x.id===id);if(n)n.read=true;switchNotifTab({currentTarget:document.querySelector('.notif-tab.active')},'notifications');const unread=notifications.filter(n=>!n.read).length;if(unread===0)document.getElementById('notifDot').style.display='none';saveState();toast('Notification marked as read','info')}
-function openMessage(id){const m=messages.find(x=>x.id===id);if(m)m.read=true;document.getElementById('modalContent').innerHTML=`<div class="modal-header"><div class="modal-title">Message from ${m.name}</div><span class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></span></div><div class="modal-body"><div style="padding:16px;background:var(--surface);border-radius:10px;margin-bottom:16px"><div style="font-size:13px;color:var(--text3);margin-bottom:4px">${m.time}</div><div style="font-size:14px;line-height:1.6">${m.msg}</div></div><div class="form-group"><label class="form-label">Reply</label><textarea class="form-textarea" placeholder="Type your reply..."></textarea></div></div><div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="closeModal();toast('Reply sent!','success')"><i class="fas fa-paper-plane"></i> Send Reply</button></div>`;document.getElementById('modalOverlay').classList.add('active');saveState();switchNotifTab({currentTarget:document.querySelector('.notif-tab.active')},'messages')}
+function updateNotifBadge(){
+  const unreadNotif=notifications.filter(n=>!n.read).length;
+  const unreadMsg=messages.filter(m=>!m.read).length;
+  const total=unreadNotif+unreadMsg;
+  const tabs = document.querySelectorAll('.notif-tab');
+  if(tabs.length >= 2) {
+    tabs[0].innerHTML = `Notifications ${unreadNotif>0 ? '<span style="background:var(--danger);color:#fff;padding:1px 6px;border-radius:8px;font-size:10px;margin-left:4px">'+unreadNotif+'</span>' : ''}`;
+    tabs[1].innerHTML = `Messages ${unreadMsg>0 ? '<span style="background:var(--primary);color:#fff;padding:1px 6px;border-radius:8px;font-size:10px;margin-left:4px">'+unreadMsg+'</span>' : ''}`;
+  }
+  const dot = document.getElementById('notifDot');
+  if(dot) {
+    if(total>0) dot.style.display='block';
+    else dot.style.display='none';
+  }
+}
+
+function markNotifRead(id){
+  const n=notifications.find(x=>x.id===id);
+  if(n)n.read=true;
+  switchNotifTab({currentTarget:document.querySelector('.notif-tab.active')},'notifications');
+  updateNotifBadge();
+  saveState();
+  toast('Notification marked as read','info');
+}
+
+function openMessage(id){
+  const m=messages.find(x=>x.id===id);
+  if(m)m.read=true;
+  document.getElementById('modalContent').innerHTML=`<div class="modal-header"><div class="modal-title">Message from ${m.name}</div><span class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></span></div><div class="modal-body"><div style="padding:16px;background:var(--surface);border-radius:10px;margin-bottom:16px"><div style="font-size:13px;color:var(--text3);margin-bottom:4px">${m.time}</div><div style="font-size:14px;line-height:1.6">${m.msg}</div></div><div class="form-group"><label class="form-label">Reply</label><textarea class="form-textarea" placeholder="Type your reply..."></textarea></div></div><div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="closeModal();toast('Reply sent!','success')"><i class="fas fa-paper-plane"></i> Send Reply</button></div>`;
+  document.getElementById('modalOverlay').classList.add('active');
+  switchNotifTab({currentTarget:document.querySelector('.notif-tab.active')},'messages');
+  updateNotifBadge();
+  saveState();
+}
 switchNotifTab({currentTarget:document.querySelector('.notif-tab.active')},'notifications');
 
 // ===== CURRENCY =====
@@ -955,6 +1036,7 @@ function changeCurrency(){
   currencySymbol=sel.value;
   currencyCode=sel.options[sel.selectedIndex].dataset.code;
   document.getElementById('statRev').textContent=currencySymbol+'48,562';
+  updateStaticCurrencies();
   renderDashboard();renderPOS();saveState();toast(`Currency changed to ${currencyCode}`,'success');
   if(document.getElementById('financeChart')){
     drawFinanceChart();
@@ -1325,8 +1407,66 @@ contentEl.addEventListener('scroll', function(){
   }
 });
 
+let appUser = 'admin';
+let appPass = 'admin';
+
+function attemptLogin(){
+  const u=document.getElementById('loginUser').value;
+  const p=document.getElementById('loginPass').value;
+  if(u===appUser && p===appPass){
+    document.getElementById('loginOverlay').classList.add('hidden');
+    localStorage.setItem('shopflow_logged_in', 'true');
+    toast('Logged in successfully', 'success');
+  } else {
+    toast('Invalid credentials', 'error');
+  }
+}
+
+function checkLogin(){
+  const savedUser = localStorage.getItem('shopflow_user');
+  const savedPass = localStorage.getItem('shopflow_pass');
+  if(savedUser) appUser = savedUser;
+  if(savedPass) appPass = savedPass;
+  
+  if(localStorage.getItem('shopflow_logged_in') === 'true'){
+    document.getElementById('loginOverlay').classList.add('hidden');
+  }
+}
+
+function updatePassword(){
+  const p=document.getElementById('settingPass').value;
+  if(!p) return toast('Please enter a new password', 'warning');
+  appPass = p;
+  localStorage.setItem('shopflow_pass', p);
+  toast('Password updated successfully', 'success');
+  document.getElementById('settingPass').value='';
+}
+
+function clearSampleData(){
+  if(confirm("Are you sure you want to clear all data? This cannot be undone.")){
+    localStorage.clear();
+    location.reload();
+  }
+}
+
+function updateStaticCurrencies() {
+  document.querySelectorAll('.stat-value').forEach(el => {
+    let text = el.innerText;
+    if(text.match(/^(\$|Rs|£|€|¥|₨|₹|₦|R|C\$|A\$)\s?[\d,.]+$/)) {
+      let num = text.replace(/[^\d,.]/g, '');
+      el.innerText = currencySymbol + num;
+    }
+  });
+  
+  document.querySelectorAll('.fmt-curr-text').forEach(el => {
+    if(el.dataset.type === 'points1') el.innerText = currencySymbol + '1 Spent = 1 Point';
+    if(el.dataset.type === 'points5') el.innerText = '100 Points = ' + currencySymbol + '5 Discount';
+  });
+}
+
 // ===== INIT =====
 function initApp(){
+  checkLogin();
   // Set default currency select value
   const currencySelect = document.getElementById('currencySelect');
   if(currencySelect){
@@ -1360,6 +1500,7 @@ function initApp(){
   // Render initial dashboard if on dashboard
   if(appState.currentPage === 'dashboard'){
     renderDashboard();
+    updateStaticCurrencies();
   }
   
   // Add context menu for POS
