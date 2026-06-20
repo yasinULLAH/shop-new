@@ -62,11 +62,11 @@ if (workbox) {
     },
     {
         "url": "index.html",
-        "revision": "b33c0a03ea1fcacb646b491b3028dad4"
+        "revision": "996422bbcb888d49e9a7fcdc1bd7ec77"
     },
     {
         "url": "index2.html",
-        "revision": "320b29ec79c7b3ed97f57d724ad43dd3"
+        "revision": "b5afc582ddfda9e51b9fb7da14b4b2c3"
     },
     {
         "url": "manifest.json",
@@ -74,19 +74,23 @@ if (workbox) {
     },
     {
         "url": "newshop.html",
-        "revision": "b33c0a03ea1fcacb646b491b3028dad4"
+        "revision": "996422bbcb888d49e9a7fcdc1bd7ec77"
     },
     {
         "url": "newshopPOS.html",
-        "revision": "38b1e6b1fe09a7827cf513a504f1cd51"
+        "revision": "05b845f34ad9c307f363038f7ba3a8bb"
     },
     {
         "url": "offline.html",
-        "revision": "986de93949013e958b0e14acd85491cd"
+        "revision": "ad17d01f02bb01615fbc0509f5aee82a"
+    },
+    {
+        "url": "pwa-register.js",
+        "revision": "3ec872e4f752840ad8f85922ff6cebe7"
     },
     {
         "url": "sw.js",
-        "revision": "3483698eafb806c01122a6ee0323b305"
+        "revision": "48decc32072bbaab2155e0541eb2dd27"
     },
     {
         "url": "workbox-window.prod.mjs",

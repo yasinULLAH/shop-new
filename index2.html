@@ -309,23 +309,23 @@
 <link href="manifest.json" rel="manifest"/><link href="favicon.ico" rel="icon" type="image/x-icon"/></head>
 <body>
 <div class="login-overlay" id="loginOverlay">
-  <div class="login-card">
-    <div class="login-logo">
-      <div class="logo-icon"><i class="fas fa-store"></i></div>
+<div class="login-card">
+<div class="login-logo">
+<div class="logo-icon"><i class="fas fa-store"></i></div>
       ShopFlow
     </div>
-    <div class="login-title">Welcome Back</div>
-    <div class="login-subtitle">Sign in to your account</div>
-    <div class="form-group">
-      <label class="form-label">Username</label>
-      <input type="text" class="form-input" id="loginUser" value="admin">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Password</label>
-      <input type="password" class="form-input" id="loginPass" value="admin">
-    </div>
-    <button class="btn btn-primary" style="width:100%" onclick="attemptLogin()">Sign In</button>
-  </div>
+<div class="login-title">Welcome Back</div>
+<div class="login-subtitle">Sign in to your account</div>
+<div class="form-group">
+<label class="form-label">Username</label>
+<input class="form-input" id="loginUser" type="text" value="admin"/>
+</div>
+<div class="form-group">
+<label class="form-label">Password</label>
+<input class="form-input" id="loginPass" type="password" value="admin@123"/>
+</div>
+<button class="btn btn-primary" onclick="attemptLogin()" style="width:100%">Sign In</button>
+</div>
 </div>
 <div class="app">
 <aside class="sidebar" id="sidebar">
@@ -413,7 +413,7 @@
 <div class="page-header"><div><div class="page-title">Point of Sale</div><div class="page-subtitle">Process sales quickly and efficiently.</div></div></div>
 <div class="pos-layout">
 <div class="pos-left">
-<div class="filters"><input class="filter-input" id="posSearch" oninput="renderPOSProducts()" placeholder="Search products..." style="flex:1;min-width:120px" type="text"/><select class="select-input" id="posCategoryFilter" onchange="renderPOSProducts()"><option value="">All Categories</option></select><button class="btn btn-secondary btn-sm" onclick="openBarcodeScannerPOS()"><i class="fas fa-barcode"></i> Scan</button></div>
+<div class="filters"><input class="filter-input" id="posSearch" oninput="renderPOSProducts()" placeholder="Search products..." style="flex:1;min-width:120px" type="text"><select class="select-input" id="posCategoryFilter" onchange="renderPOSProducts()"><option value="">All Categories</option></select><button class="btn btn-secondary btn-sm" onclick="openBarcodeScannerPOS()"><i class="fas fa-barcode"></i> Scan</button></input></div>
 <div class="pos-products"><div class="product-grid" id="posProductGrid"></div></div>
 </div>
 <div class="pos-right">
@@ -505,8 +505,8 @@
 <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface2);border-radius:10px"><div style="width:40px;height:40px;border-radius:50%;background:rgba(139,92,246,.2);display:flex;align-items:center;justify-content:center"><i class="fas fa-gem" style="color:var(--purple)"></i></div><div style="flex:1"><div style="font-weight:700">Platinum</div><div style="font-size:12px;color:var(--text3)">2000+ points • 3x multiplier</div></div><span style="font-weight:700">76</span></div>
 </div></div>
 <div class="card"><div class="card-header"><div class="card-title">Reward Rules</div><button class="btn btn-ghost btn-sm" onclick="toast('Add reward rule','info')"><i class="fas fa-plus"></i></button></div><div class="card-body">
-<div style="padding:10px 0;border-bottom:1px solid var(--border)"><div style="font-weight:600;font-size:13px" class="fmt-curr-text" data-type="points1">$1 Spent = 1 Point</div><div style="font-size:12px;color:var(--text3)">Base earning rate</div></div>
-<div style="padding:10px 0;border-bottom:1px solid var(--border)"><div style="font-weight:600;font-size:13px" class="fmt-curr-text" data-type="points5">100 Points = $5 Discount</div><div style="font-size:12px;color:var(--text3)">Redemption rate</div></div>
+<div style="padding:10px 0;border-bottom:1px solid var(--border)"><div class="fmt-curr-text" data-type="points1" style="font-weight:600;font-size:13px">$1 Spent = 1 Point</div><div style="font-size:12px;color:var(--text3)">Base earning rate</div></div>
+<div style="padding:10px 0;border-bottom:1px solid var(--border)"><div class="fmt-curr-text" data-type="points5" style="font-weight:600;font-size:13px">100 Points = $5 Discount</div><div style="font-size:12px;color:var(--text3)">Redemption rate</div></div>
 <div style="padding:10px 0;border-bottom:1px solid var(--border)"><div style="font-weight:600;font-size:13px">Birthday Bonus: 200 Points</div><div style="font-size:12px;color:var(--text3)">Automatic on birthday</div></div>
 <div style="padding:10px 0"><div style="font-weight:600;font-size:13px">Referral Bonus: 500 Points</div><div style="font-size:12px;color:var(--text3)">When referral makes first purchase</div></div>
 </div></div>
@@ -607,7 +607,7 @@
 <div class="form-row"><div class="form-group"><label class="form-label">Timezone</label><select class="form-select"><option>UTC-05:00 Eastern Time</option><option>UTC-08:00 Pacific Time</option><option>UTC+00:00 GMT</option><option>UTC+05:00 Pakistan Standard Time</option><option>UTC+05:30 India Standard Time</option></select></div><div class="form-group"><label class="form-label">Date Format</label><select class="form-select"><option>MM/DD/YYYY</option><option>DD/MM/YYYY</option><option>YYYY-MM-DD</option></select></div></div>
 <button class="btn btn-primary" onclick="toast('Settings saved!','success')"><i class="fas fa-save"></i> Save Changes</button>
 <div class="card" style="margin-top:20px;"><div class="card-header"><div class="card-title">Account &amp; Data</div></div><div class="card-body">
-<div class="form-row"><div class="form-group"><label class="form-label">Update Password</label><input class="form-input" type="password" id="settingPass" placeholder="Enter new password"/></div></div>
+<div class="form-row"><div class="form-group"><label class="form-label">Update Password</label><input class="form-input" id="settingPass" placeholder="Enter new password" type="password"/></div></div>
 <div style="display:flex;gap:10px;margin-top:10px;">
 <button class="btn btn-primary" onclick="updatePassword()"><i class="fas fa-key"></i> Update Password</button>
 <button class="btn btn-danger" onclick="clearSampleData()"><i class="fas fa-trash"></i> Clear Sample Data</button>
@@ -728,41 +728,64 @@ function saveState(){
     currencySelectValue: document.getElementById('currencySelect')?.value || currencySymbol
   };
   try {
-    window.name = 'shopflow:' + JSON.stringify(state);
-    // Also save notifications and messages to localStorage
-    localStorage.setItem('shopflow_notifications', JSON.stringify(notifications));
-    localStorage.setItem('shopflow_messages', JSON.stringify(messages));
+    localStorage.setItem('shopflow_settings', JSON.stringify(state));
+    const data = {
+      products, customers, orders, suppliers, purchaseOrders, staff, tasks, campaigns, coupons, expenses, reviews, cart,
+      notifications, messages,
+      nextProductId, nextCustomerId, nextSupplierId, nextStaffId, nextTaskId, nextExpenseId
+    };
+    localStorage.setItem('shopflow_data', JSON.stringify(data));
   } catch(e){}
 }
 function loadState(){
   try {
-    if(window.name && window.name.startsWith('shopflow:')){
-      const data = window.name.substring(9);
-      const state = JSON.parse(data);
-      
+    let settingsStr = localStorage.getItem('shopflow_settings');
+    if(!settingsStr && window.name && window.name.startsWith('shopflow:')){
+      settingsStr = window.name.substring(9);
+    }
+    let state = null;
+    if(settingsStr){
+      state = JSON.parse(settingsStr);
       if(state.currencySymbol){
         currencySymbol = state.currencySymbol;
         currencyCode = state.currencyCode || 'PKR';
       }
-      
-      // Load notifications and messages from localStorage
-      const savedNotifications = localStorage.getItem('shopflow_notifications');
-      const savedMessages = localStorage.getItem('shopflow_messages');
-      if(savedNotifications){
-        notifications = JSON.parse(savedNotifications);
-      }
-      if(savedMessages){
-        messages = JSON.parse(savedMessages);
-      }
-      
-      // Set currency select value
       const currencySelect = document.getElementById('currencySelect');
       if(currencySelect && state.currencySelectValue){
         currencySelect.value = state.currencySelectValue;
       }
-      
-      return state;
     }
+    
+    const dataStr = localStorage.getItem('shopflow_data');
+    if(dataStr){
+      const d = JSON.parse(dataStr);
+      if(d.products) products = d.products;
+      if(d.customers) customers = d.customers;
+      if(d.orders) orders = d.orders;
+      if(d.suppliers) suppliers = d.suppliers;
+      if(d.purchaseOrders) purchaseOrders = d.purchaseOrders;
+      if(d.staff) staff = d.staff;
+      if(d.tasks) tasks = d.tasks;
+      if(d.campaigns) campaigns = d.campaigns;
+      if(d.coupons) coupons = d.coupons;
+      if(d.expenses) expenses = d.expenses;
+      if(d.reviews) reviews = d.reviews;
+      if(d.cart) cart = d.cart;
+      if(d.notifications) notifications = d.notifications;
+      if(d.messages) messages = d.messages;
+      if(d.nextProductId) nextProductId = d.nextProductId;
+      if(d.nextCustomerId) nextCustomerId = d.nextCustomerId;
+      if(d.nextSupplierId) nextSupplierId = d.nextSupplierId;
+      if(d.nextStaffId) nextStaffId = d.nextStaffId;
+      if(d.nextTaskId) nextTaskId = d.nextTaskId;
+      if(d.nextExpenseId) nextExpenseId = d.nextExpenseId;
+    } else {
+      const savedNotifications = localStorage.getItem('shopflow_notifications');
+      const savedMessages = localStorage.getItem('shopflow_messages');
+      if(savedNotifications) notifications = JSON.parse(savedNotifications);
+      if(savedMessages) messages = JSON.parse(savedMessages);
+    }
+    return state;
   } catch(e){}
   return null;
 }
@@ -1408,7 +1431,7 @@ contentEl.addEventListener('scroll', function(){
 });
 
 let appUser = 'admin';
-let appPass = 'admin';
+let appPass = 'admin@123';
 
 function attemptLogin(){
   const u=document.getElementById('loginUser').value;
@@ -1443,8 +1466,11 @@ function updatePassword(){
 }
 
 function clearSampleData(){
-  if(confirm("Are you sure you want to clear all data? This cannot be undone.")){
-    localStorage.clear();
+  if(confirm("Are you sure you want to clear all sample data? This will empty all products, orders, and records. Your login credentials and settings will be preserved.")){
+    products=[]; customers=[]; orders=[]; suppliers=[]; purchaseOrders=[]; staff=[]; tasks=[]; campaigns=[]; coupons=[]; expenses=[]; reviews=[]; cart=[];
+    notifications=[]; messages=[];
+    nextProductId=1; nextCustomerId=1; nextSupplierId=1; nextStaffId=1; nextTaskId=1; nextExpenseId=1;
+    saveState();
     location.reload();
   }
 }
@@ -1539,5 +1565,5 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();docume
 // Start the app
 initApp();
 </script>
-<script src="./pwa-register.js" type="module"></script></body>
+</div></div><script src="./pwa-register.js" type="module"></script></body>
 </html>
