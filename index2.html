@@ -92,9 +92,16 @@
   .page{display:none;animation:fadeIn .3s ease}.page.active{display:block}
   @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:16px}
-  .page-title{font-size:26px;font-weight:800;letter-spacing:-.5px}
+  .page-title{font-size:26px;font-weight:700;letter-spacing:-.3px;line-height:1.2}
   .page-subtitle{font-size:13px;color:var(--text3);margin-top:4px}
   .page-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  @media(max-width:600px){
+    .page-title{font-size:20px}
+    .page-header{gap:12px;margin-bottom:16px}
+    .page-actions{gap:8px}
+    .btn{padding:8px 14px;font-size:13px}
+    .btn-sm{padding:6px 10px;font-size:12px}
+  }
 
   /* BUTTONS */
   .btn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:10px;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
@@ -105,16 +112,17 @@
   .btn-sm{padding:6px 12px;font-size:12px}
 
   /* STATS */
-  .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
-  .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;position:relative;overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s}
+  .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+  @media(max-width:600px){.stats-grid{grid-template-columns:repeat(2,1fr);gap:12px}}
+  .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:relative;overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s}
   .stat-card:hover{transform:translateY(-2px);border-color:var(--border2);box-shadow:var(--shadow)}
   .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
   .stat-card.c1::before{background:var(--grad1)}.stat-card.c2::before{background:var(--grad3)}.stat-card.c3::before{background:var(--grad2)}.stat-card.c4::before{background:var(--grad4)}.stat-card.c5::before{background:var(--grad5)}
-  .stat-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;margin-bottom:14px}
+  .stat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;margin-bottom:12px}
   .stat-card.c1 .stat-icon{background:var(--grad1)}.stat-card.c2 .stat-icon{background:var(--grad3)}.stat-card.c3 .stat-icon{background:var(--grad2)}.stat-card.c4 .stat-icon{background:var(--grad4)}.stat-card.c5 .stat-icon{background:var(--grad5)}
-  .stat-label{font-size:13px;color:var(--text3);font-weight:500;margin-bottom:6px}
-  .stat-value{font-size:28px;font-weight:800;letter-spacing:-.5px}
-  .stat-trend{font-size:12px;margin-top:8px;display:flex;align-items:center;gap:4px}
+  .stat-label{font-size:12px;color:var(--text3);font-weight:500;margin-bottom:6px}
+  .stat-value{font-size:24px;font-weight:700;letter-spacing:-.3px;line-height:1.2}
+  .stat-trend{font-size:11px;margin-top:8px;display:flex;align-items:center;gap:4px}
   .stat-trend.up{color:var(--success)}.stat-trend.down{color:var(--danger)}
 
   /* GRID */
@@ -243,8 +251,8 @@
     .sidebar{display:none}
     .bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;height:60px;background:var(--bg2);border-top:1px solid var(--border);z-index:60;justify-content:space-around;align-items:center;padding:0 4px;transition:transform .3s ease;box-shadow:0 -4px 20px rgba(0,0,0,.2);overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
     .bottom-nav.hidden{transform:translateY(100%)}
-    .bottom-nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 10px;border-radius:10px;cursor:pointer;color:var(--text3);font-size:10px;font-weight:600;min-width:44px;min-height:44px;transition:color .15s;position:relative;flex:1;max-width:80px}
-    .bottom-nav-item i{font-size:18px}
+    .bottom-nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px 6px;border-radius:10px;cursor:pointer;color:var(--text3);font-size:10px;font-weight:600;min-width:44px;min-height:44px;transition:color .15s;position:relative;flex:1;max-width:70px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .bottom-nav-item i{font-size:16px}
     .bottom-nav-item.active{color:var(--primary2)}
     .bottom-nav-item.active::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:30px;height:3px;background:var(--primary2);border-radius:0 0 3px 3px}
     .bottom-nav-item:hover{color:var(--text2)}
@@ -339,7 +347,7 @@
         <div class="page-header"><div><div class="page-title">Dashboard</div><div class="page-subtitle">Welcome back, here's what's happening with your store today.</div></div>
           <div class="page-actions"><button class="btn btn-secondary" onclick="navigate('reports')"><i class="fas fa-download"></i> Export</button><button class="btn btn-primary" onclick="navigate('pos')"><i class="fas fa-plus"></i> New Sale</button></div></div>
         <div class="stats-grid">
-          <div class="stat-card c1"><div class="stat-icon"><i class="fas fa-dollar-sign"></i></div><div class="stat-label">Total Revenue</div><div class="stat-value" id="statRev">$48,562</div><div class="stat-trend up"><i class="fas fa-arrow-up"></i> 12.5%</div></div>
+          <div class="stat-card c1"><div class="stat-icon"><i class="fas fa-dollar-sign"></i></div><div class="stat-label">Total Revenue</div><div class="stat-value" id="statRev">Rs 48,562</div><div class="stat-trend up"><i class="fas fa-arrow-up"></i> 12.5%</div></div>
           <div class="stat-card c2"><div class="stat-icon"><i class="fas fa-shopping-bag"></i></div><div class="stat-label">Total Orders</div><div class="stat-value">1,284</div><div class="stat-trend up"><i class="fas fa-arrow-up"></i> 8.2%</div></div>
           <div class="stat-card c3"><div class="stat-icon"><i class="fas fa-boxes-stacked"></i></div><div class="stat-label">Products in Stock</div><div class="stat-value">3,421</div><div class="stat-trend down"><i class="fas fa-arrow-down"></i> 2.1%</div></div>
           <div class="stat-card c4"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-label">Total Customers</div><div class="stat-value">892</div><div class="stat-trend up"><i class="fas fa-arrow-up"></i> 15.3%</div></div>
@@ -537,10 +545,10 @@
       <!-- ===== FINANCE ===== -->
       <div class="page" id="page-finance">
         <div class="page-header"><div><div class="page-title">Finance & Tax Management</div><div class="page-subtitle">Track expenses, revenue, taxes, and generate financial reports.</div></div><div class="page-actions"><button class="btn btn-secondary" onclick="toast('P&L exported','success')"><i class="fas fa-file-export"></i> Export P&L</button><button class="btn btn-primary" onclick="openExpenseModal()"><i class="fas fa-plus"></i> Add Expense</button></div></div>
-        <div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-arrow-up"></i></div><div class="stat-label">Total Revenue (MTD)</div><div class="stat-value">$48,562</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-arrow-down"></i></div><div class="stat-label">Total Expenses (MTD)</div><div class="stat-value">$30,268</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-coins"></i></div><div class="stat-label">Net Profit</div><div class="stat-value">$18,294</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-percentage"></i></div><div class="stat-label">Profit Margin</div><div class="stat-value">37.7%</div></div></div>
+        <div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-arrow-up"></i></div><div class="stat-label">Total Revenue (MTD)</div><div class="stat-value">Rs 48,562</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-arrow-down"></i></div><div class="stat-label">Total Expenses (MTD)</div><div class="stat-value">Rs 30,268</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-coins"></i></div><div class="stat-label">Net Profit</div><div class="stat-value">Rs 18,294</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-percentage"></i></div><div class="stat-label">Profit Margin</div><div class="stat-value">37.7%</div></div></div>
         <div class="grid-2-eq">
           <div class="card"><div class="card-header"><div class="card-title">Revenue vs Expenses</div></div><div class="card-body"><div style="height:280px;padding:10px 0"><canvas id="financeChart"></canvas></div></div></div>
-          <div class="card"><div class="card-header"><div class="card-title">Tax Summary</div></div><div class="table-wrap"><table><thead><tr><th>Tax Type</th><th>Rate</th><th>Collected</th><th>Status</th></tr></thead><tbody><tr><td>Sales Tax</td><td>8%</td><td class="td-primary">$3,884.96</td><td><span class="tag tag-warning">Due Jan 31</span></td></tr><tr><td>VAT</td><td>0%</td><td>$0.00</td><td><span class="tag tag-success">N/A</span></td></tr><tr><td>Payroll Tax</td><td>7.5%</td><td class="td-primary">$3,187.50</td><td><span class="tag tag-warning">Due Feb 15</span></td></tr><tr><td>Income Tax (Est.)</td><td>21%</td><td class="td-primary">$3,841.74</td><td><span class="tag tag-info">Quarterly</span></td></tr></tbody></table></div></div>
+          <div class="card"><div class="card-header"><div class="card-title">Tax Summary</div></div><div class="table-wrap"><table><thead><tr><th>Tax Type</th><th>Rate</th><th>Collected</th><th>Status</th></tr></thead><tbody><tr><td>Sales Tax</td><td>8%</td><td class="td-primary">Rs 3,884.96</td><td><span class="tag tag-warning">Due Jan 31</span></td></tr><tr><td>VAT</td><td>0%</td><td>Rs 0.00</td><td><span class="tag tag-success">N/A</span></td></tr><tr><td>Payroll Tax</td><td>7.5%</td><td class="td-primary">Rs 3,187.50</td><td><span class="tag tag-warning">Due Feb 15</span></td></tr><tr><td>Income Tax (Est.)</td><td>21%</td><td class="td-primary">Rs 3,841.74</td><td><span class="tag tag-info">Quarterly</span></td></tr></tbody></table></div></div>
         </div>
         <div class="card"><div class="card-header"><div class="card-title">Recent Expenses</div><button class="btn btn-ghost btn-sm" onclick="openExpenseModal()"><i class="fas fa-plus"></i> Add</button></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Description</th><th>Category</th><th>Amount</th><th>Payment</th><th>Actions</th></tr></thead><tbody id="expensesBody"></tbody></table></div></div>
       </div>
@@ -548,7 +556,7 @@
       <!-- ===== REPORTS ===== -->
       <div class="page" id="page-reports">
         <div class="page-header"><div><div class="page-title">Reports & Analytics</div><div class="page-subtitle">Deep insights into your business performance.</div></div><div class="page-actions"><select class="select-input"><option>Last 30 Days</option><option>Last 7 Days</option><option>This Quarter</option><option>This Year</option></select><button class="btn btn-primary" onclick="toast('Report downloaded','success')"><i class="fas fa-download"></i> Download</button></div></div>
-        <div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-chart-line"></i></div><div class="stat-label">Gross Revenue</div><div class="stat-value">$48,562</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-coins"></i></div><div class="stat-label">Net Profit</div><div class="stat-value">$18,294</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-receipt"></i></div><div class="stat-label">Avg Order Value</div><div class="stat-value">$37.82</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-shopping-basket"></i></div><div class="stat-label">Items per Order</div><div class="stat-value">3.2</div></div></div>
+        <div class="stats-grid"><div class="stat-card c1"><div class="stat-icon"><i class="fas fa-chart-line"></i></div><div class="stat-label">Gross Revenue</div><div class="stat-value">Rs 48,562</div></div><div class="stat-card c2"><div class="stat-icon"><i class="fas fa-coins"></i></div><div class="stat-label">Net Profit</div><div class="stat-value">Rs 18,294</div></div><div class="stat-card c3"><div class="stat-icon"><i class="fas fa-receipt"></i></div><div class="stat-label">Avg Order Value</div><div class="stat-value">Rs 37.82</div></div><div class="stat-card c4"><div class="stat-icon"><i class="fas fa-shopping-basket"></i></div><div class="stat-label">Items per Order</div><div class="stat-value">3.2</div></div></div>
         <div class="grid-2"><div class="card"><div class="card-header"><div class="card-title">Monthly Sales Trend</div></div><div class="card-body"><div style="height:280px;padding:10px 0"><canvas id="salesTrendChart"></canvas></div></div></div><div class="card"><div class="card-header"><div class="card-title">Top Products by Revenue</div></div><div class="card-body" id="topProductsReport"></div></div></div>
         <div class="grid-2"><div class="card"><div class="card-header"><div class="card-title">Payment Methods</div></div><div class="card-body" id="paymentMethodsReport"></div></div><div class="card"><div class="card-header"><div class="card-title">Sales by Day of Week</div></div><div class="card-body"><div style="height:280px;padding:10px 0"><canvas id="dayOfWeekChart"></canvas></div></div></div></div>
       </div>
@@ -651,7 +659,9 @@
   <div class="bottom-nav-item" data-page="categories" onclick="navigate('categories')"><i class="fas fa-tags"></i><span>Categories</span></div>
   <div class="bottom-nav-item" data-page="orders" onclick="navigate('orders')"><i class="fas fa-shopping-cart"></i><span>Orders</span></div>
   <div class="bottom-nav-item" data-page="customers" onclick="navigate('customers')"><i class="fas fa-users"></i><span>Customers</span></div>
+  <div class="bottom-nav-item" data-page="suppliers" onclick="navigate('suppliers')"><i class="fas fa-truck"></i><span>Suppliers</span></div>
   <div class="bottom-nav-item" data-page="reports" onclick="navigate('reports')"><i class="fas fa-chart-pie"></i><span>Reports</span></div>
+  <div class="bottom-nav-item" data-page="finance" onclick="navigate('finance')"><i class="fas fa-money-bill-trend-up"></i><span>Finance</span></div>
   <div class="bottom-nav-item" data-page="settings" onclick="navigate('settings')"><i class="fas fa-gear"></i><span>Settings</span></div>
 </nav>
 
@@ -679,7 +689,10 @@ function saveState(){
   const state = {
     page: appState.currentPage,
     sidebarCollapsed: appState.sidebarCollapsed,
-    theme: appState.theme
+    theme: appState.theme,
+    currencySymbol: currencySymbol,
+    currencyCode: currencyCode,
+    currencySelectValue: document.getElementById('currencySelect')?.value || currencySymbol
   };
   try {
     window.name = 'shopflow:' + JSON.stringify(state);
@@ -696,6 +709,10 @@ function loadState(){
       }
       if(state.messages){
         messages = state.messages;
+      }
+      if(state.currencySymbol){
+        currencySymbol = state.currencySymbol;
+        currencyCode = state.currencyCode || 'PKR';
       }
       
       return state;
@@ -941,7 +958,10 @@ function changeCurrency(){
   currencySymbol=sel.value;
   currencyCode=sel.options[sel.selectedIndex].dataset.code;
   document.getElementById('statRev').textContent=currencySymbol+'48,562';
-  renderDashboard();renderPOS();toast(`Currency changed to ${currencyCode}`,'success');
+  renderDashboard();renderPOS();saveState();toast(`Currency changed to ${currencyCode}`,'success');
+  if(document.getElementById('financeChart')){
+    drawFinanceChart();
+  }
 }
 
 // ===== DASHBOARD =====
