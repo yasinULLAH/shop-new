@@ -4412,6 +4412,9 @@ Please visit again.</textarea></div>
 
           toast(`Order ${oid} placed! Total: ${currencySymbol}${tot.toFixed(2)}`, 'success');
           closeModal();
+          document.getElementById('cartSheet').classList.remove('open');
+          document.getElementById('cartSheetOverlay').classList.remove('open');
+          document.body.style.overflow = '';
           printReceipt(newOrder);
           clearCart();
           renderOrders(); // if it exists
@@ -4925,6 +4928,10 @@ Please visit again.</textarea></div>
         let lastScrollTop = 0;
         let bottomNav = document.getElementById('bottomNav');
         let contentEl = document.getElementById('content');
+        window.addEventListener('resize', function () {
+          const fab = document.getElementById('cartFab');
+          if (fab) fab.style.display = window.innerWidth <= 900 ? 'flex' : 'none';
+        });
         contentEl.addEventListener('scroll', function () {
           if (window.innerWidth <= 1024) {
             const st = this.scrollTop;
