@@ -1353,6 +1353,14 @@ contentEl.addEventListener('scroll', function(){
 
 // ===== INIT =====
 function initApp(){
+  // Set default currency select value
+  const currencySelect = document.getElementById('currencySelect');
+  if(currencySelect){
+    currencySelect.value = '₨';
+    currencySymbol = '₨';
+    currencyCode = 'PKR';
+  }
+  
   // Load saved state
   const saved = loadState();
   if(saved){
