@@ -1006,6 +1006,28 @@ function renderCart(){
 function updateQty(id,d){const i=cart.find(x=>x.id===id);if(!i)return;i.qty+=d;if(i.qty<=0)cart=cart.filter(x=>x.id!==id);if(i.qty>i.stock){i.qty=i.stock;toast('Max stock reached','warning')}renderCart()}
 function removeFromCart(id){cart=cart.filter(x=>x.id!==id);renderCart()}
 function clearCart(){cart=[];renderCart();toast('Cart cleared','info')}
+
+function quickSellFromContextMenu(){
+  const id = parseInt(window.contextMenuProductId);
+  const product = products.find(x => x.id === id);
+  if(product && product.stock > 0){
+    addToCart(id);
+    document.getElementById('contextMenu').style.display = 'none';
+    toast(`Added ${product.name} to cart!`, 'success');
+  } else if(product && product.stock === 0){
+    toast(`${product.name} is out of stock!`, 'error');
+    document.getElementById('contextMenu').style.display = 'none';
+  }
+}
+
+function saveProduct(id){const n=document.getElementById('pName').value.trim();if(!n){toast('Name required!','error');return}const ci=parseInt(document.getElementById('pCat').value),cat=categories.find(c=>c.id===ci);const d={name:n,sku:document.getElementById('pSku').value.trim()||'SKU-'+Date.now(),cat:ci,catName:cat?.name,price:parseFloat(document.getElementById('pPrice').value)||0,cost:parseFloat(document.getElementById('pCost').value)||0,stock:parseInt(document.getElementById('pStock').value)||0,reorder:parseInt(document.getElementById('pReorder').value)||10,status:document.getElementById('pStatus').value,icon:document.getElementById('pIcon').value.trim()||'fa-box',barcode:'0'+Date.now().toString().slice(-12)};if(id)Object.assign(products.find(x=>x.id===id),d);else{d.id=nextProductId++;products.push(d)}closeModal();renderProducts();renderPOSProducts();toast('Product saved!','success')}
+function deleteProduct(id){if(confirm('Delete?')){products=products.filter(x=>x.id!==id);renderProducts();toast('Deleted','info')}}
+function saveCategory(id){const name=document.getElementById('catN').value;const icon=document.getElementById('catI').value;const color=document.getElementById('catC').value;if(id){const category=categories.find(x=>x.id===id);if(category){category.name=name;category.icon=icon;category.color=color;}}else{categories.push({id:nextCategoryId++,name,icon,color,count:0});}closeModal();renderCategories();toast('Category saved!','success')}
+function saveCustomer(id){const name=document.getElementById('cN').value;const email=document.getElementById('cE').value;const phone=document.getElementById('cP').value;const tier=document.getElementById('cT').value;const points=parseInt(document.getElementById('cPts').value);if(id){const customer=customers.find(x=>x.id===id);if(customer){customer.name=name;customer.email=email;customer.phone=phone;customer.tier=tier;customer.points=points;}}else{customers.push({id:nextCustomerId++,name,email,phone,tier,points,orders:0,total:0});}closeModal();renderCustomers();toast('Customer saved!','success')}
+function saveSupplier(id){const name=document.getElementById('sN').value;const contact=document.getElementById('sC').value;const phone=document.getElementById('sP').value;const email=document.getElementById('sE').value;if(id){const supplier=suppliers.find(x=>x.id===id);if(supplier){supplier.name=name;supplier.contact=contact;supplier.phone=phone;supplier.email=email;}}else{suppliers.push({id:nextSupplierId++,name,contact,phone,email,products:0,perf:85,status:'active'});}closeModal();renderSuppliers();toast('Supplier saved!','success')}
+function saveStaff(id){const name=document.getElementById('stN').value;const role=document.getElementById('stR').value;const salary=parseFloat(document.getElementById('stS').value);const email=document.getElementById('stE').value;const shift=document.getElementById('stSh').value;if(id){const staffMember=staff.find(x=>x.id===id);if(staffMember){staffMember.name=name;staffMember.role=role;staffMember.salary=salary;staffMember.email=email;staffMember.shift=shift;}}else{staff.push({id:nextStaffId++,name,role,salary,email,shift,status:'active'});}closeModal();renderHR();toast('Staff saved!','success')}
+function deleteCategory(id){if(confirm('Delete this category? Products will be unassigned.')){categories=categories.filter(x=>x.id!==id);renderCategories();toast('Category deleted','info')}}
+function deleteExpense(id){if(confirm('Delete this expense?')){expenses=expenses.filter(x=>x.id!==id);renderFinance();toast('Expense deleted','info')}}
 function updateCartTotals(){const s=cart.reduce((s,x)=>s+x.price*x.qty,0),dv=parseFloat(document.getElementById('discountInput').value)||0,dis=isNaN(dv)?0:dv>1?dv:s*dv/100,t=s-dis,tax=t*0.08,tot=t+tax;document.getElementById('cartSubtotal').textContent=currencySymbol+s.toFixed(2);document.getElementById('cartTax').textContent=currencySymbol+tax.toFixed(2);document.getElementById('cartDiscount').textContent='-'+currencySymbol+dis.toFixed(2);document.getElementById('cartTotal').textContent=currencySymbol+tot.toFixed(2)}
 function checkout(){if(!cart.length){toast('Cart is empty!','error');return}const tot=parseFloat(document.getElementById('cartTotal').textContent.replace(currencySymbol,''));const oid='ORD-2024-'+String(orders.length+1).padStart(3,'0');cart.forEach(i=>{const p=products.find(x=>x.id===i.id);if(p)p.stock-=i.qty});const cs=document.getElementById('posCustomer');orders.unshift({id:oid,customer:cs.value?customers.find(c=>c.id==cs.value)?.name:'Walk-in Customer',items:cart.reduce((s,x)=>s+x.qty,0),total:tot,payment:document.getElementById('posPayment').value,status:'processing',date:new Date().toISOString().split('T')[0]});toast(`Order ${oid} placed! Total: ${currencySymbol}${tot.toFixed(2)}`,'success');clearCart()}
 
