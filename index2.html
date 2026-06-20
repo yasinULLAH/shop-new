@@ -655,6 +655,11 @@
   <div class="bottom-nav-item" data-page="settings" onclick="navigate('settings')"><i class="fas fa-gear"></i><span>Settings</span></div>
 </nav>
 
+<!-- CONTEXT MENU -->
+<div class="context-menu" id="contextMenu" style="display:none">
+  <div class="context-menu-item" onclick="quickSellFromContextMenu()"><i class="fas fa-cart-plus"></i> Quick Sell</div>
+</div>
+
 <!-- NOTIFICATION PANEL -->
 <div class="notif-panel" id="notifPanel">
   <div class="notif-header"><div style="font-size:18px;font-weight:700">Notifications & Messages</div><div class="icon-btn" onclick="toggleNotifPanel()"><i class="fas fa-times"></i></div></div>
@@ -1308,6 +1313,27 @@ function initApp(){
   if(appState.currentPage === 'dashboard'){
     renderDashboard();
   }
+  
+  // Add context menu for POS
+  document.getElementById('posProductGrid').addEventListener('contextmenu', function(e){
+    e.preventDefault();
+    const target = e.target.closest('.product-card');
+    if(target){
+      const productGrid = document.getElementById('posProductGrid');
+      const rect = productGrid.getBoundingClientRect();
+      const menu = document.getElementById('contextMenu');
+      let x = e.clientX - rect.left + productGrid.scrollLeft;
+      let y = e.clientY - rect.top + productGrid.scrollTop;
+      menu.style.left = x + 'px';
+      menu.style.top = y + 'px';
+      menu.style.display = 'block';
+      window.contextMenuProductId = target.dataset.productId;
+    }
+  });
+  
+  document.addEventListener('click', function(){
+    document.getElementById('contextMenu').style.display = 'none';
+  });
 }
 
 // Canvas roundRect polyfill
