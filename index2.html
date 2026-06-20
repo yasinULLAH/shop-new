@@ -3340,80 +3340,64 @@
 <div class="page-subtitle">Deep insights into your business performance.</div>
 </div>
 <div class="page-actions">
-<select class="select-input">
-<option>Last 30 Days</option>
-<option>Last 7 Days</option>
-<option>This Quarter</option>
-<option>This Year</option>
-</select>
-<button class="btn btn-primary" onclick="toast('Report downloaded','success')"><i class="fas fa-download"></i> Download</button>
+<button class="btn btn-secondary" onclick="toast('Exporting reports...','success')"><i class="fas fa-file-export"></i> Export</button>
 </div>
 </div>
-<div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 20px;">
-<div class="stat-card c1">
-<div class="stat-icon"><i class="fas fa-chart-line"></i></div>
-<div class="stat-label">Net Profit Margin</div>
-<div class="stat-value">24.5%</div>
-<div class="stat-trend up"><i class="fas fa-arrow-up"></i> 1.2%</div>
+<div class="tabs" style="margin-bottom: 20px;">
+<div class="tab active" onclick="switchReportTab('report-sales', event)">Sales &amp; Revenue</div>
+<div class="tab" onclick="switchReportTab('report-financial', event)">Financial</div>
+<div class="tab" onclick="switchReportTab('report-inventory', event)">Inventory</div>
+<div class="tab" onclick="switchReportTab('report-customers', event)">Customers</div>
 </div>
-<div class="stat-card c2">
-<div class="stat-icon"><i class="fas fa-money-bill-wave"></i></div>
-<div class="stat-label">Gross Profit</div>
-<div class="stat-value">Rs 18,240</div>
-<div class="stat-trend up"><i class="fas fa-arrow-up"></i> 5.4%</div>
+<div class="report-filters card" style="margin-bottom: 20px;">
+<div class="card-body form-row">
+<div class="form-group"><label class="form-label">Date Range</label>
+<select class="form-select"><option>Last 30 Days</option><option>Last 7 Days</option><option>This Month</option><option>This Year</option><option>Custom</option></select></div>
+<div class="form-group"><label class="form-label">Branch / Location</label>
+<select class="form-select"><option>All Branches</option><option>Main Warehouse</option><option>Store Front</option></select></div>
+<div class="form-group"><label class="form-label">Product Category</label>
+<select class="form-select"><option>All Categories</option><option>Electronics</option><option>Clothing</option></select></div>
+<div class="form-group" style="display:flex;align-items:flex-end;"><button class="btn btn-primary" style="width:100%">Apply Filters</button></div>
 </div>
-<div class="stat-card c3">
-<div class="stat-icon"><i class="fas fa-file-invoice-dollar"></i></div>
-<div class="stat-label">Total Expenses</div>
-<div class="stat-value">Rs 8,420</div>
-<div class="stat-trend down"><i class="fas fa-arrow-down"></i> 3.1%</div>
 </div>
-<div class="stat-card c4">
-<div class="stat-icon"><i class="fas fa-undo"></i></div>
-<div class="stat-label">Return Rate</div>
-<div class="stat-value">1.8%</div>
-<div class="stat-trend down"><i class="fas fa-arrow-down"></i> 0.4%</div>
-</div>
+<!-- SALES REPORT TAB -->
+<div class="report-tab-content" id="report-sales">
+<div class="stats-grid" style="margin-bottom: 20px;">
+<div class="stat-card c1"><div class="stat-icon"><i class="fas fa-coins"></i></div><div class="stat-label">Gross Sales</div><div class="stat-value">Rs 142,500</div></div>
+<div class="stat-card c2"><div class="stat-icon"><i class="fas fa-undo"></i></div><div class="stat-label">Returns &amp; Refunds</div><div class="stat-value">Rs 3,200</div></div>
+<div class="stat-card c3"><div class="stat-icon"><i class="fas fa-tags"></i></div><div class="stat-label">Discounts</div><div class="stat-value">Rs 1,500</div></div>
+<div class="stat-card c4"><div class="stat-icon"><i class="fas fa-wallet"></i></div><div class="stat-label">Net Sales</div><div class="stat-value">Rs 137,800</div></div>
 </div>
 <div class="grid-2" style="margin-bottom: 20px;">
-<div class="card">
-<div class="card-header">
-<div class="card-title">Month-over-Month Growth</div>
-</div>
-<div class="card-body">
-<div style="position: relative; height:300px; width:100%;"><canvas id="growthChartjs"></canvas></div>
+<div class="card"><div class="card-header"><div class="card-title">Sales Over Time</div></div><div class="card-body"><div style="height:300px"><canvas id="salesOverTimeChart"></canvas></div></div></div>
+<div class="card"><div class="card-header"><div class="card-title">Sales by Region / Channel</div></div><div class="card-body"><div style="height:300px"><canvas id="salesByRegionChart"></canvas></div></div></div>
 </div>
 </div>
-<div class="card">
-<div class="card-header">
-<div class="card-title">Expenses Breakdown</div>
-</div>
-<div class="card-body">
-<div style="position: relative; height:300px; width:100%; display: flex; justify-content: center;">
-<canvas id="expensesChartjs"></canvas></div>
-</div>
-</div>
-</div>
-<div class="card" style="margin-bottom: 20px;">
-<div class="card-header">
-<div class="card-title">Sales by Region / Channel</div>
-</div>
-<div class="card-body">
-<div style="position: relative; height:300px; width:100%;"><canvas id="regionChartjs"></canvas></div>
-</div>
+<!-- FINANCIAL REPORT TAB -->
+<div class="report-tab-content" id="report-financial" style="display:none">
+<div class="stats-grid" style="margin-bottom: 20px;">
+<div class="stat-card c1"><div class="stat-icon"><i class="fas fa-chart-pie"></i></div><div class="stat-label">Gross Profit</div><div class="stat-value">Rs 55,400</div></div>
+<div class="stat-card c2"><div class="stat-icon"><i class="fas fa-file-invoice-dollar"></i></div><div class="stat-label">Total Expenses</div><div class="stat-value">Rs 18,200</div></div>
+<div class="stat-card c3"><div class="stat-icon"><i class="fas fa-money-check-alt"></i></div><div class="stat-label">Net Profit</div><div class="stat-value">Rs 37,200</div></div>
+<div class="stat-card c4"><div class="stat-icon"><i class="fas fa-percent"></i></div><div class="stat-label">Profit Margin</div><div class="stat-value">26.9%</div></div>
 </div>
 <div class="grid-2" style="margin-bottom: 20px;">
-<div class="card">
-<div class="card-header">
-<div class="card-title">Top Products by Revenue</div>
+<div class="card"><div class="card-header"><div class="card-title">Expenses Breakdown</div></div><div class="card-body"><div style="height:300px"><canvas id="expenseBreakdownChart"></canvas></div></div></div>
+<div class="card"><div class="card-header"><div class="card-title">Profit Margin Trends</div></div><div class="card-body"><div style="height:300px"><canvas id="profitMarginChart"></canvas></div></div></div>
 </div>
-<div class="card-body" id="topProductsReport"></div>
 </div>
-<div class="card">
-<div class="card-header">
-<div class="card-title">Payment Methods</div>
+<!-- INVENTORY REPORT TAB -->
+<div class="report-tab-content" id="report-inventory" style="display:none">
+<div class="grid-2" style="margin-bottom: 20px;">
+<div class="card"><div class="card-header"><div class="card-title">Top Selling Products</div></div><div class="card-body"><div style="height:300px"><canvas id="topProductsChart"></canvas></div></div></div>
+<div class="card"><div class="card-header"><div class="card-title">Low Stock Value by Category</div></div><div class="card-body"><div style="height:300px"><canvas id="lowStockChart"></canvas></div></div></div>
 </div>
-<div class="card-body" id="paymentMethodsReport"></div>
+</div>
+<!-- CUSTOMERS REPORT TAB -->
+<div class="report-tab-content" id="report-customers" style="display:none">
+<div class="grid-2" style="margin-bottom: 20px;">
+<div class="card"><div class="card-header"><div class="card-title">New vs Returning Customers</div></div><div class="card-body"><div style="height:300px"><canvas id="customerRetentionChart"></canvas></div></div></div>
+<div class="card"><div class="card-header"><div class="card-title">Payment Methods Used</div></div><div class="card-body"><div style="height:300px"><canvas id="paymentMethodsChart"></canvas></div></div></div>
 </div>
 </div>
 </div>
@@ -3731,6 +3715,24 @@
 </div><label class="toggle"><input checked="" type="checkbox"/><span class="toggle-slider"></span></label>
 </div>
 <button class="btn btn-primary" onclick="toast('Preferences saved!','success')"><i class="fas fa-save"></i> Save</button>
+</div>
+</div>
+</div>
+<div class="tab-content" id="tab-receipts" style="display:none">
+<div class="card">
+<div class="card-header">
+<div class="card-title">Receipts &amp; Printing</div>
+</div>
+<div class="card-body">
+<div class="form-row">
+<div class="form-group"><label class="form-label">Receipt Header</label><textarea class="form-input" rows="2">ShopFlow Superstore
+123 Main St, City</textarea></div>
+<div class="form-group"><label class="form-label">Receipt Footer</label><textarea class="form-input" rows="2">Thank you for shopping with us!
+Please visit again.</textarea></div>
+</div>
+<div class="form-group"><label class="form-label">Show Barcode on Receipt</label><label class="toggle"><input checked="" type="checkbox"/><span class="toggle-slider"></span></label></div>
+<div class="form-group"><label class="form-label">Auto-Print on Checkout</label><label class="toggle"><input type="checkbox"/><span class="toggle-slider"></span></label></div>
+<button class="btn btn-primary" onclick="toast('Receipt settings saved!','success')"><i class="fas fa-save"></i> Save</button>
 </div>
 </div>
 </div>
@@ -4097,17 +4099,7 @@
           // drawRevenueChart('month');
         }
         function orderStatusTag(s) { return { pending: 'tag-warning', processing: 'tag-info', shipped: 'tag-primary', delivered: 'tag-success', cancelled: 'tag-danger', returned: 'tag-purple' }[s] || 'tag-info' }
-        const chartData = { week: { labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], revenue: [3200, 2800, 4100, 3600, 5200, 6800, 4500], profit: [1200, 980, 1600, 1300, 2100, 2700, 1800] }, month: { labels: ['W1', 'W2', 'W3', 'W4'], revenue: [12400, 15600, 14200, 18500], profit: [4800, 6200, 5400, 7300] }, year: { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], revenue: [32000, 28000, 35000, 41000, 38000, 45000, 52000, 48000, 44000, 51000, 58000, 62000], profit: [12000, 10000, 14000, 17000, 15000, 19000, 22000, 20000, 17000, 21000, 24000, 26000] } };
-        function switchChart(p) { chartCurrent = p; document.querySelectorAll('.card-header .btn-ghost').forEach(b => b.style.background = ''); event.target.style.background = 'var(--surface2)'; drawRevenueChart(p) }
-        function drawRevenueChart(period) {
-          const c = document.getElementById('revenueChart'); if (!c) return; const ctx = c.getContext('2d'); const d = chartData[period];
-          const W = c.clientWidth || 400, H = 280; c.width = W * 2; c.height = H * 2; ctx.scale(2, 2);
-          const pad = { t: 20, r: 20, b: 30, l: 50 }, cw = W - pad.l - pad.r, ch = H - pad.t - pad.b; ctx.clearRect(0, 0, W, H);
-          const max = Math.max(...d.revenue) * 1.15; ctx.strokeStyle = 'rgba(128,128,128,.1)'; ctx.font = '11px Inter'; ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text3');
-          for (let i = 0; i <= 5; i++) { const y = pad.t + (ch / 5) * i; ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(W - pad.r, y); ctx.stroke(); ctx.textAlign = 'right'; ctx.fillText(currencySymbol + Math.round(max - (max / 5) * i), pad.l - 8, y + 4) }
-          const bw = cw / d.labels.length, barW = Math.min(30, bw * 0.3);
-          d.labels.forEach((label, i) => { const x = pad.l + i * bw + bw / 2; const rH = (d.revenue[i] / max) * ch, rY = pad.t + ch - rH; const g1 = ctx.createLinearGradient(0, rY, 0, rY + rH); g1.addColorStop(0, '#818cf8'); g1.addColorStop(1, '#6366f1'); ctx.fillStyle = g1; ctx.beginPath(); ctx.roundRect(x - barW - 2, rY, barW, rH, 4); ctx.fill(); const pH = (d.profit[i] / max) * ch, pY = pad.t + ch - pH; const g2 = ctx.createLinearGradient(0, pY, 0, pY + pH); g2.addColorStop(0, '#22d3ee'); g2.addColorStop(1, '#06b6d4'); ctx.fillStyle = g2; ctx.beginPath(); ctx.roundRect(x + 2, pY, barW, pH, 4); ctx.fill(); ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text2'); ctx.textAlign = 'center'; ctx.fillText(label, x, H - 8) });
-        }
+        
         function renderPOS() {
           const cf = document.getElementById('posCategoryFilter'); cf.innerHTML = '<option value="">All Categories</option>' + categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
           const cs = document.getElementById('posCustomer'); cs.innerHTML = '<option value="">Walk-in Customer</option>' + customers.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
@@ -4617,7 +4609,14 @@
         function syncGdrive() { toast('Syncing with Google Drive...', 'info'); setTimeout(() => toast('Sync complete! All data backed up.', 'success'), 1500) }
         function disconnectGdrive() { if (confirm('Disconnect Google Drive?')) { gdriveConnected = false; document.getElementById('gdriveStatus').innerHTML = '<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><i class="fab fa-google" style="font-size:36px;color:#4285F4"></i><div><div style="font-weight:700">Connect Google Drive</div><div style="font-size:12px;color:var(--text3)">Securely backup and sync your data to your own Google Drive account.</div></div></div><button class="btn btn-primary" onclick="connectGdrive()"><i class="fas fa-link"></i> Connect with Google</button>'; toast('Disconnected', 'info') } }
         function restoreVersion(id) { if (confirm('Restore this backup version? Current data will be overwritten.')) { toast('Restore complete! Reloading...', 'success'); setTimeout(() => location.reload(), 1500) } }
-        function switchTab(e, tabId) { document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); e.currentTarget.classList.add('active'); document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none'); document.getElementById(tabId).style.display = 'block'; if (tabId === 'tab-backup') renderSettings() }
+        function switchTab(e, tabId) { 
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); 
+          e.currentTarget.classList.add('active'); 
+          document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none'); 
+          const target = document.getElementById(tabId);
+          if (target) target.style.display = 'block'; 
+          if (tabId === 'tab-backup') renderSettings() 
+        }
         function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); stopScannerModal(); }
         document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal() });
         let lastScrollTop = 0;
@@ -4734,6 +4733,113 @@
         }
         if (!CanvasRenderingContext2D.prototype.roundRect) { CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) { if (w < 2 * r) r = w / 2; if (h < 2 * r) r = h / 2; this.beginPath(); this.moveTo(x + r, y); this.arcTo(x + w, y, x + w, y + h, r); this.arcTo(x + w, y + h, x, y + h, r); this.arcTo(x, y + h, x, y, r); this.arcTo(x, y, x + w, y, r); this.closePath(); return this } }
         document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); document.getElementById('notifPanel').classList.remove('open') } if (e.key === 'F2') navigate('pos') });
+        
+        let dashboardCharts = {};
+        
+        function switchChartjs(period) {
+            document.querySelectorAll('#page-dashboard .card-header .btn-ghost').forEach(b => b.style.background = ''); 
+            if(event) event.target.style.background = 'var(--surface2)';
+            
+            if(!dashboardCharts.revenue) return;
+            
+            const chartData = { 
+                week: { labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], revenue: [3200, 2800, 4100, 3600, 5200, 6800, 4500], profit: [1200, 980, 1600, 1300, 2100, 2700, 1800] }, 
+                month: { labels: ['W1', 'W2', 'W3', 'W4'], revenue: [12400, 15600, 14200, 18500], profit: [4800, 6200, 5400, 7300] }, 
+                year: { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], revenue: [32000, 28000, 35000, 41000, 38000, 45000, 52000, 48000, 44000, 51000, 58000, 62000], profit: [12000, 10000, 14000, 17000, 15000, 19000, 22000, 20000, 17000, 21000, 24000, 26000] } 
+            };
+            const d = chartData[period];
+            dashboardCharts.revenue.data.labels = d.labels;
+            dashboardCharts.revenue.data.datasets[0].data = d.revenue;
+            dashboardCharts.revenue.data.datasets[1].data = d.profit;
+            dashboardCharts.revenue.update();
+        }
+
+        function switchReportTab(tabId, e) {
+            document.querySelectorAll('#page-reports .tab').forEach(t => t.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+            document.querySelectorAll('.report-tab-content').forEach(c => c.style.display = 'none');
+            document.getElementById(tabId).style.display = 'block';
+        }
+
+        function initAllCharts() {
+            if (typeof Chart === 'undefined') return;
+            
+            Chart.defaults.color = getComputedStyle(document.documentElement).getPropertyValue('--text2') || '#9ca3af';
+            Chart.defaults.font.family = 'Inter, sans-serif';
+            
+            const createChart = (id, type, data, options = {}) => {
+                const ctx = document.getElementById(id);
+                if (!ctx) return null;
+                return new Chart(ctx, { type, data, options: { responsive: true, maintainAspectRatio: false, ...options } });
+            };
+
+            // DASHBOARD CHARTS
+            dashboardCharts.revenue = createChart('revenueChartjs', 'bar', {
+                labels: ['W1', 'W2', 'W3', 'W4'],
+                datasets: [
+                    { label: 'Revenue', data: [12400, 15600, 14200, 18500], backgroundColor: '#6366f1', borderRadius: 4 },
+                    { label: 'Profit', data: [4800, 6200, 5400, 7300], backgroundColor: '#06b6d4', borderRadius: 4 }
+                ]
+            });
+            createChart('categoryChartjs', 'doughnut', {
+                labels: ['Electronics', 'Clothing', 'Food', 'Home'],
+                datasets: [{ data: [45, 25, 20, 10], backgroundColor: ['#6366f1', '#06b6d4', '#10b981', '#f59e0b'] }]
+            }, { cutout: '70%' });
+            createChart('trafficChartjs', 'line', {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{ label: 'Visitors', data: [150, 200, 180, 220, 250, 300, 280], borderColor: '#ec4899', tension: 0.4, fill: true, backgroundColor: 'rgba(236, 72, 153, 0.1)' }]
+            });
+            createChart('demographicsChartjs', 'pie', {
+                labels: ['18-24', '25-34', '35-44', '45+'],
+                datasets: [{ data: [20, 45, 25, 10], backgroundColor: ['#8b5cf6', '#f43f5e', '#10b981', '#f59e0b'] }]
+            });
+            createChart('metricsChartjs', 'radar', {
+                labels: ['Speed', 'Reliability', 'Comfort', 'Safety', 'Efficiency'],
+                datasets: [{ label: 'System Score', data: [90, 85, 70, 95, 80], backgroundColor: 'rgba(99, 102, 241, 0.2)', borderColor: '#6366f1' }]
+            });
+
+            // REPORTS CHARTS
+            createChart('salesOverTimeChart', 'line', {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{ label: 'Net Sales', data: [18000, 22000, 19500, 24000, 26000, 27800], borderColor: '#6366f1', tension: 0.4 }]
+            });
+            createChart('salesByRegionChart', 'bar', {
+                labels: ['North', 'South', 'East', 'West', 'Online'],
+                datasets: [{ label: 'Sales', data: [35000, 28000, 42000, 21000, 54000], backgroundColor: '#10b981', borderRadius: 4 }]
+            });
+            createChart('expenseBreakdownChart', 'doughnut', {
+                labels: ['Rent', 'Utilities', 'Payroll', 'Marketing', 'Inventory'],
+                datasets: [{ data: [30, 10, 40, 15, 5], backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6', '#8b5cf6', '#10b981'] }]
+            }, { cutout: '60%' });
+            createChart('profitMarginChart', 'line', {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{ label: 'Margin %', data: [22, 24, 23.5, 25, 26.2, 26.9], borderColor: '#f59e0b', tension: 0.2 }]
+            });
+            createChart('topProductsChart', 'bar', {
+                labels: ['Wireless Earbuds', 'Smart Watch', 'Phone Case', 'Charger Cable', 'Power Bank'],
+                datasets: [{ label: 'Units Sold', data: [450, 320, 890, 1200, 650], backgroundColor: '#06b6d4', borderRadius: 4 }]
+            }, { indexAxis: 'y' });
+            createChart('lowStockChart', 'pie', {
+                labels: ['Electronics', 'Accessories', 'Apparel', 'Home Goods'],
+                datasets: [{ data: [4500, 1200, 3400, 800], backgroundColor: ['#ef4444', '#f97316', '#eab308', '#84cc16'] }]
+            });
+            createChart('customerRetentionChart', 'bar', {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [
+                    { label: 'New', data: [120, 140, 110, 160, 180, 200], backgroundColor: '#8b5cf6', stack: 'Stack 0' },
+                    { label: 'Returning', data: [300, 320, 350, 340, 380, 410], backgroundColor: '#6366f1', stack: 'Stack 0' }
+                ]
+            });
+            createChart('paymentMethodsChart', 'doughnut', {
+                labels: ['Credit Card', 'Cash', 'UPI/Wallet', 'Bank Transfer'],
+                datasets: [{ data: [55, 20, 15, 10], backgroundColor: ['#3b82f6', '#10b981', '#8b5cf6', '#f59e0b'] }]
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            initAllCharts();
+        });
+
         initApp();
       </script>
 </div>
@@ -4868,6 +4974,5 @@
     /* Hidden normally */
   </style>
 <div id="receiptContainer"></div>
-
 <script src="./pwa-register.js" type="module"></script></body>
 </html>
